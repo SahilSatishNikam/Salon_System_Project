@@ -46,3 +46,17 @@
                 <li class="nav-item">
                     <a class="nav-link nav-underline" href="contact.jsp">
                         Contact
+                    </a>
+                </li>
+
+                <!-- Login Button -->
+                <li class="nav-item ms-lg-3">
+                    <a class="btn glow-btn px-4" href="login.jsp">
+                        Login
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
