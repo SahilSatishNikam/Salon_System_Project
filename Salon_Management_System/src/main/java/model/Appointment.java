@@ -43,7 +43,10 @@ public class Appointment {
     public void setTherapistId(int therapistId) { this.therapistId = therapistId; }
 
     public int getSalonId() { return salonId; }
-    public void setSalonId(int salon) { this.salonId = salonId; }
+    public void setSalonId(int salonId) {
+        this.salonId = salonId;
+    }
+
 
     public String getServiceName() { return serviceName; }       // NEW
     public void setServiceName(String serviceName) { this.serviceName = serviceName; } // NEW
@@ -68,5 +71,3 @@ public class Appointment {
                 ", status=" + status + ", feedbackGiven=" + feedbackGiven + "]";
     }
 }
-
-

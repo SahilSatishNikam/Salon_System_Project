@@ -1,4 +1,3 @@
-
 package controller;
 
 import dao.AppointmentDAO;
@@ -39,4 +38,3 @@ public class CancelAppointmentServlet extends HttpServlet {
         response.sendRedirect("myAppointments.jsp");
     }
 }
-

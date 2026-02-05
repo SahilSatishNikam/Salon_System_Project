@@ -1,23 +1,35 @@
-
-
 package model;
 
+import java.sql.Timestamp;
+
 public class Service {
+    private int id;
+    private String name;
+    private String description;
+    private double price;
+    private int durationMinutes;
+    private int salonId;
+    private Timestamp createdAt;
 
- private int id;
- private int salon_id;
- private String name;
- private int price;
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
- public int getId(){ return id; }
- public void setId(int id){ this.id=id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
- public int getSalon_id(){ return salon_id; }
- public void setSalon_id(int s){ salon_id=s; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
- public String getName(){ return name; }
- public void setName(String n){ name=n; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
- public int getPrice(){ return price; }
- public void setPrice(int p){ price=p; }
+    public int getDurationMinutes() { return durationMinutes; }
+    public void setDurationMinutes(int durationMinutes) { this.durationMinutes = durationMinutes; }
+
+    public int getSalonId() { return salonId; }
+    public void setSalonId(int salonId) { this.salonId = salonId; }
+
+    public Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
 }
+

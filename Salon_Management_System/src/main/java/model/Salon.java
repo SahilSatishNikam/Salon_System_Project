@@ -1,33 +1,37 @@
 package model;
 
+import java.util.List;
+
 public class Salon {
+    private int id;
+    private String name;
+    private String email;
+    private String phone;
+    private String address;
+    private byte[] image;
 
- private int id;
- private String salon_name;
- private String owner_name;
- private String description;
- private String image_name;
- private String status;
- private String location;
+    // ✅ Add list of services
+    private List<Service> services;
 
- public int getId(){ return id; }
- public void setId(int id){ this.id=id; }
+    // Getters & Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
- public String getSalon_name(){ return salon_name; }
- public void setSalon_name(String salon_name){ this.salon_name=salon_name; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
- public String getOwner_name(){ return owner_name; }
- public void setOwner_name(String owner_name){ this.owner_name=owner_name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
- public String getDescription(){ return description; }
- public void setDescription(String description){ this.description=description; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
- public String getImage_name(){ return image_name; }
- public void setImage_name(String image_name){ this.image_name=image_name; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
- public String getStatus(){ return status; }
- public void setStatus(String status){ this.status=status; }
+    public byte[] getImage() { return image; }
+    public void setImage(byte[] image) { this.image = image; }
 
- public String getLocation(){ return location; }
- public void setLocation(String location){ this.location=location; }
+    public List<Service> getServices() { return services; }
+    public void setServices(List<Service> services) { this.services = services; }
 }

@@ -1,31 +1,44 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
-
+import jakarta.servlet.http.*;
 import dao.SalonDAO;
+import dao.ServiceDAO;
+import dao.TherapistDAO;
+import model.Salon;
+import model.Service;
+import model.Therapist;
 
 @WebServlet("/SalonServlet")
 public class SalonServlet extends HttpServlet {
 
- @Override
- protected void doGet(HttpServletRequest req,
- HttpServletResponse res)
- throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-  int id = Integer.parseInt(req.getParameter("id"));
-  String st = req.getParameter("st");
+        try {
+            // ✅ Match parameter from URL: ?id=3
+            int salonId = Integer.parseInt(request.getParameter("id"));
 
-  SalonDAO dao = new SalonDAO();
+            Salon salon = new SalonDAO().getSalonById(salonId);
 
-  dao.updateStatus(id, st);
+            // ✅ Correct method to get services of salon
+            List<Service> services = new ServiceDAO().getServicesBySalon(salonId);
 
-  req.getSession().setAttribute("msg",
-  "Salon " + st + " Successfully");
+            List<Therapist> therapists = new TherapistDAO().getTherapistsBySalon(salonId);
 
-  res.sendRedirect("verifySalons.jsp");
- }
+            request.setAttribute("salon", salon);
+            request.setAttribute("services", services);
+            request.setAttribute("therapists", therapists);
+
+            // ✅ Match your actual JSP file name
+            request.getRequestDispatcher("salon-details.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("dashboard.jsp?error=Salon+not+found");
+        }
+    }
 }
-
