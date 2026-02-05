@@ -1,61 +1,74 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login | Luxury Salon</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<title>Admin Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body{
+ background: linear-gradient(to right,#0f2027,#203a43,#2c5364);
+}
+.card{
+ border-radius:15px;
+}
+</style>
+
 </head>
-<body class="bg-light">
+
+<body>
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
+<div class="row justify-content-center">
 
-            <div class="card shadow-lg p-4">
-                <h3 class="text-center mb-4">Login</h3>
+<div class="col-md-4">
+<div class="card p-4 shadow">
 
-                <% if(request.getParameter("success") != null){ %>
-                    <div class="alert alert-success text-center">
-                        <%= request.getParameter("success") %>
-                    </div>
-                <% } %>
+<h3 class="text-center text-primary">
+<i class="fa fa-user-shield"></i> Admin Login
+</h3>
 
-                <% if(request.getParameter("error") != null){ %>
-                    <div class="alert alert-danger text-center">
-                        <%= request.getParameter("error") %>
-                    </div>
-                <% } %>
+<form action="AdminLoginServlet" method="post">
 
-                <form action="<%=request.getContextPath()%>/LoginServlet" method="post">
+<input type="hidden" name="action" value="login">
 
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="Enter email" required>
-                    </div>
+<div class="mb-3">
+<label>Email</label>
+<input name="email" class="form-control"
+placeholder="Enter email">
+</div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" placeholder="Enter password" required>
-                    </div>
+<div class="mb-3">
+<label>Password</label>
+<input name="password" type="password"
+class="form-control"
+placeholder="Enter password">
+</div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Login As</label>
-                        <select name="role" class="form-select" required>
-                            <option value="">-- Select Role --</option>
-                            <option value="USER">User</option>
-                            <option value="ADMIN">Admin</option>
-                            <option value="THERAPIST">Therapist</option>
-                        </select>
-                    </div>
+<button class="btn btn-primary w-100">
+Login
+</button>
 
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
+</form>
 
-            </div>
+<div class="text-center mt-3">
+New Admin?
+<a href="register.jsp">Register Here</a>
+</div>
 
-        </div>
-    </div>
+</div>
+</div>
+
+</div>
 </div>
 
 </body>
 </html>
+
+
