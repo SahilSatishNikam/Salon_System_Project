@@ -1,128 +1,86 @@
-
-<%@ page import="java.util.*,model.*" %>
-
-<%
-List<Salon> list =
-(List<Salon>)request.getAttribute("list");
-
-if(list==null) list=new ArrayList<>();
-%>
-
-<!DOCTYPE html>
+<%@ page import="java.util.*, dao.SalonDAO, dao.ServiceDAO, model.Salon, model.Service" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-
-<title>Search Salons</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-body{
- background:#0f0f0f;
- color:white;
-}
-
-.card{
- background:#1a1a1a;
- color:white;
- border-radius:15px;
-}
-
-.sidebar{
- background:#1e1100;
- height:100vh;
- color:white;
-}
-
-.btn-gold{
- background:gold;
-}
-</style>
-
+    <title>Search Salons</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <style>
+        body { font-family: Arial; margin:20px; }
+        .search-bar { margin-bottom: 20px; }
+        .search-bar input, .search-bar button { padding: 8px; margin-right: 5px; }
+        .salon-card { border:1px solid #ccc; border-radius:5px; padding:15px; margin-bottom:15px; display:flex; align-items:center; }
+        .salon-card img { border-radius:5px; margin-right:15px; width:120px; height:120px; object-fit:cover; }
+        .salon-card h3 { margin:0; }
+        .salon-card p { margin:5px 0; }
+        .salon-card a { margin-right:10px; text-decoration:none; color:blue; }
+    </style>
 </head>
-
 <body>
-
-<div class="container-fluid">
-<div class="row">
-
-<!-- SIDEBAR -->
-<div class="col-2 sidebar p-3">
-
-<h4 class="text-warning">Luxury Salon</h4>
-<hr>
-
-<a href="dashboard.jsp" class="text-white d-block">Dashboard</a>
-<a href="search-salons.jsp" class="text-warning d-block">Search Salons</a>
-<a href="logout.jsp" class="text-danger d-block">Logout</a>
-
-</div>
-
-<!-- MAIN -->
-<div class="col-10 p-4">
 
 <h2>Search Salons</h2>
 
-<form action="SearchSalonServlet" method="get">
-
-<div class="row mb-3">
-
-<div class="col">
-<input name="name"
-class="form-control"
-placeholder="Salon Name">
+<!-- Search Form -->
+<div class="search-bar">
+    <form method="get" action="search-salons.jsp">
+        <input type="text" name="name" placeholder="Salon Name" value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">
+        <input type="text" name="location" placeholder="Location" value="<%= request.getParameter("location") != null ? request.getParameter("location") : "" %>">
+        <button type="submit">Search</button>
+    </form>
 </div>
 
-<div class="col">
-<input name="location"
-class="form-control"
-placeholder="Location">
-</div>
+<%
+SalonDAO salonDAO = new SalonDAO();
+ServiceDAO serviceDAO = new ServiceDAO();
 
-<div class="col">
-<button class="btn btn-gold w-100">
-Search
-</button>
-</div>
+// Get search parameters
+String name = request.getParameter("name");
+String location = request.getParameter("location");
 
-</div>
-</form>
+// Determine if user searched
+boolean searched = (name != null && !name.trim().isEmpty()) || (location != null && !location.trim().isEmpty());
 
-<div class="row">
+// Fetch salons based on search
+List<Salon> salons = new ArrayList<>();
+try {
+    if(searched) {
+        salons = salonDAO.searchSalons(name, location, null);
+    } else {
+        salons = salonDAO.getAllSalons();
+    }
 
-<% for(Salon s : list){ %>
+    // Load services for each salon (optional, for details)
+    for(Salon s : salons) {
+        s.setServices(serviceDAO.getServicesBySalon(s.getId()));
+    }
+} catch(Exception e){
+    out.println("<p style='color:red;'>Error fetching salons: " + e.getMessage() + "</p>");
+}
+%>
 
-<div class="col-md-4 mb-3">
-
-<div class="card p-3">
-
-<h5 class="text-warning">
-<%=s.getSalon_name()%>
-</h5>
-
-<p>Owner: <%=s.getOwner_name()%></p>
-
-<p>Location: <%=s.getLocation()%></p>
-
-<p><%=s.getDescription()%></p>
-
-<a class="btn btn-gold w-100">
-Explore Details
-</a>
-
-<a class="btn btn-gold w-100 mt-2">
-Book Now
-</a>
-
-</div>
-</div>
-
+<!-- Display Search Results -->
+<div>
+<% if(salons != null && !salons.isEmpty()) {
+    for(Salon s : salons) { %>
+    <div class="salon-card">
+        <div>
+            <% if(s.getImage() != null) { %>
+                <img src="SalonImageServlet?id=<%=s.getId()%>" alt="<%=s.getName()%>">
+            <% } else { %>
+                <img src="../images/no-image.png" alt="No Image">
+            <% } %>
+        </div>
+        <div>
+            <h3><%= s.getName() %></h3>
+            <p><strong>Location:</strong> <%= s.getAddress() %></p>
+            <p><strong>Email:</strong> <%= s.getEmail() %> | <strong>Phone:</strong> <%= s.getPhone() %></p>
+            <!-- FIXED: use servlet for Book Now -->
+            <a href="BookAppointmentServlet?salonId=<%=s.getId()%>">Book Now</a>
+            <a href="salon-details.jsp?salonId=<%=s.getId()%>">Explore Details</a>
+        </div>
+    </div>
+<% } } else { %>
+<p>No salons found.</p>
 <% } %>
-
-</div>
-
-</div>
-</div>
 </div>
 
 </body>
