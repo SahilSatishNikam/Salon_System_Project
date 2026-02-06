@@ -81,10 +81,11 @@
                     <input type="hidden" name="id" value="<%= ap.getId() %>">
                     <button type="submit" class="btn cancel">Cancel</button>
                 </form>
-                <form action="RescheduleAppointmentServlet" method="get" style="display:inline;">
-                    <input type="hidden" name="id" value="<%= ap.getId() %>">
-                    <button type="submit" class="btn reschedule">Reschedule</button>
-                </form>
+                <form action="reschedule.jsp" method="get" style="display:inline;">
+                <input type="hidden" name="id" value="<%= ap.getId() %>">
+                 <button type="submit" class="btn reschedule">Reschedule</button>
+               </form>
+
             <% } else { %>
                 -
             <% } %>

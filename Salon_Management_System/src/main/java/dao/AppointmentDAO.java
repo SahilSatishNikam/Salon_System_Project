@@ -115,16 +115,25 @@ public class AppointmentDAO {
     }
 
     // ---------------- Cancel Appointment ----------------
-    public boolean cancelAppointment(int appointmentId) throws Exception {
-        String sql = "UPDATE appointments SET status='Cancelled' WHERE id=?";
+   
+    	public boolean cancelAppointment(int id) {
+    	    boolean status = false;
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+    	    try (Connection con = DBConnection.getConnection()) {
 
-            ps.setInt(1, appointmentId);
-            return ps.executeUpdate() > 0;
-        }
-    }
+    	        String sql = "UPDATE appointments SET status='Cancelled' WHERE id=?";
+    	        PreparedStatement ps = con.prepareStatement(sql);
+    	        ps.setInt(1, id);
+
+    	        status = ps.executeUpdate() > 0;
+
+    	    } catch (Exception e) {
+    	        e.printStackTrace();
+    	    }
+
+    	    return status;
+    	}
+
 
     // ---------------- Reschedule Appointment ----------------
     public boolean rescheduleAppointment(int appointmentId, LocalDate date, LocalTime time) throws Exception {
@@ -248,5 +257,4 @@ public class AppointmentDAO {
     }
 
 }
-
 

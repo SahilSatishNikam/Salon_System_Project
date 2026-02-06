@@ -1,27 +1,18 @@
-<%@ page import="model.Appointment" %>
+<%@ page import="model.Appointment,dao.AppointmentDAO" %>
 <%
-    Appointment appt = (Appointment) request.getAttribute("appointment");
-    if (appt == null) {
-        response.sendRedirect("myAppointments.jsp");
-        return;
-    }
+int id = Integer.parseInt(request.getParameter("id"));
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Reschedule Appointment</title>
-</head>
-<body>
-    <h2>Reschedule Appointment</h2>
-    <form action="RescheduleAppointmentServlet" method="post">
-        <input type="hidden" name="id" value="<%= appt.getId() %>">
-        <label>New Date:</label>
-        <input type="date" name="appointmentDate" value="<%= appt.getAppointmentDate() %>" required><br><br>
-        <label>New Time:</label>
-        <input type="time" name="appointmentTime" value="<%= appt.getAppointmentTime() %>" required><br><br>
-        <button type="submit">Update Appointment</button>
-    </form>
-</body>
-</html>
+<h2>Reschedule Appointment</h2>
+
+<form action="RescheduleAppointmentServlet" method="post">
+    <input type="hidden" name="id" value="<%=id%>">
+
+    New Date:
+    <input type="date" name="date" required><br><br>
+
+    New Time:
+    <input type="time" name="time" required><br><br>
+
+    <button type="submit">Update</button>
+</form>

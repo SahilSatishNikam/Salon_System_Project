@@ -166,6 +166,7 @@ Welcome Admin: <%=session.getAttribute("admin")%>
 
 <a href="manageSalons.jsp" class="btn btn-info w-100 mb-2">Manage Salons</a>
 <a href="verifySalons.jsp" class="btn btn-success w-100 mb-2">Verify Salons</a>
+<a href="adminAppointments.jsp" class="btn btn-success w-100 mb-2">Verify Salons</a>
 <a href="reports.jsp" class="btn btn-warning w-100">Reports</a>
 
 </div>

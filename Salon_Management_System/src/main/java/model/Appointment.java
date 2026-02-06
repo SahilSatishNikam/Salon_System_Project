@@ -9,30 +9,16 @@ public class Appointment {
     private int userId;
     private int therapistId;
     private int salonId;
-    private String serviceName;   // NEW: for displaying in JSP
+    private String serviceName;
+
     private Date appointmentDate;
     private Time appointmentTime;
-    private String status;        // e.g., Pending, Completed, Cancelled
-    private boolean feedbackGiven; // NEW: for feedback status
 
-    // Default constructor
-    public Appointment() {}
+    private String status;
+    private boolean feedbackGiven;
 
-    // Parameterized constructor
-    public Appointment(int id, int userId, int therapistId, int serviceId, String serviceName,
-                       Date appointmentDate, Time appointmentTime, String status, boolean feedbackGiven) {
-        this.id = id;
-        this.userId = userId;
-        this.therapistId = therapistId;
-        this.salonId = salonId;
-        this.serviceName = serviceName;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.status = status;
-        this.feedbackGiven = feedbackGiven;
-    }
+    // -------- GETTERS & SETTERS --------
 
-    // Getters and setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -43,13 +29,10 @@ public class Appointment {
     public void setTherapistId(int therapistId) { this.therapistId = therapistId; }
 
     public int getSalonId() { return salonId; }
-    public void setSalonId(int salonId) {
-        this.salonId = salonId;
-    }
+    public void setSalonId(int salonId) { this.salonId = salonId; }
 
-
-    public String getServiceName() { return serviceName; }       // NEW
-    public void setServiceName(String serviceName) { this.serviceName = serviceName; } // NEW
+    public String getServiceName() { return serviceName; }
+    public void setServiceName(String serviceName) { this.serviceName = serviceName; }
 
     public Date getAppointmentDate() { return appointmentDate; }
     public void setAppointmentDate(Date appointmentDate) { this.appointmentDate = appointmentDate; }
@@ -60,14 +43,6 @@ public class Appointment {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public boolean isFeedbackGiven() { return feedbackGiven; }   // NEW
-    public void setFeedbackGiven(boolean feedbackGiven) { this.feedbackGiven = feedbackGiven; } // NEW
-
-    @Override
-    public String toString() {
-        return "Appointment [id=" + id + ", userId=" + userId + ", therapistId=" + therapistId +
-                ", serviceId=" + salonId + ", serviceName=" + serviceName +
-                ", appointmentDate=" + appointmentDate + ", appointmentTime=" + appointmentTime +
-                ", status=" + status + ", feedbackGiven=" + feedbackGiven + "]";
-    }
+    public boolean isFeedbackGiven() { return feedbackGiven; }
+    public void setFeedbackGiven(boolean feedbackGiven) { this.feedbackGiven = feedbackGiven; }
 }
