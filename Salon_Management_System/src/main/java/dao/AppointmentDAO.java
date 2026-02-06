@@ -177,6 +177,76 @@ public class AppointmentDAO {
         appt.setFeedbackGiven(rs.getBoolean("feedback_given"));
         return appt;
     }
+    
+    public List<Appointment> getAppointmentHistory(int userId){
+
+        List<Appointment> list = new ArrayList<>();
+
+        try{
+            Connection con = DBConnection.getConnection();
+
+            String sql =
+            "SELECT a.*, s.name AS service_name " +
+            "FROM appointments a " +
+            "JOIN services s ON a.service_id = s.id " +
+            "WHERE a.user_id=? ORDER BY a.appointment_date DESC";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                Appointment ap = new Appointment();
+
+                ap.setId(rs.getInt("id"));
+                ap.setUserId(rs.getInt("user_id"));
+                ap.setTherapistId(rs.getInt("therapist_id"));
+                ap.setSalonId(rs.getInt("salon_id"));
+
+                ap.setServiceName(rs.getString("service_name"));
+
+                ap.setAppointmentDate(rs.getDate("appointment_date"));
+                ap.setAppointmentTime(rs.getTime("appointment_time"));
+
+                ap.setStatus(rs.getString("status"));
+                ap.setFeedbackGiven(rs.getBoolean("feedback_given"));
+
+                list.add(ap);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+ // ----------- GET ALL APPOINTMENTS (ADMIN PANEL) -----------
+    public List<Appointment> getAll(){
+
+        List<Appointment> list = new ArrayList<>();
+
+        try{
+            Connection con = DBConnection.getConnection();
+
+            String sql = "SELECT * FROM appointments ORDER BY appointment_date DESC";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                list.add(mapRow(rs));
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }
 
 

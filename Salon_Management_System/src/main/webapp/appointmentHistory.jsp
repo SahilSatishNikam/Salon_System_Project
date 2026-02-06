@@ -29,7 +29,7 @@
   </thead>
   <tbody>
     <% for(Appointment a : history) {
-         Service s = new ServiceDAO().getServiceById(a.getServiceId());
+    	Salon s = new SalonDAO().getSalonById(a.getSalonId());
          Therapist t = new TherapistDAO().getTherapistById(a.getTherapistId());
     %>
     <tr>

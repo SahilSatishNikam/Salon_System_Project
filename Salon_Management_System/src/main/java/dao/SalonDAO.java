@@ -114,6 +114,32 @@ public class SalonDAO {
         s.setImage(rs.getBytes("image"));
         return s;
     }
+    
+ // 🔍 Search by name + location (address)
+    public List<Salon> searchByNameLocation(String name, String location) {
+        List<Salon> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM salons WHERE name LIKE ? AND address LIKE ? ORDER BY created_at DESC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + name + "%");
+            ps.setString(2, "%" + location + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(mapRowToSalon(rs));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }
 
 
