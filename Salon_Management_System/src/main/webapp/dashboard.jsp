@@ -1,24 +1,24 @@
-
+<%@ page session="true" %>
 
 <%
- if(session.getAttribute("admin")==null)
-  response.sendRedirect("login.jsp");
+String role = (String) session.getAttribute("role");
+
+if(role == null || !role.equals("admin")){
+    response.sendRedirect("../login.jsp");
+    return;
+}
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta charset="UTF-8">
 <title>Admin Dashboard</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-
-/* ===== MAIN THEME ===== */
 body{
  background:linear-gradient(to right,#141e30,#243b55);
  font-family:'Segoe UI';
@@ -68,9 +68,7 @@ body{
  backdrop-filter:blur(10px);
  color:white;
 }
-
 </style>
-
 </head>
 
 <body>
@@ -78,7 +76,7 @@ body{
 <div class="container-fluid">
 <div class="row">
 
-<!-- ===== SIDEBAR ===== -->
+<!-- SIDEBAR -->
 <div class="col-2 sidebar p-3">
 
 <h4 class="text-center">
@@ -86,71 +84,37 @@ body{
 </h4>
 <hr>
 
-<a href="dashboard.jsp">
-<i class="fa fa-home"></i> Dashboard
-</a>
-
-<a href="manageUsers.jsp">
-<i class="fa fa-users"></i> Users
-</a>
-
-<a href="manageOwners.jsp">
-<i class="fa fa-user-tie"></i> Salon Owners
-</a>
-
-<a href="manageSalons.jsp">
-<i class="fa fa-store"></i> Salons
-</a>
-
-<a href="verifySalons.jsp">
-<i class="fa fa-check"></i> Verify Salons
-</a>
-
-<a href="manageCategory.jsp">
-<i class="fa fa-list"></i> Categories
-</a>
-
-<a href="viewAppointments.jsp">
-<i class="fa fa-calendar"></i> Appointments
-</a>
-
-<a href="feedback.jsp">
-<i class="fa fa-comments"></i> Feedback
-</a>
-
-<a href="reports.jsp">
-<i class="fa fa-chart-bar"></i> Reports
-</a>
-
-<a href="logout.jsp" class="text-danger">
-<i class="fa fa-sign-out"></i> Logout
-</a>
+<a href="dashboard.jsp"><i class="fa fa-home"></i> Dashboard</a>
+<a href="manageUsers.jsp"><i class="fa fa-users"></i> Users</a>
+<a href="manageOwners.jsp"><i class="fa fa-user-tie"></i> Salon Owners</a>
+<a href="manageSalons.jsp"><i class="fa fa-store"></i> Salons</a>
+<a href="verifySalons.jsp"><i class="fa fa-check"></i> Verify Salons</a>
+<a href="manageCategory.jsp"><i class="fa fa-list"></i> Categories</a>
+<a href="viewAppointments.jsp"><i class="fa fa-calendar"></i> Appointments</a>
+<a href="feedback.jsp"><i class="fa fa-comments"></i> Feedback</a>
+<a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
+<a href="logout.jsp" class="text-danger"><i class="fa fa-sign-out"></i> Logout</a>
 
 </div>
 
-<!-- ===== MAIN AREA ===== -->
+<!-- MAIN -->
 <div class="col-10 p-3">
 
 <div class="topbar mb-3">
 <h3>
-<a href="search-salons.jsp"
-class="btn btn-light w-100 mb-2">
-<i class="fa fa-search"></i> Search Salons
-</a>
 <i class="fa fa-tachometer-alt"></i>
-Welcome Admin Panel
+Welcome Admin: <%=session.getAttribute("admin")%>
 </h3>
-
 </div>
 
-<!-- ===== CARDS ===== -->
+<!-- CARDS -->
 <div class="row">
 
 <div class="col-md-3">
 <div class="card glass p-3 text-center">
 <i class="fa fa-store fa-2x text-info"></i>
 <h5>Total Salons</h5>
-<h2>12</h2>
+<h2>0</h2>
 </div>
 </div>
 
@@ -158,7 +122,7 @@ Welcome Admin Panel
 <div class="card glass p-3 text-center">
 <i class="fa fa-calendar fa-2x text-warning"></i>
 <h5>Appointments</h5>
-<h2>45</h2>
+<h2>0</h2>
 </div>
 </div>
 
@@ -166,7 +130,7 @@ Welcome Admin Panel
 <div class="card glass p-3 text-center">
 <i class="fa fa-users fa-2x text-success"></i>
 <h5>Users</h5>
-<h2>30</h2>
+<h2>0</h2>
 </div>
 </div>
 
@@ -174,20 +138,18 @@ Welcome Admin Panel
 <div class="card glass p-3 text-center">
 <i class="fa fa-comments fa-2x text-primary"></i>
 <h5>Feedback</h5>
-<h2>18</h2>
+<h2>0</h2>
 </div>
 </div>
 
 </div>
 
-<!-- ===== INFO ===== -->
+<!-- INFO -->
 <div class="row mt-4">
 
 <div class="col-md-6">
 <div class="card glass p-3">
-
 <h5>System Features</h5>
-
 <ul>
 <li>Salon Verification</li>
 <li>Service Categories</li>
@@ -195,29 +157,16 @@ Welcome Admin Panel
 <li>Feedback</li>
 <li>Reports</li>
 </ul>
-
 </div>
 </div>
 
 <div class="col-md-6">
 <div class="card glass p-3">
-
 <h5>Quick Access</h5>
 
-<a href="manageSalons.jsp"
-class="btn btn-info w-100 mb-2">
-Manage Salons
-</a>
-
-<a href="verifySalons.jsp"
-class="btn btn-success w-100 mb-2">
-Verify Salons
-</a>
-
-<a href="reports.jsp"
-class="btn btn-warning w-100">
-Reports
-</a>
+<a href="manageSalons.jsp" class="btn btn-info w-100 mb-2">Manage Salons</a>
+<a href="verifySalons.jsp" class="btn btn-success w-100 mb-2">Verify Salons</a>
+<a href="reports.jsp" class="btn btn-warning w-100">Reports</a>
 
 </div>
 </div>
@@ -226,19 +175,7 @@ Reports
 
 </div>
 </div>
-
 </div>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

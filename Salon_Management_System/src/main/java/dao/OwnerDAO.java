@@ -1,16 +1,16 @@
-
-
-
 package dao;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Salon;
 import util.DBConnection;
 
 public class OwnerDAO {
 
- // ===== GET ALL SALON OWNERS =====
  public List<Salon> getAll(){
 
   List<Salon> list = new ArrayList<>();
@@ -20,7 +20,7 @@ public class OwnerDAO {
    Connection c = DBConnection.getConnection();
 
    PreparedStatement ps =
-   c.prepareStatement("select * from salon");
+   c.prepareStatement("select * from salons");
 
    ResultSet rs = ps.executeQuery();
 
@@ -29,9 +29,10 @@ public class OwnerDAO {
     Salon s = new Salon();
 
     s.setId(rs.getInt("id"));
-    s.setSalon_name(rs.getString("salon_name"));
-    s.setOwner_name(rs.getString("owner_name"));
-    s.setStatus(rs.getString("status"));
+    s.setName(rs.getString("name"));
+    s.setEmail(rs.getString("email"));
+    s.setPhone(rs.getString("phone"));
+    s.setAddress(rs.getString("address"));
 
     list.add(s);
    }
@@ -43,7 +44,6 @@ public class OwnerDAO {
   return list;
  }
 
- // ===== DELETE OWNER / SALON =====
  public void delete(int id){
 
   try{
@@ -51,11 +51,9 @@ public class OwnerDAO {
    Connection c = DBConnection.getConnection();
 
    PreparedStatement ps =
-   c.prepareStatement(
-   "delete from salon where id=?");
+   c.prepareStatement("delete from salons where id=?");
 
    ps.setInt(1,id);
-
    ps.executeUpdate();
 
   }catch(Exception e){
@@ -63,6 +61,3 @@ public class OwnerDAO {
   }
  }
 }
-
-
-

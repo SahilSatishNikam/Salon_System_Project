@@ -61,4 +61,32 @@ public class TherapistDAO {
 
     }
 
+    public Therapist login(String email, String password) throws Exception {
+
+        String sql = "SELECT * FROM therapists WHERE email=? AND password=?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                Therapist t = new Therapist();
+                t.setId(rs.getInt("id"));
+                t.setSalonId(rs.getInt("salon_id"));
+                t.setName(rs.getString("name"));
+                t.setPhone(rs.getString("phone"));
+                t.setEmail(rs.getString("email"));
+                t.setSpecialty(rs.getString("specialty"));
+                t.setPassword(rs.getString("password"));
+                return t;
+            }
+        }
+
+        return null;
+    }
+
 }

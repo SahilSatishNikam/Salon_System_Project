@@ -7,21 +7,21 @@ public class Therapist {
     private String phone;
     private String email;
     private String specialty;
+    private String password;   // 🔴 ADD THIS
 
-    // ✅ No-argument constructor
     public Therapist() {}
 
-    // Optional: all-args constructor
-    public Therapist(int id, int salonId, String name, String phone, String email, String specialty) {
+    public Therapist(int id, int salonId, String name, String phone,
+                     String email, String specialty, String password) {
         this.id = id;
         this.salonId = salonId;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.specialty = specialty;
+        this.password = password;
     }
 
-    // ✅ Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -39,4 +39,8 @@ public class Therapist {
 
     public String getSpecialty() { return specialty; }
     public void setSpecialty(String specialty) { this.specialty = specialty; }
+
+    // 🔴 password getter/setter
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

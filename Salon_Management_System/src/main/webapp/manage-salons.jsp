@@ -2,101 +2,227 @@
 <html>
 <head>
 <title>Manage Salons & Services</title>
-<link rel="stylesheet" href="../css/admin.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
 <style>
-body { font-family: Arial; margin:20px; }
-table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-th { background-color: #f2f2f2; }
-form input, form button { padding: 6px; margin: 3px 0; }
-img { border-radius: 5px; }
-.service-table { margin-left: 30px; border: 1px solid #aaa; width: 90%; }
-.service-table th, .service-table td { border: 1px solid #aaa; padding: 5px; }
+body{
+    font-family:'Poppins',sans-serif;
+    background:#0f0f0f;
+    color:#fff;
+    margin:0;
+    padding:30px;
+}
+
+/* headings */
+h2{
+    color:#FFD700;
+    border-bottom:2px solid #FFD700;
+    padding-bottom:5px;
+}
+
+/* card */
+.card{
+    background:#1a1a1a;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:25px;
+    box-shadow:0 0 10px rgba(255,215,0,0.15);
+}
+
+/* form */
+input,button{
+    padding:10px;
+    border-radius:6px;
+    border:none;
+    margin:5px;
+}
+
+input{
+    background:#000;
+    color:#fff;
+    border:1px solid #FFD700;
+}
+
+button{
+    background:#FFD700;
+    color:#000;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#e6c200;
+}
+
+/* tables */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+    background:#111;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th{
+    background:#FFD700;
+    color:#000;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #333;
+}
+
+tr:hover{
+    background:#1c1c1c;
+}
+
+img{
+    border-radius:8px;
+}
+
+/* links */
+a{
+    color:#FFD700;
+    text-decoration:none;
+    font-weight:500;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+/* service box */
+.service-box{
+    background:#000;
+    padding:15px;
+    border-radius:10px;
+    margin-top:10px;
+    border:1px solid #FFD700;
+}
+
+/* buttons */
+.btn{
+    padding:6px 12px;
+    border-radius:6px;
+    margin-right:5px;
+}
+
+.edit{background:#fff;color:#000;}
+.delete{background:#ff4d4d;color:#fff;}
+.manage{background:#FFD700;color:#000;}
 </style>
+
 <script>
-function toggleServiceForm(id) {
-    const form = document.getElementById('serviceForm-' + id);
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+function toggleServiceForm(id){
+    const form=document.getElementById('serviceForm-'+id);
+    form.style.display=form.style.display==='none'?'block':'none';
 }
 </script>
 </head>
+
 <body>
-<h2>Add New Salon</h2>
+
+<div class="card">
+<h2>✨ Add New Salon</h2>
+
 <form method="post" action="AddSalonServlet" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="Salon Name" required>
-    <input type="text" name="email" placeholder="Email">
-    <input type="text" name="phone" placeholder="Phone">
-    <input type="text" name="address" placeholder="Address">
-    <input type="file" name="image" required>
-    <button type="submit">Add Salon</button>
+<input type="text" name="name" placeholder="Salon Name" required>
+<input type="text" name="email" placeholder="Email">
+<input type="text" name="phone" placeholder="Phone">
+<input type="text" name="address" placeholder="Address">
+<input type="file" name="image" required>
+<button>Add Salon</button>
 </form>
+</div>
 
-<h2>All Salons</h2>
+<h2>🏢 All Salons</h2>
+
 <%
-SalonDAO salonDAO = new SalonDAO();
-ServiceDAO serviceDAO = new ServiceDAO();
-List<Salon> salons = salonDAO.getAllSalons();
+SalonDAO salonDAO=new SalonDAO();
+ServiceDAO serviceDAO=new ServiceDAO();
+List<Salon> salons=salonDAO.getAllSalons();
 
-for(Salon s : salons) {
-    s.setServices(serviceDAO.getServicesBySalon(s.getId())); // load services for each salon
+for(Salon s:salons){
+s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 %>
+
+<div class="card">
+
 <table>
 <tr>
-<td rowspan="2" style="width:100px;">
-<% if(s.getImage() != null) { %>
+
+<td style="width:90px;">
+<% if(s.getImage()!=null){ %>
 <img src="SalonImageServlet?id=<%=s.getId()%>" width="80" height="80">
 <% } else { %>No Image<% } %>
 </td>
-<td>Name: <%= s.getName() %></td>
-<td>Email: <%= s.getEmail() %></td>
-<td>Phone: <%= s.getPhone() %></td>
-<td>Address: <%= s.getAddress() %></td>
+
 <td>
-<a href="EditSalonServlet?id=<%=s.getId()%>">Edit</a> | 
-<a href="DeleteSalonServlet?id=<%=s.getId()%>" onclick="return confirm('Delete this salon?')">Delete</a> | 
-<a href="javascript:void(0)" onclick="toggleServiceForm(<%=s.getId()%>)">Manage Services</a>
+<b style="color:#FFD700;"><%=s.getName()%></b><br>
+<small><%=s.getEmail()%></small><br>
+<small><%=s.getPhone()%></small><br>
+<small><%=s.getAddress()%></small>
 </td>
+
+<td>
+<a class="btn edit" href="EditSalonServlet?id=<%=s.getId()%>">Edit</a>
+<a class="btn delete" href="DeleteSalonServlet?id=<%=s.getId()%>" onclick="return confirm('Delete salon?')">Delete</a>
+<button class="btn manage" onclick="toggleServiceForm(<%=s.getId()%>)">Services</button>
+</td>
+
 </tr>
+</table>
 
-<tr>
-<td colspan="5">
-<div id="serviceForm-<%=s.getId()%>" style="display:none; margin-top:10px;">
-<h4>Services for <%= s.getName() %></h4>
+<div id="serviceForm-<%=s.getId()%>" style="display:none">
 
-<!-- Add Service Form -->
+<div class="service-box">
+<h3 style="color:#FFD700;">Services - <%=s.getName()%></h3>
+
 <form method="post" action="AddServiceServlet">
-    <input type="hidden" name="salonId" value="<%= s.getId() %>">
-    <input type="text" name="name" placeholder="Service Name" required>
-    <input type="text" name="description" placeholder="Description">
-    <input type="number" name="price" placeholder="Price" required step="0.01">
-    <input type="number" name="durationMinutes" placeholder="Duration (min)" required>
-    <button type="submit">Add Service</button>
+<input type="hidden" name="salonId" value="<%=s.getId()%>">
+<input type="text" name="name" placeholder="Service Name" required>
+<input type="text" name="description" placeholder="Description">
+<input type="number" name="price" placeholder="Price" required>
+<input type="number" name="durationMinutes" placeholder="Duration" required>
+<button>Add Service</button>
 </form>
 
-<!-- List Existing Services -->
-<table class="service-table">
-<tr><th>Name</th><th>Description</th><th>Price</th><th>Duration</th><th>Actions</th></tr>
-<% if(s.getServices() != null && !s.getServices().isEmpty()) {
-    for(Service srv : s.getServices()) { %>
+<table>
 <tr>
-<td><%= srv.getName() %></td>
-<td><%= srv.getDescription() %></td>
-<td>$<%= srv.getPrice() %></td>
-<td><%= srv.getDurationMinutes() %> min</td>
+<th>Name</th>
+<th>Description</th>
+<th>Price</th>
+<th>Duration</th>
+<th>Action</th>
+</tr>
+
+<% if(s.getServices()!=null && !s.getServices().isEmpty()){
+for(Service srv:s.getServices()){ %>
+
+<tr>
+<td><%=srv.getName()%></td>
+<td><%=srv.getDescription()%></td>
+<td>₹<%=srv.getPrice()%></td>
+<td><%=srv.getDurationMinutes()%> min</td>
 <td>
-<a href="EditServiceServlet?id=<%= srv.getId() %>">Edit</a> | 
-<a href="DeleteServiceServlet?id=<%= srv.getId() %>&salonId=<%= s.getId() %>" onclick="return confirm('Delete this service?')">Delete</a>
+<a class="btn edit" href="EditServiceServlet?id=<%=srv.getId()%>">Edit</a>
+<a class="btn delete" href="DeleteServiceServlet?id=<%=srv.getId()%>&salonId=<%=s.getId()%>">Delete</a>
 </td>
 </tr>
-<% } } else { %>
-<tr><td colspan="5">No services yet.</td></tr>
+
+<% }} else { %>
+<tr><td colspan="5">No services yet</td></tr>
 <% } %>
+
 </table>
+</div>
+</div>
 
 </div>
-</td>
-</tr>
-</table>
 <% } %>
 
 </body>
