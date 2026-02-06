@@ -107,6 +107,7 @@ public class TherapistDashboardServlet extends HttpServlet {
                 }
             }
         }
+        
         return 0;
     }
 }
