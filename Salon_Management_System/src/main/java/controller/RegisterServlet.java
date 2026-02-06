@@ -1,69 +1,84 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import util.DBConnection;
+
+import dao.AdminDAO;
+import dao.TherapistDAO;
+import dao.UserDAO;
+
+import model.Admin;
+import model.Therapist;
+import model.User;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 
-protected void doPost(HttpServletRequest req,
-HttpServletResponse res) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
 
-    String name = req.getParameter("name");
-    String email = req.getParameter("email");
-    String password = req.getParameter("password");
-    String phone = req.getParameter("phone");
-    String role = req.getParameter("role");
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String phone = req.getParameter("phone");
+        String role = req.getParameter("role");
 
-    try(Connection con = DBConnection.getConnection()){
+        try {
+            if ("admin".equals(role)) {
+                Admin admin = new Admin();
+                admin.setName(name);
+                admin.setEmail(email);
+                admin.setPassword(password);
 
-        if("admin".equals(role)){
+                AdminDAO adminDAO = new AdminDAO();
+                if (adminDAO.register(admin)) {
+                    res.sendRedirect("login.jsp?msg=Registered as Admin");
+                } else {
+                    res.sendRedirect("register.jsp?error=Registration Failed");
+                }
 
-            String sql = "INSERT INTO admin(name,email,password,phone) VALUES(?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,name);
-            ps.setString(2,email);
-            ps.setString(3,password);
-            ps.setString(4,phone);
-            ps.executeUpdate();
+            } else if ("user".equals(role)) {
+                User user = new User();
+                user.setName(name);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setPhone(phone);
+
+                UserDAO userDAO = new UserDAO();
+                if (userDAO.registerUser(user)) {
+                    res.sendRedirect("login.jsp?msg=Registered as User");
+                } else {
+                    res.sendRedirect("register.jsp?error=Registration Failed");
+                }
+
+            } else if ("therapist".equals(role)) {
+                Therapist t = new Therapist();
+                t.setName(name);
+                t.setEmail(email);
+                t.setPassword(password);
+                t.setPhone(phone);
+                t.setSalonId(0);      // Default: assign later
+                t.setSpecialty("");    // Default empty
+                t.setStatus("Pending"); // Admin approval
+
+                TherapistDAO therapistDAO = new TherapistDAO();
+                if (therapistDAO.registerTherapist(t)) {
+                    res.sendRedirect("login.jsp?msg=Registered as Therapist (Pending Approval)");
+                } else {
+                    res.sendRedirect("register.jsp?error=Registration Failed");
+                }
+            } else {
+                res.sendRedirect("register.jsp?error=Invalid Role");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.sendRedirect("register.jsp?error=Server+Error");
         }
-
-        else if("user".equals(role)){
-
-            String sql = "INSERT INTO users(name,email,password,phone) VALUES(?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,name);
-            ps.setString(2,email);
-            ps.setString(3,password);
-            ps.setString(4,phone);
-            ps.executeUpdate();
-        }
-
-        else if("therapist".equals(role)){
-
-            String sql = "INSERT INTO therapists(name,email,password,phone,status) VALUES(?,?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,name);
-            ps.setString(2,email);
-            ps.setString(3,password);
-            ps.setString(4,phone);
-            ps.setString(5,"Pending"); // admin approve later
-            ps.executeUpdate();
-        }
-
-        res.sendRedirect("login.jsp?msg=Registered");
-
-    }catch(Exception e){
-        e.printStackTrace();
-        res.sendRedirect("register.jsp?error=Registration Failed");
     }
-}
 }

@@ -30,7 +30,8 @@
             </div>
         <% } %>
 
-       <form action="RegisterServlet" method="post">
+     <form action="<%= request.getContextPath() %>/RegisterServlet" method="post">
+
 
 <div class="mb-3">
 <label>Name</label>
