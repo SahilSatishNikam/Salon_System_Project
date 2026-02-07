@@ -22,7 +22,7 @@
 <div class="container mt-5" style="max-width:500px;">
     <div class="card shadow p-4">
 
-        <h3 class="text-center mb-3">User Registration</h3>
+        <h3 class="text-center mb-3">Registration</h3>
 
         <% if(request.getParameter("msg")!=null){ %>
             <div class="alert alert-info">
