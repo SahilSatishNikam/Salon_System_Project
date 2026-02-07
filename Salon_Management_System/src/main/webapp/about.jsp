@@ -6,7 +6,7 @@
 <title>About Us - Salon</title>
 
 <style>
-/* ===== STATS SECTION ===== */
+/* ===== STATS SECTION ANIMATED ===== */
 .stats{
  display:flex;
  justify-content:space-around;
@@ -15,13 +15,30 @@
  background:#0e0c05;
  padding:70px 40px;
  text-align:center;
+
+ opacity:0;
+ transform:translateY(60px);
+ transition:1s ease;
 }
 
+.stats.show{
+ opacity:1;
+ transform:translateY(0);
+}
+
+/* number style */
 .stat h2{
  color:#c9a227;
  font-size:42px;
  margin:0;
  letter-spacing:2px;
+
+ transition:.4s;
+}
+
+.stat:hover h2{
+ text-shadow:0 0 12px rgba(201,162,39,.8);
+ transform:scale(1.08);
 }
 
 .s-line{
@@ -29,12 +46,20 @@
  height:1px;
  background:#c9a227;
  margin:10px auto;
+
+ transform:scaleX(0);
+ transition:.8s ease;
+}
+
+.stats.show .s-line{
+ transform:scaleX(1);
 }
 
 .stat p{
  color:#aaa;
  font-size:12px;
  letter-spacing:3px;
+ opacity:.8;
 }
 
 /* ===== GLOBAL ===== */
@@ -132,24 +157,140 @@ body{
 }
 
 /* ===== EXACT NAVBAR SECTION  END STYLE ===== */
-
 /* ===== HERO ===== */
-/* ===== HERO WITH IMAGE ===== */
+/* ===== HERO PREMIUM ANIMATION ===== */
+
 .hero{
  text-align:center;
- padding:180px 0;
+ padding:190px 0;
+ position:relative;
+ overflow:hidden;
 
- /* ADD YOUR IMAGE HERE */
  background:
-   linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.75)),
+   linear-gradient(rgba(0,0,0,.72), rgba(0,0,0,.72)),
    url('images/hero.jpg');
 
- background-size:cover;
+ background-size:110%;
  background-position:center;
  background-attachment:fixed;
 
- animation:fadeDown 1s ease;
+ animation:heroZoom 6s ease forwards;
 }
+
+/* small top text */
+.hero small{
+ letter-spacing:4px;
+ color:#c9a227;
+
+ opacity:0;
+ transform:translateY(-20px);
+
+ animation:reveal .9s ease forwards;
+ animation-delay:.4s;
+}
+
+/* ===== HEADING WORD ANIMATION ONLY ===== */
+
+.hero h1{
+ font-size:48px;
+ margin-top:10px;
+}
+
+/* split words */
+.wipe span{
+ opacity:0;
+ display:inline-block;
+}
+
+/* white part */
+.white{
+ color:#fff;
+ animation:slideWhite 1.4s ease forwards;
+ animation-delay:.6s;
+}
+
+/* gold part */
+.gold{
+ color:#c9a227;
+ animation:slideGold 1.8s ease forwards;
+ animation-delay:1.2s;
+
+ text-shadow:0 0 10px rgba(201,162,39,.4);
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes reveal{
+ to{
+   opacity:1;
+   transform:translateY(0);
+ }
+}
+
+@keyframes slideWhite{
+ from{
+   opacity:0;
+   transform:translateX(-60px);
+ }
+ to{
+   opacity:1;
+   transform:translateX(0);
+ }
+}
+
+@keyframes slideGold{
+ from{
+   opacity:0;
+   transform:translateX(60px);
+ }
+ to{
+   opacity:1;
+   transform:translateX(0);
+ }
+}
+
+@keyframes heroZoom{
+ from{ background-size:110%; }
+ to{ background-size:100%; }
+}
+
+/* ===== HOVER WHOLE CARD EFFECT ===== */
+
+.stat{
+ transition:.4s ease;
+ cursor:pointer;
+}
+
+/* when cursor on stat */
+.stat:hover h2{
+ text-shadow:
+   0 0 10px rgba(201,162,39,.9),
+   0 0 20px rgba(201,162,39,.5);
+
+ transform:scale(1.12);
+}
+
+/* highlight text also */
+.stat:hover p{
+ color:#fff;
+ letter-spacing:4px;
+ text-shadow:0 0 8px rgba(255,255,255,.6);
+
+ transition:.4s;
+}
+
+/* golden line brighter */
+.stat:hover .s-line{
+ background:#ffd700;
+ box-shadow:0 0 10px rgba(201,162,39,.8);
+ transform:scaleX(1.3);
+}
+
+/* subtle card lift */
+.stat:hover{
+ transform:translateY(-6px);
+}
+
 
 
 /* ===== HOW WE STARTED ===== */
@@ -165,9 +306,9 @@ body{
 
 .title{
  text-align:center;
- font-size:34px;
+ font-size:38px;
  margin:40px 0;
- font-style:italic;
+ font-style:Times New Roman;
 }
 
 
@@ -252,11 +393,13 @@ body{
 .text h3{
  margin:8px 0;
  letter-spacing:1px;
+ font-family:Times New Roman;
 }
 
 .text p{
  opacity:.8;
  line-height:24px;
+ 
 }
 /* ===== ARTISANS SECTION ===== */
 
@@ -264,11 +407,13 @@ body{
  background:#0b0905;
  padding:90px 40px;
  text-align:center;
+ 
 }
 
 .art-top small{
  color:#c9a227;
  letter-spacing:4px;
+ 
 }
 
 .art-top h2{
@@ -338,6 +483,100 @@ body{
  transform:translateY(-8px);
  border-color:#c9a227;
 }
+/* ===== LEFT / RIGHT ARTISAN ANIMATION ===== */
+
+/* initial state */
+.art-card{
+ opacity:0;
+ transition:all 1s cubic-bezier(.16,1,.3,1);
+}
+
+/* directions */
+.art-card:nth-child(1){
+ transform:translateX(-120px);
+}
+
+.art-card:nth-child(2){
+ transform:translateY(100px);
+}
+
+.art-card:nth-child(3){
+ transform:translateX(120px);
+}
+
+/* visible */
+.art-card.show{
+ opacity:1;
+ transform:translate(0,0);
+}
+
+/* delay */
+.art-card:nth-child(1).show{ transition-delay:.2s; }
+.art-card:nth-child(2).show{ transition-delay:.5s; }
+.art-card:nth-child(3).show{ transition-delay:.8s; }
+
+/* ===== SLOW LUXURY REVEAL ===== */
+
+.art-card{
+ opacity:0;
+ transition:all 1.8s cubic-bezier(.16,1,.3,1);   /* SLOW */
+ position:relative;
+ overflow:hidden;
+}
+
+/* directions */
+.art-card:nth-child(1){
+ transform:translateX(-160px);
+}
+
+.art-card:nth-child(2){
+ transform:translateY(120px);
+}
+
+.art-card:nth-child(3){
+ transform:translateX(160px);
+}
+
+/* visible */
+.art-card.show{
+ opacity:1;
+ transform:translate(0,0);
+}
+
+/* delay */
+.art-card:nth-child(1).show{ transition-delay:.3s; }
+.art-card:nth-child(2).show{ transition-delay:.7s; }
+.art-card:nth-child(3).show{ transition-delay:1.1s; }
+
+/* ===== HOVER PREMIUM ===== */
+
+.art-card:hover{
+ transform:translateY(-10px) scale(1.02) !important;
+ border-color:#c9a227;
+ box-shadow:
+   0 10px 30px rgba(0,0,0,.6),
+   0 0 12px rgba(201,162,39,.4);
+}
+
+/* image zoom */
+.art-card img{
+ transition:.6s;
+}
+
+.art-card:hover img{
+ transform:scale(1.06);
+}
+
+/* text glow */
+.art-card:hover .art-info h3{
+ text-shadow:0 0 10px rgba(255,255,255,.6);
+}
+
+.art-card:hover .art-info small{
+ letter-spacing:3px;
+}
+
+
 /* ===== PHILOSOPHY SECTION ===== */
 
 .philo-section{
@@ -452,6 +691,7 @@ body{
  }
 
 }
+/* ===== ARTISANS SECTION END===== */
 /* ===== CORE PHILOSOPHY LAYOUT FIX ===== */
 
 .philo-section{
@@ -613,6 +853,343 @@ body{
  }
 
 }
+/* ===== TESTIMONIAL SECTION ===== */
+/* ===== ULTRA TESTIMONIAL ===== */
+
+.ultra-test{
+ padding:100px 20px;
+ background:#0b0905;
+ text-align:center;
+ overflow:hidden;
+}
+
+
+/* TITLE */
+.u-top small{
+ color:#c9a227;
+ letter-spacing:4px;
+}
+
+.u-top h2{
+ font-size:44px;
+ margin:10px 0 40px;
+}
+
+.u-top span{
+ color:#c9a227;
+ font-style:italic;
+}
+
+
+/* SLIDER BASE */
+.slider{
+ width:100%;
+ overflow:hidden;
+ position:relative;
+}
+
+
+.slide-track{
+ display:flex;
+ gap:30px;
+
+ animation:scroll 26s linear infinite;
+}
+
+
+/* ===== CARD MAIN (FIXED FOR IMAGE NOT CUT) ===== */
+
+.u-card{
+ width:340px;
+ min-width:340px;
+
+ /* dark luxury base */
+ background:linear-gradient(
+   120deg,
+   #0f0d05,
+   #1a1508,
+   #0f0d05
+ );
+
+ border:1px solid #2a2616;
+ border-radius:18px;
+
+ /* IMPORTANT FIXES */
+ padding:60px 20px 26px 20px;   /* top space for image */
+ text-align:center;
+
+ position:relative;
+ z-index:1;
+
+ transition:.5s;
+}
+
+
+
+/* ===== GOLD SWEEP LAYER (SOFT + SLOW) ===== */
+
+.u-card::before{
+ content:'';
+
+ position:absolute;
+ top:0;
+ left:-140%;
+
+ width:70%;
+ height:100%;
+
+ background:linear-gradient(
+   90deg,
+   transparent,
+   rgba(255,215,0,.12),   /* very faint */
+   rgba(255,215,0,.22),   /* peak soft */
+   rgba(255,215,0,.12),
+   transparent
+ );
+
+ transform:skewX(-18deg);
+
+ animation:goldSweep 4.5s ease-in-out infinite;   /* slow elegant */
+}
+
+
+/* keep content above light */
+.u-card *{
+ position:relative;
+ z-index:2;
+}
+
+
+/* CLIENT IMAGE */
+.client{
+ width:84px;
+ height:84px;
+ border-radius:50%;
+
+ object-fit:cover;
+
+ border:2px solid #c9a227;
+ margin-top:-60px;
+
+ background:#000;
+}
+
+
+/* ===== STARS (SOFTER) ===== */
+
+.stars{
+ color:#ffd700;
+ margin:10px 0;
+ letter-spacing:3px;
+
+ text-shadow:
+   0 0 6px rgba(255,215,0,.5),
+   0 0 12px rgba(255,215,0,.2);
+
+ animation:pulse 3s infinite;
+}
+
+
+/* ===== TEXT VISIBILITY ===== */
+
+.u-card p{
+ font-size:15px;
+ line-height:24px;
+
+ color:#e6e6e6;
+ letter-spacing:.4px;
+
+ margin:10px 0;
+}
+
+.u-card h4{
+ color:#ffd700;
+ font-weight:600;
+ margin:10px 0 2px;
+}
+
+.u-card small{
+ color:#aaa;
+}
+
+
+/* ===== HOVER PREMIUM ===== */
+
+.u-card:hover{
+ transform:translateY(-10px) scale(1.05);
+
+ box-shadow:
+   0 10px 40px rgba(0,0,0,.8),
+   0 0 20px rgba(201,162,39,.5);
+
+ border-color:#c9a227;
+}
+
+
+/* PAUSE ON HOVER */
+.slider:hover .slide-track{
+ animation-play-state:paused;
+}
+
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes scroll{
+ 0%{ transform:translateX(0); }
+ 100%{ transform:translateX(-50%); }
+}
+
+
+/* GOLD SWEEP – SOFT CINEMATIC */
+@keyframes goldSweep{
+
+ 0%{
+   left:-140%;
+   opacity:.6;
+ }
+
+ 50%{
+   opacity:1;
+ }
+
+ 100%{
+   left:140%;
+   opacity:.6;
+ }
+
+}
+
+
+/* STAR PULSE */
+@keyframes pulse{
+ 0%{ transform:scale(1); }
+ 50%{ transform:scale(1.06); }
+ 100%{ transform:scale(1); }
+}
+
+
+/* MOBILE */
+@media(max-width:900px){
+
+ .u-card{
+   width:300px;
+   min-width:300px;
+ }
+
+}
+
+/* ===== FOOTER ===== */
+
+.footer{
+ background:#0e0c05;
+ padding:80px 40px 20px;
+ margin-top:80px;
+
+ opacity:0;
+ transform:translateY(80px);
+ transition:1s ease;
+}
+
+/* show on scroll */
+.footer.show{
+ opacity:1;
+ transform:translateY(0);
+}
+
+
+.f-container{
+ display:grid;
+ grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+ gap:30px;
+}
+
+
+.f-box h3{
+ color:#ffd700;
+ margin-bottom:10px;
+}
+
+.f-box h4{
+ color:#c9a227;
+ margin-bottom:12px;
+}
+
+
+/* links */
+.f-box a{
+ display:block;
+ color:#aaa;
+ text-decoration:none;
+ margin:6px 0;
+
+ transition:.3s;
+}
+
+.f-box a:hover{
+ color:#fff;
+ letter-spacing:1px;
+}
+
+
+/* text */
+.f-box p{
+ color:#aaa;
+ font-size:14px;
+ line-height:22px;
+}
+.f-box h3{
+ font-size:22px;
+ font-weight:700;
+}
+
+/* Golden part */
+.f-box h3 span{
+ color:#ffd700;        /* same gold as your header */
+}
+
+/* White part */
+.f-box h3{
+ color:#ffffff;
+}
+.f-box h3 span{
+ color:#ffd700;
+
+ text-shadow:
+   0 0 6px rgba(255,215,0,.6),
+   0 0 12px rgba(255,215,0,.3);
+}
+
+
+
+/* social */
+.social span{
+ display:inline-block;
+ margin-right:10px;
+
+ color:#aaa;
+ cursor:pointer;
+
+ transition:.3s;
+}
+
+.social span:hover{
+ color:#ffd700;
+ transform:translateY(-3px);
+}
+
+
+/* bottom line */
+.copy{
+ text-align:center;
+ margin-top:40px;
+
+ color:#666;
+ font-size:13px;
+
+ border-top:1px solid #1e1b10;
+ padding-top:16px;
+}
+
 
 </style>
 </head>
@@ -654,37 +1231,45 @@ body{
 
  <small>PREMIUM SALON EXPERIENCE</small>
 
- <h1>Where Beauty Meets <span>Convenience</span></h1>
+ <h1 class="wipe">
+   <span class="white">Where Beauty Meets</span>
+   <span class="gold">Convenience</span>
+</h1>
+
+
+ <div class="hero-line"></div>
 
 </div>
+
 <!-- ===== STATS SECTION ===== -->
 <div class="stats">
 
   <div class="stat">
-     <h2>15</h2>
+     <h2 data-count="15">0</h2>
      <div class="s-line"></div>
      <p>YEARS OF MASTERY</p>
   </div>
 
   <div class="stat">
-     <h2>10k</h2>
+     <h2 data-count="10000">0</h2>
      <div class="s-line"></div>
      <p>GLOBAL CLIENTS</p>
   </div>
 
   <div class="stat">
-     <h2>24</h2>
+     <h2 data-count="24">0</h2>
      <div class="s-line"></div>
      <p>COUTURE AWARDS</p>
   </div>
 
   <div class="stat">
-     <h2>12</h2>
+     <h2 data-count="12">0</h2>
      <div class="s-line"></div>
      <p>MASTER ARTISANS</p>
   </div>
 
 </div>
+
 
 
 <!-- ===== HOW WE STARTED ===== -->
@@ -905,6 +1490,156 @@ body{
   </div>
 
 </div>
+<!-- ===== TESTIMONIAL SECTION ===== -->
+
+<!-- ===== ULTRA TESTIMONIAL SECTION ===== -->
+
+<div class="ultra-test">
+
+ <div class="u-top">
+   <small>TRUSTED BY CLIENTS</small>
+   <h2>Luxury Experience <span>Real Stories</span></h2>
+ </div>
+
+
+ <div class="slider">
+
+   <div class="slide-track">
+
+     <!-- ===== ITEM 1 ===== -->
+     <div class="u-card">
+
+       <img src="images/t1.jpg" class="client">
+
+       <div class="stars">
+         ★★★★★
+       </div>
+
+       <p>
+        Best salon experience ever.  
+        Staff behavior, hygiene and result  
+        everything is just perfect.
+       </p>
+
+       <h4>Priya Sharma</h4>
+       <small>Hair Smoothening</small>
+
+     </div>
+
+
+     <!-- ===== ITEM 2 ===== -->
+     <div class="u-card">
+
+       <img src="images/t2.jpg" class="client">
+
+       <div class="stars">
+         ★★★★☆
+       </div>
+
+       <p>
+        My bridal makeup was stunning.  
+        I received compliments whole day.  
+        Highly professional team.
+       </p>
+
+       <h4>Sneha Patil</h4>
+       <small>Bridal Makeup</small>
+
+     </div>
+
+
+
+     <!-- ===== ITEM 3 ===== -->
+     <div class="u-card">
+
+       <img src="images/men.jpg" class="client">
+
+       <div class="stars">
+         ★★★★★
+       </div>
+
+       <p>
+        Facial result was glowing for weeks.  
+        Products are genuine and staff is  
+        very knowledgeable.
+       </p>
+
+       <h4>Rohan Mehta</h4>
+       <small>Skin Treatment</small>
+
+     </div>
+
+
+
+     <!-- ===== DUPLICATE FOR INFINITE LOOP ===== -->
+     <div class="u-card"> ...same 1...</div>
+     <div class="u-card"> ...same 2...</div>
+     <div class="u-card"> ...same 3...</div>
+
+
+   </div>
+
+ </div>
+
+</div>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+
+  <div class="f-container">
+
+    <!-- COL 1 -->
+    <div class="f-box">
+    <h3>Golden<span>Glow</span></h3>
+
+
+      <p>
+        Premium salon experience with  
+        expert stylists and luxury care.
+      </p>
+    </div>
+
+
+    <!-- COL 2 -->
+    <div class="f-box">
+      <h4>Quick Links</h4>
+
+      <a href="index.jsp">Home</a>
+      <a href="about.jsp">About</a>
+      <a href="contact.jsp">Contact</a>
+      <a href="login.jsp">Login</a>
+    </div>
+
+
+    <!-- COL 3 -->
+    <div class="f-box">
+      <h4>Contact</h4>
+
+      <p>📍 Mumbai, India</p>
+      <p>📞 +91 98765 43210</p>
+      <p>✉ salon@gmail.com</p>
+    </div>
+
+
+    <!-- COL 4 -->
+    <div class="f-box">
+      <h4>Follow Us</h4>
+
+      <div class="social">
+        <span>Instagram</span>
+        <span>Facebook</span>
+        <span>Twitter</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="copy">
+     © 2025 GoldenGlow. All Rights Reserved.
+  </div>
+
+</footer>
+
 
 <script>
 
@@ -948,6 +1683,123 @@ const phObserver = new IntersectionObserver((entries)=>{
 },{ threshold:0.3 });
 
 phObserver.observe(section);
+
+
+/* ===== STATS COUNT ANIMATION ===== */
+
+const statsSection = document.querySelector('.stats');
+const counters = document.querySelectorAll('.stat h2');
+
+function startCount(){
+
+  counters.forEach(counter => {
+
+    const target = +counter.getAttribute('data-count');
+
+    let count = 0;
+
+    const speed = target / 100;   // smaller = slower
+
+    const update = () => {
+
+      count += speed;
+
+      if(count < target){
+        counter.innerText = Math.floor(count);
+        requestAnimationFrame(update);
+      }
+      else{
+
+        // format 10k style
+        if(target >= 1000){
+          counter.innerText = (target/1000) + "k";
+        }else{
+          counter.innerText = target;
+        }
+
+      }
+
+    };
+
+    update();
+
+  });
+
+}
+
+
+/* observer */
+const statObserver = new IntersectionObserver((entries)=>{
+
+ entries.forEach(e=>{
+
+   if(e.isIntersecting){
+
+     statsSection.classList.add('show');
+
+     startCount();
+
+   }
+
+ });
+
+},{ threshold:0.3 });
+
+statObserver.observe(statsSection);
+
+/* ===== ARTISAN CARD ANIMATION ===== */
+
+const cards = document.querySelectorAll('.art-card');
+
+const cardObserver = new IntersectionObserver((entries)=>{
+
+  entries.forEach(entry=>{
+
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+
+  });
+
+},{ threshold:0.25 });
+
+cards.forEach(c => cardObserver.observe(c));
+
+/* ===== TESTIMONIAL ANIMATION ===== */
+
+const testCards = document.querySelectorAll('.test-card');
+
+const testObserver = new IntersectionObserver((entries)=>{
+
+ entries.forEach(entry=>{
+
+   if(entry.isIntersecting){
+     entry.target.classList.add('show');
+   }
+
+ });
+
+},{ threshold:0.25 });
+
+testCards.forEach(c => testObserver.observe(c));
+
+/* ===== FOOTER ANIMATION ===== */
+
+const footer = document.querySelector('.footer');
+
+const footObs = new IntersectionObserver((e)=>{
+
+  e.forEach(x=>{
+    if(x.isIntersecting){
+      footer.classList.add('show');
+    }
+  });
+
+},{ threshold:0.2 });
+
+footObs.observe(footer);
+
+
 
 </script>
 
