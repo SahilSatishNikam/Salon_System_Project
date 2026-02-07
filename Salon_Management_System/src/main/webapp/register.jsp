@@ -8,164 +8,155 @@
 
 <style>
 
-/* ===== NAVBAR (SAME AS YOUR IMAGE) ===== */
-.navbar{
-    background:#000;
-    padding:10px 40px;
-    border-bottom:1px solid rgba(201,162,39,.3);
-}
-
-.navbar-brand{
-    color:white;
-    font-weight:bold;
-    font-size:20px;
-}
-
-.navbar-brand span{
-    color:#c9a227;
-}
-
-.nav-link{
-    color:white !important;
-    margin-right:18px;
-}
-
-.nav-link:hover{
-    color:#c9a227 !important;
-}
-
-.login-btn{
-    border:1px solid white;
-    color:white;
-    border-radius:20px;
-    padding:5px 18px;
-    text-decoration:none;
-    margin-right:10px;
-}
-
-.register-btn{
-    background:#c9a227;
-    color:black;
-    border-radius:20px;
-    padding:5px 18px;
-    text-decoration:none;
-}
-
-/* ===== PAGE CENTER ===== */
+/* ===== GLOBAL ===== */
 body{
-    background:#0f1720;
-    color:white;
+    min-height:100vh;
+    margin:0;
+    background:
+      linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+      url("https://wallpapers.com/images/hd/luxurious-aesthetic-hair-salon-fouu8bx77gcoygos.jpg");
+    background-size:cover;
+    background-position:center;
+    font-family:'Poppins',sans-serif;
+    color:#e6d38a;
 }
 
+/* ===== NAVBAR ===== */
+/* ===== NAVBAR ===== */
+        .navbar{
+            padding:18px 60px;
+            background:rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+        }
+        .navbar-brand{
+            font-size:24px;
+            font-weight:600;
+            color:#e5c66d;
+            letter-spacing:1px;
+        }
+        .navbar-brand span{
+            color:#f0d14a;
+        }
+        .nav-link{
+            color:#d6c17c !important;
+            margin:0 10px;
+        }
+        .nav-link:hover{
+            color:#f0d14a !important;
+        }
+
+        .login-btn,.register-btn{
+            padding:8px 18px;
+            border-radius:20px;
+            text-decoration:none;
+            margin-left:10px;
+            font-weight:500;
+            color:#000
+        }
+        .login-btn{
+            border:1px solid #e5c66d;
+            color:#e5c66d;
+        }
+        .register-btn{
+            background:linear-gradient(135deg,#f0d14a,#c9a227);
+            box-shadow:0 0 15px rgba(229,198,109,0.7);
+        }
+
+/* ===== CENTER WRAPPER ===== */
 .page-wrapper{
-    min-height:88vh;
+    min-height:85vh;
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:80px 20px;   /* 👈 ADDED: space from top & bottom */
 }
 
-/* ===== ANIMATED GOLD CARD ===== */
+
+/* ===== GLASS CARD ===== */
 .card{
-    background:#0b1118;
-    border-radius:22px;
-    position:relative;
-    overflow:hidden;
+    width:100%;
+    max-width:520px;
+    background:rgba(20,20,20,.78);
+    border-radius:26px;
+    padding:40px;
+    box-shadow:0 0 35px rgba(229,198,109,.25);
+    border:1px solid rgba(229,198,109,.35);
+    backdrop-filter:blur(18px);
 }
 
-/* MOVING GOLD LINE */
-.card::before{
-    content:'';
-    position:absolute;
-    top:-50%;
-    left:-50%;
-    width:200%;
-    height:200%;
-
-    background:linear-gradient(
-        60deg,
-        transparent,
-        #c9a227,
-        transparent
-    );
-
-    animation:rotate 5s linear infinite;
+/* ===== HEADINGS ===== */
+.title-text{
+    color:#f0d14a;
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+.subtitle{
+    color:#cfcfcf;
+    font-size:14px;
+    margin-bottom:30px;
 }
 
-@keyframes rotate{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
-}
-
-/* inner cover */
-.card::after{
-    content:'';
-    position:absolute;
-    inset:3px;
-    background:#0b1118;
-    border-radius:20px;
-}
-
-/* keep content above */
-.card *{
-    position:relative;
-    z-index:2;
-}
-
-/* ===== FORM ===== */
-.form-control{
-    background:#10171f !important;
-    border:1px solid #1c2a38;
-    color:white !important;
-}
-
-.form-control:focus{
-    border-color:#c9a227;
-    box-shadow:0 0 8px rgba(201,162,39,.6);
-}
-
+/* ===== LABELS ===== */
 label{
-    color:#c9a227;
-    font-size:15px;
+    color:#e6d38a;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+/* ===== INPUTS ===== */
+.form-control{
+    background:rgba(0,0,0,.55)!important;
+    border:1px solid rgba(255,215,100,.25);
+    color:#fff!important;
+    border-radius:14px;
+    padding:12px 14px;
+}
+.form-control::placeholder{
+    color:#aaa;
+}
+.form-control:focus{
+    border-color:#f0d14a;
+    box-shadow:0 0 10px rgba(240,209,74,.6);
+    background:rgba(0,0,0,.65)!important;
 }
 
 /* ===== BUTTON ===== */
 .btn-success{
-    background:#c9a227;
+    background:linear-gradient(135deg,#ffd84d,#e6b82e);
     border:none;
-
-    color:black !important;
-    font-weight:bold;
+    border-radius:30px;
+    padding:14px;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:1px;
+    color:#000!important;
+    transition:.3s;
 }
-
 .btn-success:hover{
-    background:#e6b82e;
-    box-shadow:0 0 12px #c9a227;
+    box-shadow:0 0 22px rgba(240,209,74,.8);
+    transform:translateY(-1px);
 }
 
-/* ===== CLEAR TEXT FIX ===== */
-.title-text{
-    color:white;
-    font-weight:bold;
-}
-
+/* ===== BOTTOM TEXT ===== */
 .bottom-text{
-    color:white;
+    color:#cfcfcf;
     font-size:14px;
 }
-
 .bottom-text a{
-    color:#c9a227 !important;
-    font-weight:bold;
+    color:#f0d14a!important;
+    font-weight:600;
+    text-decoration:none;
 }
 
 /* ===== FOOTER ===== */
 .footer{
-    background:#000;
-    color:#aaa;
     text-align:center;
-    padding:10px;
-    border-top:1px solid rgba(201,162,39,.3);
+    padding:14px;
     font-size:13px;
+    color:#999;
+    border-top:1px solid rgba(255,215,100,.25);
+    background:rgba(0,0,0,.65);
 }
 
 </style>
