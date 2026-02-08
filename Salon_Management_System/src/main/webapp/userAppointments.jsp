@@ -9,16 +9,21 @@ List<Appointment> completed =
 (List<Appointment>) request.getAttribute("completedAppointments");
 %>
 
+<!DOCTYPE html>
 <html>
 <head>
 <title>User Appointments</title>
 
+<!-- ICON CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <style>
 body{
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background:#f4f6f9;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#111;
     margin:0;
     padding:0;
+    color:#f5f5f5;
 }
 
 .container{
@@ -27,19 +32,27 @@ body{
     margin:30px auto;
 }
 
-h2{
-    background:#6c63ff;
-    color:white;
-    padding:12px 20px;
+/* CENTER HEADING WITH ICON */
+.section-title{
+    background:#000;
+    color:#d4af37;
+    padding:14px 20px;
     border-radius:8px 8px 0 0;
     margin-bottom:0;
+    border-bottom:2px solid #d4af37;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    letter-spacing:0.5px;
 }
 
 .card{
-    background:white;
+    background:#1a1a1a;
     padding:20px;
     border-radius:0 0 10px 10px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    box-shadow:0 4px 12px rgba(212,175,55,0.15);
     margin-bottom:30px;
 }
 
@@ -49,31 +62,44 @@ table{
 }
 
 th{
-    background:#6c63ff;
-    color:white;
+    background:#000;
+    color:#d4af37;
     padding:12px;
     text-align:left;
+    border-bottom:1px solid #333;
 }
 
 td{
     padding:12px;
-    border-bottom:1px solid #eee;
+    border-bottom:1px solid #333;
+    color:#eee;
 }
 
 tr:hover{
-    background:#f9f9ff;
+    background:#222;
 }
 
 .status{
     font-weight:bold;
-    padding:5px 10px;
+    padding:5px 12px;
     border-radius:20px;
     font-size:13px;
 }
 
-.status.confirmed{ background:#e6f7ee; color:#1a7f4b;}
-.status.cancelled{ background:#ffeaea; color:#d11a2a;}
-.status.completed{ background:#e8f0ff; color:#2a4dff;}
+.status.confirmed{
+    background:rgba(212,175,55,0.15);
+    color:#d4af37;
+}
+
+.status.cancelled{
+    background:#2a0000;
+    color:#ff6b6b;
+}
+
+.status.completed{
+    background:#1c1c1c;
+    color:#d4af37;
+}
 
 .btn{
     padding:7px 14px;
@@ -85,34 +111,37 @@ tr:hover{
 }
 
 .cancel-btn{
-    background:#ff4d4d;
-    color:white;
+    background:#8b0000;
+    color:#fff;
 }
 
 .cancel-btn:hover{
-    background:#e60000;
+    background:#b30000;
 }
 
 .reschedule-btn{
-    background:#00b894;
-    color:white;
+    background:#d4af37;
+    color:#000;
+    font-weight:600;
 }
 
 .reschedule-btn:hover{
-    background:#019875;
+    background:#c9a227;
 }
 
 input[type="date"],
 input[type="time"]{
     padding:6px;
-    border:1px solid #ccc;
+    border:1px solid #444;
     border-radius:5px;
+    background:#000;
+    color:#d4af37;
     margin-right:5px;
 }
 
 .empty{
     text-align:center;
-    color:#888;
+    color:#aaa;
     padding:20px;
 }
 
@@ -120,15 +149,12 @@ input[type="time"]{
     table, thead, tbody, th, td, tr{
         display:block;
     }
-    th{
-        display:none;
-    }
+    th{ display:none; }
     tr{
         margin-bottom:15px;
-        background:white;
+        background:#1a1a1a;
         padding:10px;
         border-radius:8px;
-        box-shadow:0 2px 5px rgba(0,0,0,0.05);
     }
     td{
         border:none;
@@ -142,10 +168,13 @@ input[type="time"]{
 
 <div class="container">
 
-<!-- Upcoming -->
-<h2>Upcoming Appointments</h2>
-<div class="card">
+<!-- UPCOMING -->
+<div class="section-title">
+    <i class="fa-solid fa-calendar-check"></i>
+    Upcoming Appointments
+</div>
 
+<div class="card">
 <table>
 <tr>
 <th>Service</th>
@@ -158,7 +187,9 @@ input[type="time"]{
 <%
 if(upcoming==null || upcoming.isEmpty()){
 %>
-<tr><td colspan="5" class="empty">No upcoming appointments</td></tr>
+<tr>
+<td colspan="5" class="empty">No upcoming appointments</td>
+</tr>
 <%
 }else{
 for(Appointment a: upcoming){
@@ -169,13 +200,9 @@ String status = a.getStatus().toLowerCase();
 <td><%=a.getServiceName()%></td>
 <td><%=a.getAppointmentDate()%></td>
 <td><%=a.getAppointmentTime()%></td>
-
 <td>
-<span class="status <%=status%>">
-<%=a.getStatus()%>
-</span>
+<span class="status <%=status%>"><%=a.getStatus()%></span>
 </td>
-
 <td>
 
 <form method="post" action="controller/UserAppointmentServlet" style="display:inline;">
@@ -196,16 +223,17 @@ String status = a.getStatus().toLowerCase();
 </td>
 </tr>
 
-<% }} %>
+<% } } %>
 </table>
-
 </div>
 
+<!-- COMPLETED -->
+<div class="section-title">
+    <i class="fa-solid fa-clock-rotate-left"></i>
+    Completed / Cancelled
+</div>
 
-<!-- Completed -->
-<h2>Completed / Cancelled</h2>
 <div class="card">
-
 <table>
 <tr>
 <th>Service</th>
@@ -217,7 +245,9 @@ String status = a.getStatus().toLowerCase();
 <%
 if(completed==null || completed.isEmpty()){
 %>
-<tr><td colspan="4" class="empty">No history</td></tr>
+<tr>
+<td colspan="4" class="empty">No history</td>
+</tr>
 <%
 }else{
 for(Appointment a: completed){
@@ -229,17 +259,14 @@ String status = a.getStatus().toLowerCase();
 <td><%=a.getAppointmentDate()%></td>
 <td><%=a.getAppointmentTime()%></td>
 <td>
-<span class="status <%=status%>">
-<%=a.getStatus()%>
-</span>
+<span class="status <%=status%>"><%=a.getStatus()%></span>
 </td>
 </tr>
 
-<% }} %>
+<% } } %>
 </table>
-
-</div>
 </div>
 
+</div>
 </body>
 </html>
