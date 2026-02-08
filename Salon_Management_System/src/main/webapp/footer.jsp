@@ -6,11 +6,15 @@
 <meta charset="UTF-8">
 <title>footer</title>
 <style>
+
+/* ===== FOOTER ===== */
 .luxury-footer{
     background:linear-gradient(180deg,#000,#0b0b0b);
     color:#e6e6e6;
     padding:60px 8% 20px;
-    font-family:'Poppins',sans-serif;
+
+    /* FONT CHANGE ONLY */
+    font-family:"Times New Roman", Times, serif;
 }
 
 .footer-container{
@@ -25,6 +29,7 @@
     font-size:20px;
     margin-bottom:18px;
     position:relative;
+    font-family:"Times New Roman", Times, serif;
 }
 
 .footer-box h3::after{
@@ -42,6 +47,7 @@
     line-height:1.8;
     font-size:14px;
     color:#cfcfcf;
+    font-family:"Times New Roman", Times, serif;
 }
 
 /* Links */
@@ -58,6 +64,7 @@
     color:#cfcfcf;
     text-decoration:none;
     transition:.3s;
+    font-family:"Times New Roman", Times, serif;
 }
 
 .footer-box ul li a:hover{
@@ -65,7 +72,7 @@
     padding-left:5px;
 }
 
-/* Icons */
+/* Icons (UNCHANGED) */
 .footer-box i{
     color:#d4af37;
     margin-right:8px;
@@ -84,7 +91,7 @@
     margin-right: 10px;
     border-radius: 50%;
     background: #111;
-    color: #d4af37; /* gold */
+    color: #d4af37;
     font-size: 18px;
     transition: all 0.3s ease;
     border: 1px solid #d4af37;
@@ -105,6 +112,7 @@
     text-align:center;
     font-size:14px;
     color:#aaa;
+    font-family:"Times New Roman", Times, serif;
 }
 
 .footer-bottom span{
@@ -114,13 +122,14 @@
 </style>
 </head>
 <body>
+
 <!-- FOOTER -->
 <footer class="luxury-footer">
     <div class="footer-container">
 
         <!-- About -->
         <div class="footer-box">
-            <h3>Royal Thai Salon</h3>
+            <h3>GoldenGlow</h3>
             <p>
                 Experience elegance, relaxation, and beauty inspired by
                 Thailand’s royal spa culture.
@@ -146,16 +155,16 @@
             <p><i class="fa-solid fa-phone"></i> +91 99999 88888</p>
 
             <div class="footer-social">
-    <a href="https://www.instagram.com/yourpage" target="_blank" title="Instagram">
-        <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.facebook.com/yourpage" target="_blank" title="Facebook">
-        <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="https://wa.me/919999988888" target="_blank" title="WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-</div>
+                <a href="https://www.instagram.com/yourpage" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/yourpage" target="_blank" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://wa.me/919999988888" target="_blank" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
 
         </div>
 
@@ -165,7 +174,6 @@
         © 2026 GoldenGlow Salon Management System | Designed for Luxury <span>❤</span>
     </div>
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

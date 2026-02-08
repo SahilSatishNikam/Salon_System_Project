@@ -3,11 +3,21 @@
 <%@ include file="header.jsp" %>
 
 <style>
+
 /* ===== GLOBAL ===== */
+/* ===== FORCE TIMES NEW ROMAN (TEXT ONLY) ===== */
+body,
+h1, h2, h3, h4, h5, h6,
+p, span, div,
+a, li, ul,
+button, input, textarea {
+    font-family: "Times New Roman", Times, serif !important;
+}
+
 body{
     background:#0b0b0b;
     color:#e6d8a8;
-    font-family:'Playfair Display', serif;
+    font-family: "Times New Roman", Times, serif !important;
     
 }
 
@@ -15,7 +25,7 @@ body{
 .thai-hero{
     background:
         linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
-        url("images/thai-spa.jpg") center/cover no-repeat;
+        url('https://headcurve.com/wp-content/uploads/2018/12/hair-salon-interior-design-dec12-00022.jpg');
     padding:120px 20px ;
     margin-top:100px;
    
@@ -31,6 +41,7 @@ body{
 .luxury-subtitle{
     font-size:18px;
     color:#f5e6b0;
+    font-family: "Times New Roman", Times, serif !important;
 }
 
 /* ===== BUTTON ===== */
@@ -395,7 +406,7 @@ body{
     padding:0 8%;
     background:#111;
     color:#fff;
-     background-image:url("images/salon1.jpg"); /* change image */
+     background-image:url("https://i.pinimg.com/originals/38/f1/e3/38f1e34c2b7ead76312ef69a9f4d8472.jpg"); /* change image */
     background-size:cover;
     background-position:center;
 }
