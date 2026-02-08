@@ -8,16 +8,19 @@
 
     <style>
         body{
-            min-height:100vh;
-            margin:0;
-            background:
-                linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
-                url('https://i.pinimg.com/originals/c2/89/3e/c2893e9a4eb9d576c6f6f21c4e95e95a.jpg');
-            background-size:cover;
-            background-position:center;
-            font-family:'Poppins', sans-serif;
-            color:#e5c66d;
-        }
+    min-height:100vh;
+    margin:0;
+    background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+        url('https://i.pinimg.com/originals/c2/89/3e/c2893e9a4eb9d576c6f6f21c4e95e95a.jpg');
+    background-size:cover;
+    background-position:center;
+    font-family: "Times New Roman", Times, serif;
+    font-size:17px;   /* 👈 added */
+    color:#e5c66d;
+}
+
+
 
         /* ===== NAVBAR ===== */
         .navbar{
@@ -70,26 +73,30 @@
             border:1px solid rgba(229,198,109,0.25);
         }
 
-        .card h3{
-            text-align:center;
-            color:#f0d14a;
-            font-weight:600;
-            margin-bottom:25px;
-        }
+       .card h3{
+    text-align:center;
+    color:#f0d14a;
+    font-weight:600;
+    margin-bottom:25px;
+    font-size:26px;   /* 👈 increased */
+}
 
-        label{
-            color:#d6c17c;
-            font-size:14px;
-            margin-bottom:6px;
-        }
 
-        .form-control{
-            background:#111;
-            border:1px solid #333;
-            color:#f5e6b0;
-            border-radius:12px;
-            padding:12px;
-        }
+       label{
+    color:#d6c17c;
+    font-size:16px;   /* 👈 increased */
+    margin-bottom:6px;
+}
+
+.form-control{
+    background:#111;
+    border:1px solid #333;
+    color:#f5e6b0;
+    border-radius:12px;
+    padding:14px;     /* 👈 more space */
+    font-size:16px;   /* 👈 increased */
+}
+
         .form-control::placeholder{
             color:#888;
         }
@@ -102,15 +109,17 @@
 
         /* ===== BUTTON ===== */
         .btn-primary{
-            background:linear-gradient(135deg,#f0d14a,#c9a227);
-            border:none;
-            color:#000;
-            font-weight:600;
-            padding:12px;
-            border-radius:25px;
-            letter-spacing:1px;
-            transition:0.3s;
-        }
+    background:linear-gradient(135deg,#f0d14a,#c9a227);
+    border:none;
+    color:#000;
+    font-weight:600;
+    padding:14px;
+    border-radius:25px;
+    letter-spacing:1px;
+    font-size:17px;   /* 👈 increased */
+    transition:0.3s;
+}
+
         .btn-primary:hover{
             background:linear-gradient(135deg,#ffd84d,#e5c66d);
             box-shadow:0 0 15px rgba(229,198,109,0.7);
