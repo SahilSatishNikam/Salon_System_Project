@@ -13,6 +13,7 @@ import jakarta.servlet.http.*;
 import model.Appointment;
 import model.User;
 import model.EmailUtil;
+import model.Therapist;
 
 @WebServlet("/AppointmentServlet")
 public class AppointmentsServlet extends HttpServlet {
@@ -51,7 +52,9 @@ public class AppointmentsServlet extends HttpServlet {
             if (booked) {
                 // Send email confirmation
                 String serviceName = new ServiceDAO().getServiceById(serviceId).getName();
-                String therapistName = new TherapistDAO().getTherapistById(therapistId).getName();
+                Therapist therapist = (Therapist) session.getAttribute("therapist");
+                String therapistName = therapist.getName();
+
 
                 String subject = "Appointment Confirmed - Luxury Salon";
                 String body = "Hi " + user.getName() + ",\n\n"

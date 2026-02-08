@@ -12,35 +12,28 @@ import model.Appointment;
 @WebServlet("/AdminAppointmentServlet")
 public class AdminAppointmentServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+private AppointmentDAO dao = new AppointmentDAO();
 
-        try {
-            AppointmentDAO dao = new AppointmentDAO();
-            List<Appointment> appointments = dao.getAll();
-            req.setAttribute("appointments", appointments);
-            req.getRequestDispatcher("adminAppointments.jsp").forward(req, resp);
+// LOAD PAGE (when you open URL in browser)
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.sendRedirect("error.jsp");
-        }
-    }
+    List<Appointment> list = dao.getAllAppointments();
+    request.setAttribute("appointments", list);
+    request.getRequestDispatcher("adminAppointments.jsp")
+           .forward(request, response);
+}
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String action = req.getParameter("action");
-        int appointmentId = Integer.parseInt(req.getParameter("appointmentId"));
-        String status = req.getParameter("status");
+// UPDATE STATUS (when form submitted)
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        try {
-            AppointmentDAO dao = new AppointmentDAO();
-            dao.updateStatus(appointmentId, status); // Admin can override status
-            resp.sendRedirect("AdminAppointmentServlet");
+    int id = Integer.parseInt(request.getParameter("appointmentId"));
+    String status = request.getParameter("status");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.sendRedirect("error.jsp");
-        }
-    }
+    dao.updateAppointmentStatus(id, status);
+
+    response.sendRedirect("AdminAppointmentServlet");
+}
+
 }

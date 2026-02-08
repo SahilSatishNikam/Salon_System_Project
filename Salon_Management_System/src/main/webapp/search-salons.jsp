@@ -1,3 +1,5 @@
+
+
 <%@ page import="java.util.*, dao.SalonDAO, dao.ServiceDAO, model.Salon, model.Service" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -74,7 +76,8 @@ try {
             <p><strong>Location:</strong> <%= s.getAddress() %></p>
             <p><strong>Email:</strong> <%= s.getEmail() %> | <strong>Phone:</strong> <%= s.getPhone() %></p>
             <!-- FIXED: use servlet for Book Now -->
-            <a href="BookAppointmentServlet?salonId=<%=s.getId()%>">Book Now</a>
+            <a href="<%= request.getContextPath() %>/book-appointment?salonId=<%= s.getId() %>">Book Now</a>
+            
             <a href="salon-details.jsp?salonId=<%=s.getId()%>">Explore Details</a>
         </div>
     </div>

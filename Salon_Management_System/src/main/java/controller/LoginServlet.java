@@ -8,7 +8,6 @@ import java.io.IOException;
 import dao.AdminDAO;
 import dao.TherapistDAO;
 import dao.UserDAO;
-
 import model.Admin;
 import model.Therapist;
 import model.User;
@@ -25,39 +24,56 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = req.getSession();
 
-            // ✅ ADMIN LOGIN
+            // ===== Admin Login =====
             Admin admin = new AdminDAO().login(email, password);
             if (admin != null) {
-                session.setAttribute("admin", admin);
+                System.out.println("Admin login successful: " + admin.getName());
                 session.setAttribute("role", "admin");
+                session.setAttribute("admin", admin);
                 resp.sendRedirect("dashboard.jsp");
                 return;
             }
 
-            // ✅ THERAPIST LOGIN (only Approved)
+            // ===== Therapist Login =====
             Therapist therapist = new TherapistDAO().login(email, password);
+            System.out.println("Therapist login attempt: " + email + ", therapist object: " + therapist);
+
             if (therapist != null) {
-                if (!"Approved".equalsIgnoreCase(therapist.getStatus())) {
-                    resp.sendRedirect("login.jsp?error=Therapist not approved yet");
+
+                // Extra safety check
+                if (!"Active".equalsIgnoreCase(therapist.getStatus())) {
+                    System.out.println("Therapist inactive: " + therapist.getName());
+                    resp.sendRedirect("login.jsp?error=Therapist+is+inactive");
                     return;
                 }
-                session.setAttribute("therapist", therapist);
+
+                if (therapist.getApproved() != 1) {
+                    System.out.println("Therapist not approved: " + therapist.getName());
+                    resp.sendRedirect("login.jsp?error=Therapist+not+approved");
+                    return;
+                }
+
                 session.setAttribute("role", "therapist");
-                resp.sendRedirect("therapist-dashboard.jsp");
+                session.setAttribute("therapist", therapist);
+                System.out.println("Therapist login successful: " + therapist.getName());
+
+                resp.sendRedirect("TherapistDashboardServlet");
                 return;
             }
 
-            // ✅ USER LOGIN
+            // ===== User Login =====
             User user = new UserDAO().login(email, password);
             if (user != null) {
-                session.setAttribute("user", user);
+                System.out.println("User login successful: " + user.getName());
                 session.setAttribute("role", "user");
+                session.setAttribute("user", user);
                 resp.sendRedirect("user-dashboard.jsp");
                 return;
             }
 
-            // ❌ INVALID LOGIN
-            resp.sendRedirect("login.jsp?error=Invalid Email or Password");
+            // ===== Invalid Login =====
+            System.out.println("Login failed for email: " + email);
+            resp.sendRedirect("login.jsp?error=Invalid+Email+or+Password");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,7 +20,7 @@ int pendingFeedback = 0;
 try{
     upcoming = appointmentDAO.getUpcomingAppointments(userId);
     completed = appointmentDAO.getCompletedAppointments(userId);
-    pendingFeedback = appointmentDAO.getPendingFeedbackCount(userId);
+   
 }catch(Exception e){
     out.println("<p style='color:red'>Error: "+e.getMessage()+"</p>");
 }

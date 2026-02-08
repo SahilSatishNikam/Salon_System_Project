@@ -10,15 +10,19 @@ public class Appointment {
     private int therapistId;
     private int salonId;
     private String serviceName;
-
     private Date appointmentDate;
     private Time appointmentTime;
-
     private String status;
-    private boolean feedbackGiven;
 
-    // -------- GETTERS & SETTERS --------
+    // dashboard display fields
+    private String customerName;
+    private String phone;
+    private String date;
+    private String time;
+    private String service;
 
+    private String therapistDecision; // PENDING / COMPLETED / CANCELLED
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -43,6 +47,24 @@ public class Appointment {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public boolean isFeedbackGiven() { return feedbackGiven; }
-    public void setFeedbackGiven(boolean feedbackGiven) { this.feedbackGiven = feedbackGiven; }
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
+
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
+
+    public String getService() { return service; }
+    public void setService(String service) { this.service = service; }
+    
+    public String getTherapistDecision() { return therapistDecision; }
+    public void setTherapistDecision(String therapistDecision) {
+        this.therapistDecision = therapistDecision;
+    }
+
 }

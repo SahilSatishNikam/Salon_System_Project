@@ -7,8 +7,11 @@ import util.DBConnection;
 
 public class ServiceDAO {
 
-    // ✅ Add a service to a specific salon
     public boolean addService(Service s) throws Exception {
+        if (s.getSalonId() <= 0) {
+            throw new IllegalArgumentException("Invalid salon id");
+        }
+
         String sql = "INSERT INTO services (name, description, price, duration_minutes, salon_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
@@ -24,44 +27,55 @@ public class ServiceDAO {
         }
     }
 
-    // ✅ Get all services for a particular salon
     public List<Service> getServicesBySalon(int salonId) throws Exception {
         List<Service> list = new ArrayList<>();
-        String sql = "SELECT * FROM services WHERE salon_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM services WHERE salon_id=? ORDER BY created_at DESC";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, salonId);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Service s = new Service();
-                    s.setId(rs.getInt("id"));
-                    s.setName(rs.getString("name"));
-                    s.setDescription(rs.getString("description"));
-                    s.setPrice(rs.getDouble("price"));
-                    s.setDurationMinutes(rs.getInt("duration_minutes"));
-                    s.setSalonId(rs.getInt("salon_id"));
-                    list.add(s);
-                }
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Service s = new Service();
+                s.setId(rs.getInt("id"));
+                s.setSalonId(rs.getInt("salon_id"));
+                s.setName(rs.getString("name"));
+                s.setDescription(rs.getString("description"));
+                s.setPrice(rs.getDouble("price"));
+                s.setDurationMinutes(rs.getInt("duration_minutes"));
+                s.setCreatedAt(rs.getTimestamp("created_at"));
+                list.add(s);
             }
         }
         return list;
     }
 
-    // ✅ Delete a service (admin)
     public boolean deleteService(int serviceId) throws Exception {
-        String sql = "DELETE FROM services WHERE id=?";
+        try (Connection con = DBConnection.getConnection()) {
+            con.setAutoCommit(false);
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+            try (PreparedStatement ps1 = con.prepareStatement(
+                         "DELETE FROM appointments WHERE service_id=?");
+                 PreparedStatement ps2 = con.prepareStatement(
+                         "DELETE FROM services WHERE id=?")) {
 
-            ps.setInt(1, serviceId);
-            return ps.executeUpdate() > 0;
+                ps1.setInt(1, serviceId);
+                ps1.executeUpdate();
+
+                ps2.setInt(1, serviceId);
+                int rows = ps2.executeUpdate();
+
+                con.commit();
+                return rows > 0;
+            } catch (Exception e) {
+                con.rollback();
+                throw e;
+            }
         }
     }
 
-    // ✅ Get service by id (for booking page)
     public Service getServiceById(int id) throws Exception {
         String sql = "SELECT * FROM services WHERE id=?";
 
@@ -78,15 +92,17 @@ public class ServiceDAO {
                     s.setPrice(rs.getDouble("price"));
                     s.setDurationMinutes(rs.getInt("duration_minutes"));
                     s.setSalonId(rs.getInt("salon_id"));
+                    s.setCreatedAt(rs.getTimestamp("created_at"));
                     return s;
                 }
             }
         }
         return null;
     }
-    
+
     public boolean updateService(Service s) throws Exception {
         String sql = "UPDATE services SET name=?, description=?, price=?, duration_minutes=? WHERE id=?";
+
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -99,5 +115,4 @@ public class ServiceDAO {
             return ps.executeUpdate() > 0;
         }
     }
-
 }

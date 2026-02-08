@@ -1,40 +1,61 @@
-
-
 package controller;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
 
 import dao.SalonDAO;
+import dao.ServiceDAO;
 import model.Salon;
 
-@WebServlet("/SearchSalonServlet")
+@WebServlet("/search-salons")
 public class SearchSalonServlet extends HttpServlet {
 
- @Override
- protected void doGet(HttpServletRequest req,
- HttpServletResponse res)
- throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
-  String name = req.getParameter("name");
-  String loc  = req.getParameter("location");
+        String name = req.getParameter("name");
+        String location = req.getParameter("location");
 
-  if(name == null) name="";
-  if(loc == null) loc="";
+        try {
+            SalonDAO salonDAO = new SalonDAO();
+            ServiceDAO serviceDAO = new ServiceDAO();
 
-  SalonDAO dao = new SalonDAO();
+            // Fetch all salons or search
+            List<Salon> salons;
+            boolean searched = (name != null && !name.trim().isEmpty())
+                    || (location != null && !location.trim().isEmpty());
 
-  List<Salon> result =
-   dao.searchByNameLocation(name, loc);
+            if (searched) {
+                salons = salonDAO.searchSalons(name, location, null);
+            } else {
+                salons = salonDAO.getAllSalons();
+            }
 
-  req.setAttribute("list", result);
+            // Only approved salons
+            salons = salons.stream()
+                    .filter(s -> "Approved".equals(s.getStatus()))
+                    .collect(Collectors.toList());
 
-  RequestDispatcher rd =
-   req.getRequestDispatcher("search-salons.jsp");
+            // Populate services
+            for (Salon s : salons) {
+                s.setServices(serviceDAO.getServicesBySalon(s.getId()));
+            }
 
-  rd.forward(req, res);
- }
+            req.setAttribute("salons", salons);
+            req.setAttribute("searchName", name);
+            req.setAttribute("searchLocation", location);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("error", "Error fetching salons: " + e.getMessage());
+        }
+
+        RequestDispatcher rd = req.getRequestDispatcher("search-salons.jsp");
+        rd.forward(req, resp);
+    }
 }

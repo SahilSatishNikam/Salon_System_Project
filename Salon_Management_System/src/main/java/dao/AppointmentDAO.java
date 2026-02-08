@@ -1,260 +1,380 @@
 package dao;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import util.DBConnection;
+import java.util.*;
 import model.Appointment;
+import util.DBConnection;
 
 public class AppointmentDAO {
 
-    // ---------------- Book a new appointment ----------------
-    public boolean bookAppointment(Appointment a) throws Exception {
-        String sql = "INSERT INTO appointments(user_id, therapist_id, salon_id, service_name, appointment_date, appointment_time, status, feedback_given) VALUES(?,?,?,?,?,?,?,?)";
+    // ===============================
+    // BOOK APPOINTMENT (USER)
+    // ===============================
+    public boolean bookAppointment(Appointment appt) {
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        String sql = """
+            INSERT INTO appointments
+            (user_id, therapist_id, salon_id, service_name,
+             appointment_date, appointment_time, status, therapist_decision)
+            VALUES (?,?,?,?,?,?, 'BOOKED','PENDING')
+        """;
 
-            ps.setInt(1, a.getUserId());
-            ps.setInt(2, a.getTherapistId());
-            ps.setInt(3, a.getSalonId());
-            ps.setString(4, a.getServiceName());
-            ps.setDate(5, a.getAppointmentDate());
-            ps.setTime(6, a.getAppointmentTime());
-            ps.setString(7, a.getStatus() != null ? a.getStatus() : "Booked");
-            ps.setBoolean(8, a.isFeedbackGiven());
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, appt.getUserId());
+            ps.setInt(2, appt.getTherapistId());
+            ps.setInt(3, appt.getSalonId());
+            ps.setString(4, appt.getServiceName());
+            ps.setDate(5, appt.getAppointmentDate());
+            ps.setTime(6, appt.getAppointmentTime());
 
             return ps.executeUpdate() > 0;
-        }
-    }
 
-    // ---------------- Upcoming Appointments ----------------
-    public List<Appointment> getUpcomingAppointments(int userId) throws Exception {
-        List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT * FROM appointments WHERE user_id=? AND appointment_date >= CURDATE() AND status='Booked' ORDER BY appointment_date, appointment_time";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapRow(rs));
-            }
-        }
-        return list;
-    }
-
-    // ---------------- Completed Appointments ----------------
-    public List<Appointment> getCompletedAppointments(int userId) throws Exception {
-        List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT * FROM appointments WHERE user_id=? AND status='Completed' ORDER BY appointment_date DESC";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapRow(rs));
-            }
-        }
-        return list;
-    }
-
-    // ---------------- Pending Feedback Count ----------------
-    public int getPendingFeedbackCount(int userId) throws Exception {
-        String sql = "SELECT COUNT(*) FROM appointments WHERE user_id=? AND status='Completed' AND feedback_given=false";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        }
-        return 0;
-    }
-
-    // ---------------- All Appointments ----------------
-    public List<Appointment> getAppointmentsByUserId(int userId) throws Exception {
-        List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT * FROM appointments WHERE user_id=? ORDER BY appointment_date DESC";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapRow(rs));
-            }
-        }
-        return list;
-    }
-
-    // ---------------- Get Appointment by ID ----------------
-    public Appointment getAppointmentById(int appointmentId) throws Exception {
-        String sql = "SELECT * FROM appointments WHERE id=?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, appointmentId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return mapRow(rs);
-            }
-        }
-        return null;
-    }
-
-    // ---------------- Cancel Appointment ----------------
-   
-    	public boolean cancelAppointment(int id) {
-    	    boolean status = false;
-
-    	    try (Connection con = DBConnection.getConnection()) {
-
-    	        String sql = "UPDATE appointments SET status='Cancelled' WHERE id=?";
-    	        PreparedStatement ps = con.prepareStatement(sql);
-    	        ps.setInt(1, id);
-
-    	        status = ps.executeUpdate() > 0;
-
-    	    } catch (Exception e) {
-    	        e.printStackTrace();
-    	    }
-
-    	    return status;
-    	}
-
-
-    // ---------------- Reschedule Appointment ----------------
-    public boolean rescheduleAppointment(int appointmentId, LocalDate date, LocalTime time) throws Exception {
-        String sql = "UPDATE appointments SET appointment_date=?, appointment_time=? WHERE id=?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setDate(1, java.sql.Date.valueOf(date));
-            ps.setTime(2, java.sql.Time.valueOf(time));
-            ps.setInt(3, appointmentId);
-            return ps.executeUpdate() > 0;
-        }
-    }
-
-    // ---------------- Mark Appointment Completed & Add Loyalty Points ----------------
-    public boolean markAppointmentCompleted(int appointmentId, int userId) throws Exception {
-        String sql = "UPDATE appointments SET status='Completed' WHERE id=?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, appointmentId);
-            int updated = ps.executeUpdate();
-
-            if (updated > 0) {
-                // ✅ Add loyalty points (10 points per completed appointment)
-                String updatePointsSql = "UPDATE users SET loyalty_points = loyalty_points + 10 WHERE id=?";
-                try (PreparedStatement ps2 = con.prepareStatement(updatePointsSql)) {
-                    ps2.setInt(1, userId);
-                    ps2.executeUpdate();
-                }
-                return true;
-            }
+        } catch(Exception e){
+            e.printStackTrace();
         }
         return false;
     }
 
-    // ---------------- Helper: Map ResultSet row to Appointment ----------------
-    private Appointment mapRow(ResultSet rs) throws SQLException {
-        Appointment appt = new Appointment();
-        appt.setId(rs.getInt("id"));
-        appt.setUserId(rs.getInt("user_id"));
-        appt.setTherapistId(rs.getInt("therapist_id"));
-        appt.setSalonId(rs.getInt("salon_id"));
-        appt.setServiceName(rs.getString("service_name"));
-        appt.setAppointmentDate(rs.getDate("appointment_date"));
-        appt.setAppointmentTime(rs.getTime("appointment_time"));
-        appt.setStatus(rs.getString("status"));
-        appt.setFeedbackGiven(rs.getBoolean("feedback_given"));
-        return appt;
+    // ===============================
+    // ADMIN + THERAPIST UPDATE STATUS
+    // ===============================
+    public boolean updateStatus(int id, String status, String decision) {
+
+        boolean success = false;
+
+        String sql = "UPDATE appointments SET status=?, therapist_decision=? WHERE id=?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setString(1, status);
+            ps.setString(2, decision);
+            ps.setInt(3, id);
+
+            success = ps.executeUpdate() > 0;
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return success;
     }
-    
-    public List<Appointment> getAppointmentHistory(int userId){
+
+    // ===============================
+    // GET ALL APPOINTMENTS (ADMIN)
+    // ===============================
+    public List<Appointment> getAllAppointments() {
 
         List<Appointment> list = new ArrayList<>();
 
-        try{
-            Connection con = DBConnection.getConnection();
+        String sql = """
+            SELECT a.*, 
+                   u.name AS user_name,
+                   t.name AS therapist_name,
+                   s.name AS salon_name
+            FROM appointments a
+            LEFT JOIN users u ON a.user_id = u.id
+            LEFT JOIN therapists t ON a.therapist_id = t.id
+            LEFT JOIN salons s ON a.salon_id = s.id
+            ORDER BY a.id DESC
+        """;
 
-            String sql =
-            "SELECT a.*, s.name AS service_name " +
-            "FROM appointments a " +
-            "JOIN services s ON a.service_id = s.id " +
-            "WHERE a.user_id=? ORDER BY a.appointment_date DESC";
-
+        try(Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, userId);
-
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery()){
 
             while(rs.next()){
-
-                Appointment ap = new Appointment();
-
-                ap.setId(rs.getInt("id"));
-                ap.setUserId(rs.getInt("user_id"));
-                ap.setTherapistId(rs.getInt("therapist_id"));
-                ap.setSalonId(rs.getInt("salon_id"));
-
-                ap.setServiceName(rs.getString("service_name"));
-
-                ap.setAppointmentDate(rs.getDate("appointment_date"));
-                ap.setAppointmentTime(rs.getTime("appointment_time"));
-
-                ap.setStatus(rs.getString("status"));
-                ap.setFeedbackGiven(rs.getBoolean("feedback_given"));
-
-                list.add(ap);
+                Appointment a = mapRow(rs);
+                list.add(a);
             }
 
-        }catch(Exception e){
+        } catch(Exception e){
             e.printStackTrace();
         }
-
         return list;
     }
 
- // ----------- GET ALL APPOINTMENTS (ADMIN PANEL) -----------
-    public List<Appointment> getAll(){
+    // ===============================
+    // THERAPIST APPOINTMENTS
+    // ===============================
+    public List<Appointment> getAppointmentsByTherapist(int therapistId){
 
         List<Appointment> list = new ArrayList<>();
 
-        try{
-            Connection con = DBConnection.getConnection();
+        String sql = """
+            SELECT a.*, u.name AS customer_name
+            FROM appointments a
+            JOIN users u ON a.user_id = u.id
+            WHERE a.therapist_id=?
+            ORDER BY appointment_date, appointment_time
+        """;
 
-            String sql = "SELECT * FROM appointments ORDER BY appointment_date DESC";
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
 
-            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, therapistId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                Appointment a = mapRow(rs);
+                a.setCustomerName(rs.getString("customer_name"));
+                list.add(a);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // ===============================
+    // USER APPOINTMENTS
+    // ===============================
+    public List<Appointment> getAppointmentsByUserId(int userId){
+
+        List<Appointment> list = new ArrayList<>();
+
+        String sql = """
+            SELECT * FROM appointments
+            WHERE user_id=?
+            ORDER BY appointment_date, appointment_time
+        """;
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
                 list.add(mapRow(rs));
             }
 
-        }catch(Exception e){
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // ===============================
+    // COUNTS FOR THERAPIST DASHBOARD
+    // ===============================
+    public int countToday(int therapistId){
+        return count("SELECT COUNT(*) FROM appointments WHERE therapist_id=? AND appointment_date=CURDATE()", therapistId);
+    }
+
+    public int countCompleted(int therapistId){
+        return count("SELECT COUNT(*) FROM appointments WHERE therapist_id=? AND status='COMPLETED'", therapistId);
+    }
+
+    public int countPending(int therapistId){
+        return count("SELECT COUNT(*) FROM appointments WHERE therapist_id=? AND status='BOOKED'", therapistId);
+    }
+
+    private int count(String sql, int therapistId){
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, therapistId);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) return rs.getInt(1);
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // ===============================
+    // CANCEL APPOINTMENT (USER)
+    // ===============================
+    public boolean cancelAppointment(int id){
+
+        String sql = "UPDATE appointments SET status='CANCELLED' WHERE id=?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // ===============================
+    // MAP RESULTSET → OBJECT
+    // ===============================
+    private Appointment mapRow(ResultSet rs) throws SQLException {
+
+        Appointment a = new Appointment();
+
+        a.setId(rs.getInt("id"));
+        a.setUserId(rs.getInt("user_id"));
+        a.setTherapistId(rs.getInt("therapist_id"));
+        a.setSalonId(rs.getInt("salon_id"));
+        a.setServiceName(rs.getString("service_name"));
+        a.setAppointmentDate(rs.getDate("appointment_date"));
+        a.setAppointmentTime(rs.getTime("appointment_time"));
+        a.setStatus(rs.getString("status"));
+        a.setTherapistDecision(rs.getString("therapist_decision"));
+
+        return a;
+    }
+    
+    public List<Appointment> getUpcomingAppointments(int userId){
+
+        List<Appointment> list = new ArrayList<>();
+
+        String sql = """
+            SELECT *
+            FROM appointments
+            WHERE user_id = ?
+            AND (
+                appointment_date > CURDATE()
+                OR (appointment_date = CURDATE()
+                    AND appointment_time >= CURTIME())
+            )
+            ORDER BY appointment_date, appointment_time
+        """;
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                list.add(mapRow(rs));
+            }
+
+        } catch(Exception e){
             e.printStackTrace();
         }
 
         return list;
     }
 
-}
+    public List<Appointment> getCompletedAppointments(int userId){
+
+        List<Appointment> list = new ArrayList<>();
+
+        String sql = """
+            SELECT *
+            FROM appointments
+            WHERE user_id = ?
+            AND status = 'Completed'
+            ORDER BY appointment_date DESC, appointment_time DESC
+        """;
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                list.add(mapRow(rs));
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public int getCompletedAppointmentsByTherapist(int therapistId){
+        int count = 0;
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM appointments WHERE therapist_id=? AND status='COMPLETED'";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, therapistId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) count = rs.getInt(1);
+        }catch(Exception e){ e.printStackTrace(); }
+        return count;
+    }
+
+    public int getPendingAppointmentsByTherapist(int therapistId){
+        int count = 0;
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM appointments WHERE therapist_id=? AND status='BOOKED'";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, therapistId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) count = rs.getInt(1);
+        }catch(Exception e){ e.printStackTrace(); }
+        return count;
+    }
+
+    public int getTotalAppointments() {
+
+        String sql = "SELECT COUNT(*) FROM appointments";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    
+    public boolean updateAppointmentStatus(int id, String status){
+        try{
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(
+                "UPDATE appointments SET status=? WHERE id=?"
+            );
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public void completeAppointment(int id) {
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "UPDATE appointments SET status='COMPLETED', therapist_decision='APPROVED' WHERE id=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public int getTodayAppointmentsByTherapist(int therapistId){
+        int count = 0;
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM appointments WHERE therapist_id=? AND appointment_date = CURDATE()";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, therapistId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) count = rs.getInt(1);
+        }catch(Exception e){ e.printStackTrace(); }
+        return count;
+    }
+
+
+ }
+
 

@@ -72,7 +72,7 @@ public class TherapistDashboardDAO {
                 a.setAppointmentDate(rs.getDate("appointment_date"));
                 a.setAppointmentTime(rs.getTime("appointment_time"));
                 a.setStatus(rs.getString("status"));
-                a.setFeedbackGiven(rs.getBoolean("feedback_given"));
+                
 
                 list.add(a);
             }

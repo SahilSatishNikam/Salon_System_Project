@@ -1,230 +1,205 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="model.Therapist, dao.AppointmentDAO" %>
+
+<%
+Therapist t = (Therapist) session.getAttribute("therapist");
+if(t == null){
+    response.sendRedirect("login.jsp");
+    return;
+}
+
+/* ===== Dashboard Counts ===== */
+AppointmentDAO dao = new AppointmentDAO();
+
+int todayCount = dao.getTodayAppointmentsByTherapist(t.getId());
+int completedCount = dao.getCompletedAppointmentsByTherapist(t.getId());
+int pendingCount = dao.getPendingAppointmentsByTherapist(t.getId());
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Therapist Dashboard</title>
+<title>Therapist Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body{
-            margin:0;
-            font-family:'Segoe UI';
-            background:#000;
-            color:gold;
-            display:flex
-        }
+<style>
+body{
+    background:#0b0b0b;
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+}
 
-        .sidebar{
-            width:220px;
-            height:100vh;
-            background:#111;
-            border-right:2px solid gold
-        }
+.sidebar{
+    height:100vh;
+    background:black;
+    border-right:3px solid gold;
+    padding-top:30px;
+}
 
-        .sidebar a{
-            display:flex;
-            gap:10px;
-            padding:15px 20px;
-            color:gold;
-            text-decoration:none;
-            font-weight:bold
-        }
+.sidebar h3{
+    color:gold;
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:bold;
+}
 
-        .sidebar a:hover{
-            background:gold;
-            color:black
-        }
+.sidebar a{
+    display:block;
+    color:white;
+    padding:15px;
+    text-decoration:none;
+    transition:0.3s;
+}
 
-        .main{
-            flex:1;
-            padding:30px
-        }
+.sidebar a:hover{
+    background:gold;
+    color:black;
+    padding-left:25px;
+}
 
-        /* ================= DASHBOARD CARDS ================= */
+.topbar{
+    background:black;
+    border-bottom:3px solid gold;
+    padding:15px;
+}
 
-        .dashboard-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-            gap:20px
-        }
+.card-box{
+    background:white;
+    color:black;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 0 20px rgba(255,215,0,0.2);
+    transition:0.3s;
+}
 
-        .card-dashboard{
-            background:#111;
-            border:2px solid gold;
-            border-radius:20px;
-            padding:20px;
-            text-align:center;
-            cursor:pointer;
-            transition:all 0.3s ease;
-        }
+.card-box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 30px rgba(255,215,0,0.5);
+}
 
-        /* 🔥 CARD HOVER EFFECT */
-        .card-dashboard:hover{
-            transform:translateY(-10px) scale(1.05);
-            box-shadow:0 15px 30px rgba(255,215,0,0.6);
-            background:linear-gradient(135deg,#111,#222);
-        }
+.gold-btn{
+    background:gold;
+    color:black;
+    font-weight:bold;
+    border:none;
+}
 
-        .card-dashboard i{
-            font-size:28px;
-            margin-bottom:6px;
-            transition:transform 0.3s ease,color 0.3s ease;
-        }
-
-        .card-dashboard:hover i{
-            transform:scale(1.2);
-            color:#ffd700;
-        }
-
-        .card-dashboard h3{
-            font-size:28px;
-            margin:0;
-            transition:text-shadow 0.3s ease;
-        }
-
-        .card-dashboard:hover h3{
-            text-shadow:0 0 10px gold;
-        }
-
-        /* ================= SECTIONS ================= */
-
-        .card-section{
-            background:#111;
-            border:1px solid gold;
-            border-radius:15px;
-            padding:20px;
-            margin-top:30px
-        }
-    </style>
+.gold-btn:hover{
+    background:#e6c200;
+}
+</style>
 </head>
 
 <body>
 
+<div class="container-fluid">
+<div class="row">
+
 <!-- SIDEBAR -->
-<div class="sidebar">
-    <a href="TherapistDashboardServlet"><i class="fa fa-home"></i>Dashboard</a>
-    <a href="#"><i class="fa fa-calendar-check"></i>Appointments</a>
-    <a href="#"><i class="fa fa-clock"></i>Availability</a>
-    <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i>Logout</a>
+<div class="col-md-2 sidebar">
+    <h3>Therapist</h3>
+
+    <a href="therapistDashboard.jsp">🏠 Dashboard</a>
+    <a href="therapistAvailability.jsp">🕒 Set Availability</a>
+    <a href="TherapistAppointmentServlet">📅 Appointments</a>
+    <a href="logoutServlet">🚪 Logout</a>
 </div>
 
-<!-- MAIN CONTENT -->
-<div class="main">
+<!-- MAIN -->
+<div class="col-md-10">
 
-    <h2>Welcome, ${therapistName}</h2>
+    <!-- TOPBAR -->
+    <div class="topbar d-flex justify-content-between align-items-center">
+        <h4 style="color:gold;">Therapist Dashboard</h4>
+        <div>
+            Welcome,
+            <span style="color:gold; font-weight:bold;">
+                <%= t.getName() %>
+            </span>
+        </div>
+    </div>
 
-    <!-- DASHBOARD CARDS -->
-    <div class="dashboard-grid">
+    <div class="container mt-5">
 
-        <div class="card-dashboard">
-            <i class="fa fa-calendar"></i>
-            <h3 class="count" data-count="${totalAppointments}">0</h3>
-            <p>Total</p>
+        <!-- CARDS -->
+        <div class="row g-4">
+
+            <!-- PROFILE -->
+            <div class="col-md-4">
+                <div class="card-box text-center">
+                    <h5 style="color:gold;">👤 Profile</h5>
+                    <hr>
+                    <p><b>Name:</b> <%= t.getName() %></p>
+                    <p><b>Specialty:</b> <%= t.getSpecialty() %></p>
+
+                    <a href="editTherapistProfile.jsp" class="btn gold-btn w-100">
+                        Edit Profile
+                    </a>
+                </div>
+            </div>
+
+            <!-- AVAILABILITY -->
+            <div class="col-md-4">
+                <div class="card-box text-center">
+                    <h5 style="color:gold;">🕒 Availability</h5>
+                    <hr>
+                    <p>Manage your available slots</p>
+
+                    <a href="therapistAvailability.jsp" class="btn gold-btn w-100">
+                        Set Availability
+                    </a>
+                </div>
+            </div>
+
+            <!-- APPOINTMENTS -->
+            <div class="col-md-4">
+                <div class="card-box text-center">
+                    <h5 style="color:gold;">📅 Appointments</h5>
+                    <hr>
+                    <p>View and manage bookings</p>
+
+                    <a href="TherapistAppointmentServlet" class="btn gold-btn w-100">
+                        View Appointments
+                    </a>
+                </div>
+            </div>
+
         </div>
 
-        <div class="card-dashboard">
-            <i class="fa fa-calendar-day"></i>
-            <h3 class="count" data-count="${todayAppointments}">0</h3>
-            <p>Today</p>
-        </div>
+        <!-- SUMMARY -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="card-box">
+                    <h4 style="color:gold;">Today's Summary</h4>
+                    <hr>
 
-        <div class="card-dashboard">
-            <i class="fa fa-check-circle"></i>
-            <h3 class="count" data-count="${completedAppointments}">0</h3>
-            <p>Completed</p>
-        </div>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h2 style="color:gold;"><%= todayCount %></h2>
+                            <p>Today's Appointments</p>
+                        </div>
 
-        <div class="card-dashboard">
-            <i class="fa fa-times-circle"></i>
-            <h3 class="count" data-count="${cancelledAppointments}">0</h3>
-            <p>Cancelled</p>
+                        <div class="col-md-4">
+                            <h2 style="color:gold;"><%= completedCount %></h2>
+                            <p>Completed</p>
+                        </div>
+
+                        <div class="col-md-4">
+                            <h2 style="color:gold;"><%= pendingCount %></h2>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
     </div>
-
-    <!-- APPOINTMENTS TABLE -->
-    <div class="card-section">
-        <h4>My Appointments</h4>
-        <table class="table table-dark table-striped text-center">
-            <tr>
-                <th>Customer</th>
-                <th>Phone</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Service</th>
-                <th>Status</th>
-                <th>Update</th>
-            </tr>
-
-            <c:forEach var="a" items="${appointments}">
-                <tr>
-                    <td>${a.customerName}</td>
-                    <td>${a.phone}</td>
-                    <td>${a.date}</td>
-                    <td>${a.time}</td>
-                    <td>${a.service}</td>
-                    <td>${a.status}</td>
-                    <td>
-                        <form action="UpdateStatusServlet" method="post">
-                            <input type="hidden" name="id" value="${a.id}">
-                            <select name="status" class="form-select">
-                                <option>Confirmed</option>
-                                <option>Completed</option>
-                                <option>Cancelled</option>
-                            </select>
-                            <button class="btn btn-warning btn-sm w-100 mt-1">
-                                Update
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-
-    <!-- AVAILABILITY -->
-    <div class="card-section">
-        <h4>Update Availability</h4>
-        <form action="UpdateAvailabilityServlet" method="post" class="row g-3">
-            <div class="col-md-4">
-                <input type="date" name="date" class="form-control" required>
-            </div>
-            <div class="col-md-4">
-                <input type="time" name="time" class="form-control" required>
-            </div>
-            <div class="col-md-4">
-                <button class="btn btn-warning w-100">Add</button>
-            </div>
-        </form>
-    </div>
-
 </div>
 
-<!-- 🔥 NUMBER COUNT ANIMATION SCRIPT -->
-<script>
-    const counters = document.querySelectorAll('.count');
-
-    counters.forEach(counter => {
-        let target = +counter.getAttribute('data-count');
-        let count = 0;
-        let speed = Math.max(10, target / 40);
-
-        const updateCount = () => {
-            if(count < target){
-                count += speed;
-                counter.innerText = Math.ceil(count);
-                setTimeout(updateCount, 30);
-            } else {
-                counter.innerText = target;
-            }
-        };
-        updateCount();
-    });
-</script>
+</div>
+</div>
 
 </body>
 </html>

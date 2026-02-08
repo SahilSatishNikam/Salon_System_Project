@@ -9,11 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import dao.AdminDAO;
-import dao.TherapistDAO;
 import dao.UserDAO;
-
 import model.Admin;
-import model.Therapist;
 import model.User;
 
 @WebServlet("/RegisterServlet")
@@ -30,6 +27,7 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             if ("admin".equals(role)) {
+
                 Admin admin = new Admin();
                 admin.setName(name);
                 admin.setEmail(email);
@@ -43,6 +41,7 @@ public class RegisterServlet extends HttpServlet {
                 }
 
             } else if ("user".equals(role)) {
+
                 User user = new User();
                 user.setName(name);
                 user.setEmail(email);
@@ -56,29 +55,13 @@ public class RegisterServlet extends HttpServlet {
                     res.sendRedirect("register.jsp?error=Registration Failed");
                 }
 
-            } else if ("therapist".equals(role)) {
-                Therapist t = new Therapist();
-                t.setName(name);
-                t.setEmail(email);
-                t.setPassword(password);
-                t.setPhone(phone);
-                t.setSalonId(0);      // Default: assign later
-                t.setSpecialty("");    // Default empty
-                t.setStatus("Pending"); // Admin approval
-
-                TherapistDAO therapistDAO = new TherapistDAO();
-                if (therapistDAO.registerTherapist(t)) {
-                    res.sendRedirect("login.jsp?msg=Registered as Therapist (Pending Approval)");
-                } else {
-                    res.sendRedirect("register.jsp?error=Registration Failed");
-                }
             } else {
                 res.sendRedirect("register.jsp?error=Invalid Role");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            res.sendRedirect("register.jsp?error=Server+Error");
+            res.sendRedirect("register.jsp?error=Server Error");
         }
     }
 }
