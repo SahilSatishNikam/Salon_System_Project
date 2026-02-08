@@ -1,3 +1,4 @@
+
 <%@ page import="dao.SalonDAO, model.Salon" %>
 <%
 int id = Integer.parseInt(request.getParameter("id"));

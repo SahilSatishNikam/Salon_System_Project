@@ -32,6 +32,16 @@ public class TherapistDashboardServlet extends HttpServlet {
         req.setAttribute("therapistName", therapist.getName());
         req.setAttribute("therapistId", therapist.getId());
 
-        req.getRequestDispatcher("therapistDashboard.jsp").forward(req, resp);
+    private int getCount(Connection con, String sql, int therapistId) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, therapistId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        
+        return 0;
     }
 }
