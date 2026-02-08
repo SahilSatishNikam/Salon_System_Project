@@ -2,28 +2,25 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBConnection {
 
     private static final String URL =
-            "jdbc:mysql://localhost:3306/salon_db?useSSL=false&serverTimezone=UTC";
+            "jdbc:mysql://localhost:3306/salon_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    public static Connection getConnection() {
-        Connection con = null;
-
+    static {
         try {
-            // Load MySQL Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Create connection
-            con = DriverManager.getConnection(URL, USER, PASSWORD);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("MySQL Driver Loaded Successfully");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load MySQL Driver", e);
         }
+    }
 
-        return con;
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

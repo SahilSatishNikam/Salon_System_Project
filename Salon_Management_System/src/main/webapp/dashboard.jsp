@@ -1,181 +1,207 @@
-<%@ page session="true" %>
-
+<%@ page import="java.util.*, model.*, dao.*" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
-String role = (String) session.getAttribute("role");
+    // DAO instances
+    SalonDAO salonDAO = new SalonDAO();
+    AppointmentDAO appointmentDAO = new AppointmentDAO();
+    UserDAO userDAO = new UserDAO();
+    FeedbackDAO feedbackDAO = new FeedbackDAO();
+    AdminDAO adminDAO = new AdminDAO();
 
-if(role == null || !role.equals("admin")){
-    response.sendRedirect("../login.jsp");
-    return;
-}
+    // Initialize counts
+    int totalSalons = 0;
+    int totalAppointments = 0;
+    int totalUsers = 0;
+    int totalFeedback = 0;
+    int pendingSalons = 0, approvedSalons = 0, rejectedSalons = 0;
+    int pendingAdmins = 0, approvedAdmins = 0, rejectedAdmins = 0;
+
+    try {
+        totalSalons = salonDAO.getTotalSalons();
+        totalAppointments = appointmentDAO.getTotalAppointments();
+        totalUsers = userDAO.getTotalUsers();
+        totalFeedback = feedbackDAO.getTotalFeedback();
+
+        List<Salon> allSalons = salonDAO.getAllSalons();
+        pendingSalons = (int) allSalons.stream().filter(s -> "Pending".equals(s.getStatus())).count();
+        approvedSalons = (int) allSalons.stream().filter(s -> "Approved".equals(s.getStatus())).count();
+        rejectedSalons = (int) allSalons.stream().filter(s -> "Rejected".equals(s.getStatus())).count();
+
+        List<Admin> allAdmins = adminDAO.getAllAdmins();
+        pendingAdmins = (int) allAdmins.stream().filter(a -> "Pending".equals(a.getStatus())).count();
+        approvedAdmins = (int) allAdmins.stream().filter(a -> "Approved".equals(a.getStatus())).count();
+        rejectedAdmins = (int) allAdmins.stream().filter(a -> "Rejected".equals(a.getStatus())).count();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Admin Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Page layout */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: #111;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        }
 
-<style>
-body{
- background:linear-gradient(to right,#141e30,#243b55);
- font-family:'Segoe UI';
-}
+        .sidebar h2 {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.sidebar{
- height:100vh;
- background:rgba(0,0,0,0.4);
- backdrop-filter:blur(10px);
- color:white;
-}
+        .sidebar a {
+            display: block;
+            color: #fff;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-.sidebar a{
- color:white;
- text-decoration:none;
- display:block;
- padding:12px;
- border-radius:8px;
- margin-bottom:5px;
-}
+        .sidebar a:hover {
+            background-color: #333;
+            color: #FFD700;
+        }
 
-.sidebar a:hover{
- background:#00c6ff;
- color:black;
-}
+        /* Main content */
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+            width: calc(100% - 220px);
+        }
 
-.topbar{
- background:rgba(255,255,255,0.1);
- backdrop-filter:blur(10px);
- color:white;
- padding:15px;
- border-radius:10px;
-}
+        h1 {
+            background-color: #FFD700;
+            color: #1a1a1a;
+            text-align: center;
+            padding: 25px 0;
+            margin: 0 0 20px 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
 
-.card{
- border:none;
- border-radius:15px;
- transition:0.3s;
-}
+        h2.section-title {
+            color: #FFD700;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+        }
 
-.card:hover{
- transform:scale(1.04);
-}
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 15px auto;
+            background-color: #1a1a1a;
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
 
-.glass{
- background:rgba(255,255,255,0.1);
- backdrop-filter:blur(10px);
- color:white;
-}
-</style>
+        th, td {
+            padding: 12px 20px;
+            text-align: center;
+            border-bottom: 1px solid #FFD700;
+            font-size: 1.1em;
+        }
+
+        th {
+            background-color: #FFD700;
+            color: #1a1a1a;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #333;
+        }
+
+        .count {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            table {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container-fluid">
-<div class="row">
-
-<!-- SIDEBAR -->
-<div class="col-2 sidebar p-3">
-
-<h4 class="text-center">
-<i class="fa fa-spa text-info"></i> ADMIN
-</h4>
-<hr>
-
-<a href="dashboard.jsp"><i class="fa fa-home"></i> Dashboard</a>
-<a href="manageUsers.jsp"><i class="fa fa-users"></i> Users</a>
-<a href="manageOwners.jsp"><i class="fa fa-user-tie"></i> Salon Owners</a>
-<a href="manageSalons.jsp"><i class="fa fa-store"></i> Salons</a>
-<a href="verifySalons.jsp"><i class="fa fa-check"></i> Verify Salons</a>
-<a href="manageCategory.jsp"><i class="fa fa-list"></i> Categories</a>
-<a href="viewAppointments.jsp"><i class="fa fa-calendar"></i> Appointments</a>
-<a href="feedback.jsp"><i class="fa fa-comments"></i> Feedback</a>
-<a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
-<a href="logout.jsp" class="text-danger"><i class="fa fa-sign-out"></i> Logout</a>
-
+<div class="sidebar">
+    <h2>Admin Menu</h2>
+    <a href="dashboard.jsp">Dashboard</a>
+    <a href="manage-salons.jsp">Manage Salons</a>
+    <a href="manageVerifyAdmins.jsp">Manage Admins</a>
+    <a href="AdminTherapistServlet" class="btn btn-dark">Manage Therapists</a>
+    <a href="AdminAppointmentServlet">Appointments</a>
+    <a href="user-dashboard.jsp">Users</a>
+    <a href="feedback.jsp">Feedback</a>
+    <a href="reports.jsp">Reports</a>
+    <a href="logout.jsp">Logout</a>
 </div>
 
-<!-- MAIN -->
-<div class="col-10 p-3">
+<div class="main-content">
+    <h1>Admin Dashboard</h1>
 
-<div class="topbar mb-3">
-<h3>
-<i class="fa fa-tachometer-alt"></i>
-Welcome Admin: <%=session.getAttribute("admin")%>
-</h3>
-</div>
+    <h2 class="section-title">Summary Counts</h2>
+    <table>
+        <tr><th>Total Salons</th><td class="count"><%= totalSalons %></td></tr>
+        <tr><th>Total Appointments</th><td class="count"><%= totalAppointments %></td></tr>
+        <tr><th>Total Users</th><td class="count"><%= totalUsers %></td></tr>
+        <tr><th>Total Feedback</th><td class="count"><%= totalFeedback %></td></tr>
+    </table>
 
-<!-- CARDS -->
-<div class="row">
+    <h2 class="section-title">Salon Status</h2>
+    <table>
+        <tr><th>Pending</th><td class="count"><%= pendingSalons %></td></tr>
+        <tr><th>Approved</th><td class="count"><%= approvedSalons %></td></tr>
+        <tr><th>Rejected</th><td class="count"><%= rejectedSalons %></td></tr>
+    </table>
 
-<div class="col-md-3">
-<div class="card glass p-3 text-center">
-<i class="fa fa-store fa-2x text-info"></i>
-<h5>Total Salons</h5>
-<h2>0</h2>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card glass p-3 text-center">
-<i class="fa fa-calendar fa-2x text-warning"></i>
-<h5>Appointments</h5>
-<h2>0</h2>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card glass p-3 text-center">
-<i class="fa fa-users fa-2x text-success"></i>
-<h5>Users</h5>
-<h2>0</h2>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card glass p-3 text-center">
-<i class="fa fa-comments fa-2x text-primary"></i>
-<h5>Feedback</h5>
-<h2>0</h2>
-</div>
-</div>
-
-</div>
-
-<!-- INFO -->
-<div class="row mt-4">
-
-<div class="col-md-6">
-<div class="card glass p-3">
-<h5>System Features</h5>
-<ul>
-<li>Salon Verification</li>
-<li>Service Categories</li>
-<li>Appointments</li>
-<li>Feedback</li>
-<li>Reports</li>
-</ul>
-</div>
-</div>
-
-<div class="col-md-6">
-<div class="card glass p-3">
-<h5>Quick Access</h5>
-
-<a href="manageSalons.jsp" class="btn btn-info w-100 mb-2">Manage Salons</a>
-<a href="verifySalons.jsp" class="btn btn-success w-100 mb-2">Verify Salons</a>
-<a href="adminAppointments.jsp" class="btn btn-success w-100 mb-2">Verify Salons</a>
-<a href="reports.jsp" class="btn btn-warning w-100">Reports</a>
-
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
+    <h2 class="section-title">Admin Status</h2>
+    <table>
+        <tr><th>Pending</th><td class="count"><%= pendingAdmins %></td></tr>
+        <tr><th>Approved</th><td class="count"><%= approvedAdmins %></td></tr>
+        <tr><th>Rejected</th><td class="count"><%= rejectedAdmins %></td></tr>
+    </table>
 </div>
 
 </body>

@@ -10,7 +10,7 @@ public class Service {
     private int durationMinutes;
     private int salonId;
     private Timestamp createdAt;
-
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

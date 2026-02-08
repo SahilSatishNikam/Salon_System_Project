@@ -1,52 +1,86 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.util.List, model.Appointment" %>
+<%@ page import="java.util.*, model.*" %>
+<%@ page session="true" %>
 <%
+    Therapist therapist = (Therapist) session.getAttribute("therapist");
+    if(therapist == null){
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
     List<Appointment> appointments = (List<Appointment>) request.getAttribute("appointments");
+    if(appointments == null) appointments = new ArrayList<>();
 %>
+
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Therapist Appointments</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<title>Therapist Appointments</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h2>Appointments</h2>
-<table border="1">
-    <tr>
-        <th>Service</th>
-        <th>User ID</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    <c:forEach var="appt" items="${appointments}">
-        <tr>
-            <td>${appt.serviceName}</td>
-            <td>${appt.userId}</td>
-            <td>${appt.appointmentDate}</td>
-            <td>${appt.appointmentTime}</td>
-            <td>${appt.status}</td>
-            <td>
-                <form method="post" action="TherapistAppointmentServlet">
-                    <input type="hidden" name="appointmentId" value="${appt.id}">
-                    <c:choose>
-                        <c:when test="${appt.status == 'Booked'}">
-                            <input type="hidden" name="action" value="start">
-                            <input type="submit" value="Start">
-                        </c:when>
-                        <c:when test="${appt.status == 'In Progress'}">
-                            <input type="hidden" name="action" value="complete">
-                            <input type="submit" value="Complete">
-                        </c:when>
-                        <c:otherwise>
-                            <input type="submit" value="No Action" disabled>
-                        </c:otherwise>
-                    </c:choose>
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+
+<div class="container mt-5">
+<h3>Appointments for <%= therapist.getName() %></h3>
+
+<table class="table table-striped mt-3">
+<thead>
+<tr>
+    <th>Service</th>
+    <th>Customer</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Status</th>
+    <th>Decision</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody>
+
+<% for(Appointment a : appointments) { %>
+<tr>
+    <td><%= a.getServiceName() %></td>
+    <td><%= a.getCustomerName() %></td>
+    <td><%= a.getAppointmentDate() %></td>
+    <td><%= a.getAppointmentTime() %></td>
+    <td><%= a.getStatus() %></td>
+    <td><%= a.getTherapistDecision() %></td>
+
+    <td>
+    <form method="post" action="TherapistAppointmentServlet">
+
+        <input type="hidden" name="id" value="<%= a.getId() %>">
+
+        <%-- BOOKED → show Start --%>
+        <% if("BOOKED".equalsIgnoreCase(a.getStatus())) { %>
+
+            <button type="submit" name="action" value="start" class="btn btn-success btn-sm">
+                Start
+            </button>
+
+        <%-- IN_PROGRESS → show Complete --%>
+        <% } else if("IN_PROGRESS".equalsIgnoreCase(a.getStatus())) { %>
+
+            <button type="submit" name="action" value="complete" class="btn btn-primary btn-sm">
+                Complete
+            </button>
+
+        <%-- COMPLETED --%>
+        <% } else { %>
+            <span class="text-muted">No actions</span>
+        <% } %>
+
+    </form>
+    </td>
+
+</tr>
+<% } %>
+
+</tbody>
 </table>
+
+<a href="therapistDashboard.jsp" class="btn btn-secondary mt-3">← Back to Dashboard</a>
+</div>
+
 </body>
 </html>
- 

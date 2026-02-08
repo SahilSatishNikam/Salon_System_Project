@@ -31,3 +31,4 @@ public class SalonImageServlet extends HttpServlet {
         }
     }
 }
+

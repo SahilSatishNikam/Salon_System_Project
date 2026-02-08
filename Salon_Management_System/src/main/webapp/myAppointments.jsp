@@ -8,7 +8,6 @@
 
     AppointmentDAO dao = new AppointmentDAO();
     List<Appointment> appointments = dao.getAppointmentsByUserId(user.getId());
-
     String success = (String) session.getAttribute("success");
     String error = (String) session.getAttribute("error");
     session.removeAttribute("success");

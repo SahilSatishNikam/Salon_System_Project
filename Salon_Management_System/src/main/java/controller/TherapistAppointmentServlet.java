@@ -1,71 +1,47 @@
 package controller;
 
+import dao.AppointmentDAO;
+import dao.TherapistDAO;
+import model.Appointment;
+import model.Therapist;
+import model.User;
+
 import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
-
-import dao.AppointmentDAO;
-import model.Appointment;
 
 @WebServlet("/TherapistAppointmentServlet")
 public class TherapistAppointmentServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        Integer therapistId = (Integer) session.getAttribute("therapistId");
 
-        if (therapistId == null) {
-            resp.sendRedirect("login.jsp");
-            return;
-        }
+        Therapist t = (Therapist) req.getSession().getAttribute("therapist");
 
-        try {
-            AppointmentDAO dao = new AppointmentDAO();
-            List<Appointment> appointments = dao.getAppointmentsByTherapistId(therapistId);
-            req.setAttribute("appointments", appointments);
-            req.getRequestDispatcher("therapistAppointments.jsp").forward(req, resp);
+        AppointmentDAO dao = new AppointmentDAO();
+        req.setAttribute("appointments", dao.getAppointmentsByTherapist(t.getId()));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.sendRedirect("error.jsp");
-        }
+        req.getRequestDispatcher("therapistAppointments.jsp").forward(req,res);
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+
+        int id = Integer.parseInt(req.getParameter("id"));
         String action = req.getParameter("action");
-        Integer therapistId = (Integer) req.getSession().getAttribute("therapistId");
 
-        if (therapistId == null) {
-            resp.sendRedirect("login.jsp");
-            return;
+        AppointmentDAO dao = new AppointmentDAO();
+
+        if(action.equals("start")){
+            dao.updateStatus(id,"IN_PROGRESS","APPROVED");
+        }
+        else if(action.equals("complete")){
+            dao.updateStatus(id,"COMPLETED","APPROVED");
         }
 
-        try {
-            AppointmentDAO dao = new AppointmentDAO();
-            int appointmentId = Integer.parseInt(req.getParameter("appointmentId"));
-
-            switch (action) {
-                case "start":
-                    dao.startAppointment(appointmentId);
-                    break;
-
-                case "complete":
-                    Appointment appt = dao.getAppointmentById(appointmentId);
-                    if (appt != null) {
-                        dao.markAppointmentCompleted(appointmentId, appt.getUserId());
-                    }
-                    break;
-            }
-
-            resp.sendRedirect("TherapistAppointmentServlet");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.sendRedirect("error.jsp");
-        }
+        res.sendRedirect("TherapistAppointmentServlet");
     }
 }
+
