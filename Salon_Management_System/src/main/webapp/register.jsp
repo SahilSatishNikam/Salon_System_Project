@@ -167,7 +167,7 @@ label{
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar d-flex justify-content-between">
     <div class="navbar-brand">
-        <span>Golden</span>Glow
+        <span>GoldenGlow</span>
     </div>
 
     <div>
@@ -187,7 +187,7 @@ label{
 
 <div class="card p-4">
 
-<h3 class="text-center mb-3 title-text">User Registration</h3>
+<h3 class="text-center mb-3 title-text">Registration</h3>
 
 <% if(request.getParameter("msg")!=null){ %>
 <div class="alert alert-info">
