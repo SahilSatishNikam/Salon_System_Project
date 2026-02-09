@@ -224,18 +224,48 @@ body{
 <body>
 
 <!-- SIDEBAR -->
-<div class="sidebar">
-    <h2><i class="fa-solid fa-crown"></i> Admin</h2>
+<div class="admin-sidebar">
 
-    <a href="dashboard.jsp"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-    <a href="manage-salons.jsp"><i class="fa-solid fa-shop"></i> Salons</a>
-    <a href="manageVerifyAdmins.jsp" class="active"><i class="fa-solid fa-user-shield"></i> Admins</a>
-    <a href="AdminTherapistServlet"><i class="fa-solid fa-spa"></i> Therapists</a>
-    <a href="AdminAppointmentServlet"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
-    <a href="user-dashboard.jsp"><i class="fa-solid fa-users"></i> Users</a>
-    <a href="feedback.jsp"><i class="fa-solid fa-comment"></i> Feedback</a>
-    <a href="reports.jsp"><i class="fa-solid fa-chart-pie"></i> Reports</a>
-    <a href="logout.jsp"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    <div class="logo">
+        <i class="fa-solid fa-crown"></i> Admin Panel
+    </div>
+
+    <a href="dashboard.jsp">
+        <i class="fa fa-gauge"></i> Dashboard
+    </a>
+
+    <a href="manage-salons.jsp">
+        <i class="fa fa-store"></i> Salons
+    </a>
+
+    <a href="manageVerifyAdmins.jsp">
+        <i class="fa fa-user-shield"></i> Admins
+    </a>
+
+    <a href="AdminTherapistServlet">
+        <i class="fa fa-user-doctor"></i> Therapists
+    </a>
+
+    <a href="AdminAppointmentServlet">
+        <i class="fa fa-calendar-check"></i> Appointments
+    </a>
+
+    <a href="user-dashboard.jsp">
+        <i class="fa fa-users"></i> Users
+    </a>
+
+    <a href="feedback.jsp">
+        <i class="fa fa-comments"></i> Feedback
+    </a>
+
+    <a href="reports.jsp">
+        <i class="fa fa-chart-line"></i> Reports
+    </a>
+
+    <a href="logout.jsp" class="logout">
+        <i class="fa fa-right-from-bracket"></i> Logout
+    </a>
+
 </div>
 
 <!-- MAIN -->

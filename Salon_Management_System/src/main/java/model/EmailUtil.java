@@ -6,8 +6,8 @@ import java.util.Properties;
 
 public class EmailUtil {
 
-    private static final String FROM = "yourgmail@gmail.com";
-    private static final String PASSWORD = "your_app_password";
+    private static final String FROM = "salonbookingapp2026@gmail.com";
+    private static final String PASSWORD = "tfotgjgviominfqz";
 
     public static void sendEmail(String to, String subject, String messageText) {
 
