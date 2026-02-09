@@ -1,207 +1,205 @@
 <%@ page import="java.util.*, model.*, dao.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <%
-    // DAO instances
-    SalonDAO salonDAO = new SalonDAO();
-    AppointmentDAO appointmentDAO = new AppointmentDAO();
-    UserDAO userDAO = new UserDAO();
-    FeedbackDAO feedbackDAO = new FeedbackDAO();
-    AdminDAO adminDAO = new AdminDAO();
+/* 🔐 SECURITY CHECK */
+Admin admin = (Admin) session.getAttribute("admin");
+if(admin == null){
+    response.sendRedirect("login.jsp");
+    return;
+}
 
-    // Initialize counts
-    int totalSalons = 0;
-    int totalAppointments = 0;
-    int totalUsers = 0;
-    int totalFeedback = 0;
-    int pendingSalons = 0, approvedSalons = 0, rejectedSalons = 0;
-    int pendingAdmins = 0, approvedAdmins = 0, rejectedAdmins = 0;
+/* DAO instances */
+SalonDAO salonDAO = new SalonDAO();
+AppointmentDAO appointmentDAO = new AppointmentDAO();
+UserDAO userDAO = new UserDAO();
+FeedbackDAO feedbackDAO = new FeedbackDAO();
 
-    try {
-        totalSalons = salonDAO.getTotalSalons();
-        totalAppointments = appointmentDAO.getTotalAppointments();
-        totalUsers = userDAO.getTotalUsers();
-        totalFeedback = feedbackDAO.getTotalFeedback();
+/* Counts */
+int totalSalons = 0;
+int totalAppointments = 0;
+int totalUsers = 0;
+int totalFeedback = 0;
+int pendingSalons = 0, approvedSalons = 0, rejectedSalons = 0;
 
-        List<Salon> allSalons = salonDAO.getAllSalons();
-        pendingSalons = (int) allSalons.stream().filter(s -> "Pending".equals(s.getStatus())).count();
-        approvedSalons = (int) allSalons.stream().filter(s -> "Approved".equals(s.getStatus())).count();
-        rejectedSalons = (int) allSalons.stream().filter(s -> "Rejected".equals(s.getStatus())).count();
+try {
+    totalSalons = salonDAO.getTotalSalons();
+    totalAppointments = appointmentDAO.getTotalAppointments();
+    totalUsers = userDAO.getTotalUsers();
+    totalFeedback = feedbackDAO.getTotalFeedback();
 
-        List<Admin> allAdmins = adminDAO.getAllAdmins();
-        pendingAdmins = (int) allAdmins.stream().filter(a -> "Pending".equals(a.getStatus())).count();
-        approvedAdmins = (int) allAdmins.stream().filter(a -> "Approved".equals(a.getStatus())).count();
-        rejectedAdmins = (int) allAdmins.stream().filter(a -> "Rejected".equals(a.getStatus())).count();
+    List<Salon> allSalons = salonDAO.getAllSalons();
+    pendingSalons = (int) allSalons.stream().filter(s -> "Pending".equalsIgnoreCase(s.getStatus())).count();
+    approvedSalons = (int) allSalons.stream().filter(s -> "Approved".equalsIgnoreCase(s.getStatus())).count();
+    rejectedSalons = (int) allSalons.stream().filter(s -> "Rejected".equalsIgnoreCase(s.getStatus())).count();
 
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <style>
-        /* Page layout */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
 
-        /* Sidebar */
-        .sidebar {
-            width: 220px;
-            background-color: #111;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding-top: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-        }
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        .sidebar h2 {
-            color: #FFD700;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+<!-- Custom CSS -->
+<link rel="stylesheet" href="sidebar.css">
 
-        .sidebar a {
-            display: block;
-            color: #fff;
-            padding: 12px 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+<style>
+body { font-family:Poppins, sans-serif; background:#0f0f0f; color:#fff; display:flex; }
 
-        .sidebar a:hover {
-            background-color: #333;
-            color: #FFD700;
-        }
+/* MAIN CONTENT */
+.main{
+    margin-left:260px;
+    width:100%;
+    padding:30px;
+}
 
-        /* Main content */
-        .main-content {
-            margin-left: 220px;
-            padding: 20px;
-            width: calc(100% - 220px);
-        }
+/* TOPBAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+.search{
+    width:350px;
+    padding:12px 18px;
+    border-radius:30px;
+    border:1px solid #333;
+    background:#151515;
+    color:#fff;
+}
+.profile{
+    color:#f5c518;
+    font-weight:600;
+}
 
-        h1 {
-            background-color: #FFD700;
-            color: #1a1a1a;
-            text-align: center;
-            padding: 25px 0;
-            margin: 0 0 20px 0;
-            font-size: 2.5em;
-            letter-spacing: 2px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+.card-box{
+    background:#151515;
+    border:1px solid #2a2a2a;
+    border-radius:15px;
+    padding:25px;
+}
+.card-box h6{
+    color:#aaa;
+}
+.count{
+    font-size:28px;
+    color:#f5c518;
+    font-weight:700;
+}
 
-        h2.section-title {
-            color: #FFD700;
-            margin-top: 30px;
-            text-align: center;
-            font-size: 1.8em;
-            letter-spacing: 1px;
-        }
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
 
-        table {
-            border-collapse: collapse;
-            width: 60%;
-            margin: 15px auto;
-            background-color: #1a1a1a;
-            border: 2px solid #FFD700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
+.box{
+    background:#151515;
+    border-radius:15px;
+    padding:25px;
+    border:1px solid #2a2a2a;
+}
 
-        th, td {
-            padding: 12px 20px;
-            text-align: center;
-            border-bottom: 1px solid #FFD700;
-            font-size: 1.1em;
-        }
-
-        th {
-            background-color: #FFD700;
-            color: #1a1a1a;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        td {
-            color: #fff;
-        }
-
-        tr:hover {
-            background-color: #333;
-        }
-
-        .count {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #FFD700;
-        }
-
-        @media screen and (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-            }
-            table {
-                width: 90%;
-            }
-        }
-    </style>
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #333;
+}
+th{
+    color:#f5c518;
+}
+</style>
 </head>
+
 <body>
 
-<div class="sidebar">
-    <h2>Admin Menu</h2>
-    <a href="dashboard.jsp">Dashboard</a>
-    <a href="manage-salons.jsp">Manage Salons</a>
-    <a href="manageVerifyAdmins.jsp">Manage Admins</a>
-    <a href="AdminTherapistServlet" class="btn btn-dark">Manage Therapists</a>
-    <a href="AdminAppointmentServlet">Appointments</a>
-    <a href="user-dashboard.jsp">Users</a>
-    <a href="feedback.jsp">Feedback</a>
-    <a href="reports.jsp">Reports</a>
-    <a href="logout.jsp">Logout</a>
-</div>
+<!-- SIDEBAR (External Include) -->
+<%@ include file="sidebar.jsp" %>
 
-<div class="main-content">
-    <h1>Admin Dashboard</h1>
+<!-- MAIN CONTENT -->
+<div class="main">
 
-    <h2 class="section-title">Summary Counts</h2>
-    <table>
-        <tr><th>Total Salons</th><td class="count"><%= totalSalons %></td></tr>
-        <tr><th>Total Appointments</th><td class="count"><%= totalAppointments %></td></tr>
-        <tr><th>Total Users</th><td class="count"><%= totalUsers %></td></tr>
-        <tr><th>Total Feedback</th><td class="count"><%= totalFeedback %></td></tr>
-    </table>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <input class="search" placeholder="Search services, clients...">
+        <div class="profile">
+            <i class="bi bi-person-circle"></i>
+            Welcome, <%= admin.getName() %>
+        </div>
+    </div>
 
-    <h2 class="section-title">Salon Status</h2>
-    <table>
-        <tr><th>Pending</th><td class="count"><%= pendingSalons %></td></tr>
-        <tr><th>Approved</th><td class="count"><%= approvedSalons %></td></tr>
-        <tr><th>Rejected</th><td class="count"><%= rejectedSalons %></td></tr>
-    </table>
+    <!-- CARDS -->
+    <div class="cards">
+        <div class="card-box">
+            <h6><i class="bi bi-shop"></i> Salons</h6>
+            <div class="count"><%= totalSalons %></div>
+        </div>
+        <div class="card-box">
+            <h6><i class="bi bi-calendar-check"></i> Appointments</h6>
+            <div class="count"><%= totalAppointments %></div>
+        </div>
+        <div class="card-box">
+            <h6><i class="bi bi-people"></i> Users</h6>
+            <div class="count"><%= totalUsers %></div>
+        </div>
+        <div class="card-box">
+            <h6><i class="bi bi-chat-left-text"></i> Feedback</h6>
+            <div class="count"><%= totalFeedback %></div>
+        </div>
+    </div>
 
-    <h2 class="section-title">Admin Status</h2>
-    <table>
-        <tr><th>Pending</th><td class="count"><%= pendingAdmins %></td></tr>
-        <tr><th>Approved</th><td class="count"><%= approvedAdmins %></td></tr>
-        <tr><th>Rejected</th><td class="count"><%= rejectedAdmins %></td></tr>
-    </table>
+    <!-- LOWER GRID -->
+    <div class="grid">
+
+        <!-- SALON STATUS -->
+        <div class="box">
+            <h5 style="color:#f5c518;">Salon Status</h5>
+            <table>
+                <tr>
+                    <th>Pending</th>
+                    <th>Approved</th>
+                    <th>Rejected</th>
+                </tr>
+                <tr>
+                    <td><%= pendingSalons %></td>
+                    <td><%= approvedSalons %></td>
+                    <td><%= rejectedSalons %></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="box">
+            <h5 style="color:#f5c518;">Admin Info</h5>
+            <p style="color:#aaa">
+                Manage salons, therapists, users and appointments using sidebar.
+            </p>
+        </div>
+
+    </div>
+
 </div>
 
 </body>

@@ -15,7 +15,7 @@ import model.User;
 import model.EmailUtil;
 import model.Therapist;
 
-@WebServlet("/AppointmentServlet")
+@WebServlet("/AppointmenstServlet")
 public class AppointmentsServlet extends HttpServlet {
 
     @Override
@@ -64,7 +64,7 @@ public class AppointmentsServlet extends HttpServlet {
                         + "Date: " + date + "\n"
                         + "Time: " + time;
 
-                EmailUtil.sendMail(user.getEmail(), subject, body);
+                EmailUtil.sendEmail(user.getEmail(), subject, body);
 
                 // Redirect to appointments page
                 response.sendRedirect("myAppointments.jsp");

@@ -17,7 +17,7 @@ public class TodayAppointmentsServlet extends HttpServlet {
         Therapist t = (Therapist) req.getSession().getAttribute("therapist");
         if(t == null){ resp.sendRedirect("login.jsp"); return; }
 
-        List<Appointment> list = new AppointmentDAO().getTodayAppointments(t.getId());
+        List<Appointment> list = new AppointmentDAO().getTodayAppointmentsByTherapist(t.getId());
         req.setAttribute("appointmentList", list);
 
         req.getRequestDispatcher("therapistAppointments.jsp").forward(req, resp);

@@ -2,251 +2,242 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Register</title>
+<title>GoldenGlow Register</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-
-/* ===== GLOBAL ===== */
 body{
-    min-height:100vh;
+    height:100vh;
     margin:0;
+    display:flex;
+    flex-direction:column;
     background:
-      linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
-      url("https://wallpapers.com/images/hd/luxurious-aesthetic-hair-salon-fouu8bx77gcoygos.jpg");
+    linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+    url("https://wallpapers.com/images/hd/luxurious-aesthetic-hair-salon-fouu8bx77gcoygos.jpg");
     background-size:cover;
-    background-position:center;
     font-family:'Poppins',sans-serif;
-    color:#e6d38a;
+    color:#fff;
 }
 
-/* ===== NAVBAR ===== */
-/* ===== NAVBAR ===== */
-        .navbar{
-            padding:18px 60px;
-            background:rgba(0,0,0,0.65);
-            backdrop-filter: blur(6px);
-        }
-        .navbar-brand{
-            font-size:24px;
-            font-weight:600;
-            color:#e5c66d;
-            letter-spacing:1px;
-        }
-        .navbar-brand span{
-            color:#f0d14a;
-        }
-        .nav-link{
-            color:#d6c17c !important;
-            margin:0 10px;
-        }
-        .nav-link:hover{
-            color:#f0d14a !important;
-        }
+/* NAVBAR */
+.navbar{
+    padding:12px 40px;
+    background:rgba(0,0,0,.7);
+}
+.navbar-brand{
+    color:#f0d14a;
+    font-weight:700;
+    font-size:24px;
+}
 
-        .login-btn,.register-btn{
-            padding:8px 18px;
-            border-radius:20px;
-            text-decoration:none;
-            margin-left:10px;
-            font-weight:500;
-            color:#000
-        }
-        .login-btn{
-            border:1px solid #e5c66d;
-            color:#e5c66d;
-        }
-        .register-btn{
-            background:linear-gradient(135deg,#f0d14a,#c9a227);
-            box-shadow:0 0 15px rgba(229,198,109,0.7);
-        }
-
-/* ===== CENTER WRAPPER ===== */
-.page-wrapper{
-    min-height:85vh;
+/* CENTER */
+.center{
+    flex:1;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:80px 20px;   /* 👈 ADDED: space from top & bottom */
 }
 
-
-/* ===== GLASS CARD ===== */
+/* CARD */
 .card{
-    width:100%;
-    max-width:520px;
-    background:rgba(20,20,20,.78);
-    border-radius:26px;
-    padding:40px;
-    box-shadow:0 0 35px rgba(229,198,109,.25);
+    width:950px;
+    background:rgba(20,20,20,.85);
+    border-radius:25px;
+    padding:35px;
     border:1px solid rgba(229,198,109,.35);
-    backdrop-filter:blur(18px);
+    box-shadow:0 0 35px rgba(229,198,109,.25);
+    backdrop-filter:blur(15px);
+    animation:fadeIn .6s ease;
+    color:#fff;
 }
 
-/* ===== HEADINGS ===== */
-.title-text{
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    font-size:28px;
     color:#f0d14a;
-    font-size:30px;
     font-weight:700;
-    margin-bottom:6px;
-}
-.subtitle{
-    color:#cfcfcf;
-    font-size:14px;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
-/* ===== LABELS ===== */
-label{
-    color:#e6d38a;
-    font-size:13px;
-    margin-bottom:6px;
+/* INPUT */
+.input-group-text{
+    background:#000;
+    border:1px solid rgba(255,215,100,.25);
+    color:#f0d14a;
 }
 
-/* ===== INPUTS ===== */
 .form-control{
-    background:rgba(0,0,0,.55)!important;
+    background:#000!important;
     border:1px solid rgba(255,215,100,.25);
     color:#fff!important;
-    border-radius:14px;
-    padding:12px 14px;
-}
-.form-control::placeholder{
-    color:#aaa;
 }
 .form-control:focus{
     border-color:#f0d14a;
-    box-shadow:0 0 10px rgba(240,209,74,.6);
-    background:rgba(0,0,0,.65)!important;
+    box-shadow:0 0 10px rgba(240,209,74,.7);
 }
 
-/* ===== BUTTON ===== */
-.btn-success{
+/* BUTTON */
+.btn-gold{
     background:linear-gradient(135deg,#ffd84d,#e6b82e);
     border:none;
-    border-radius:30px;
-    padding:14px;
-    font-size:15px;
     font-weight:700;
-    letter-spacing:1px;
-    color:#000!important;
+    color:#000;
+    padding:12px;
+    border-radius:30px;
     transition:.3s;
 }
-.btn-success:hover{
-    box-shadow:0 0 22px rgba(240,209,74,.8);
+.btn-gold:hover{
+    box-shadow:0 0 20px rgba(240,209,74,.8);
     transform:translateY(-1px);
 }
 
-/* ===== BOTTOM TEXT ===== */
-.bottom-text{
-    color:#cfcfcf;
-    font-size:14px;
-}
-.bottom-text a{
-    color:#f0d14a!important;
-    font-weight:600;
-    text-decoration:none;
+/* LABEL */
+label{
+    font-size:13px;
+    margin-bottom:4px;
+   
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 .footer{
     text-align:center;
-    padding:14px;
-    font-size:13px;
-    color:#999;
-    border-top:1px solid rgba(255,215,100,.25);
-    background:rgba(0,0,0,.65);
+    font-size:12px;
+    padding:6px;
+    background:#000;
 }
 
+/* SHOW PASSWORD */
+.eye{
+    cursor:pointer;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar d-flex justify-content-between">
-    <div class="navbar-brand">
-        <span>GoldenGlow</span>
-    </div>
-
-    <div>
-        <a class="nav-link d-inline" href="index.jsp">Home</a>
-        <a class="nav-link d-inline" href="about.jsp">About</a>
-        <a class="nav-link d-inline" href="contact.jsp">Contact</a>
-
-        <a href="login.jsp" class="login-btn">Login</a>
-        <a href="register.jsp" class="register-btn">Register</a>
-    </div>
+<nav class="navbar">
+    <span class="navbar-brand">GoldenGlow</span>
 </nav>
 
-<!-- ===== CENTER SECTION ===== -->
-<div class="page-wrapper">
+<div class="center">
 
-<div style="width:100%; max-width:500px;">
+<div class="card">
 
-<div class="card p-4">
+<div class="title">
+<i class="fa fa-user-plus"></i> Create Account
+</div>
 
-<h3 class="text-center mb-3 title-text">Registration</h3>
+<% if(request.getParameter("error")!=null){ %>
+<div class="alert alert-danger text-center">
+<%=request.getParameter("error")%>
+</div>
+<% } %>
 
 <% if(request.getParameter("msg")!=null){ %>
-<div class="alert alert-info">
+<div class="alert alert-success text-center">
 <%=request.getParameter("msg")%>
 </div>
 <% } %>
 
-<form action="<%= request.getContextPath() %>/RegisterServlet" method="post">
+<form action="<%= request.getContextPath() %>/RegisterServlet"
+method="post" autocomplete="off">
 
-<div class="mb-3">
-<label>Name</label>
-<input type="text" name="name" class="form-control" required>
+<div class="row">
+
+<!-- NAME -->
+<div class="col-md-6 mb-3">
+<label>Full Name</label>
+<div class="input-group">
+<span class="input-group-text"><i class="fa fa-user"></i></span>
+<input type="text" name="name" class="form-control"
+required minlength="3" maxlength="50" autocomplete="off">
+</div>
 </div>
 
-<div class="mb-3">
+<!-- EMAIL -->
+<div class="col-md-6 mb-3">
 <label>Email</label>
-<input type="email" name="email" class="form-control" required>
+<div class="input-group">
+<span class="input-group-text"><i class="fa fa-envelope"></i></span>
+<input type="email" name="email" class="form-control"
+required autocomplete="off">
+</div>
 </div>
 
-<div class="mb-3">
+<!-- PASSWORD -->
+<div class="col-md-6 mb-3">
 <label>Password</label>
-<input type="password" name="password" class="form-control" required>
+<div class="input-group">
+<span class="input-group-text"><i class="fa fa-lock"></i></span>
+<input type="password" id="pass" name="password"
+class="form-control" required minlength="6"
+autocomplete="new-password">
+<span class="input-group-text eye" onclick="togglePass('pass',this)">
+<i class="fa fa-eye"></i>
+</span>
+</div>
 </div>
 
-<div class="mb-3">
+<!-- CONFIRM PASSWORD -->
+<div class="col-md-6 mb-3">
+<label>Confirm Password</label>
+<div class="input-group">
+<span class="input-group-text"><i class="fa fa-lock"></i></span>
+<input type="password" id="cpass" class="form-control"
+required autocomplete="new-password">
+<span class="input-group-text eye" onclick="togglePass('cpass',this)">
+<i class="fa fa-eye"></i>
+</span>
+</div>
+</div>
+
+<!-- PHONE -->
+<div class="col-md-12 mb-3">
 <label>Phone</label>
-<input type="text" name="phone" class="form-control">
+<div class="input-group">
+<span class="input-group-text"><i class="fa fa-phone"></i></span>
+<input type="text" name="phone" class="form-control"
+pattern="[0-9]{10}" maxlength="10"
+placeholder="10 digit number" autocomplete="off">
+</div>
 </div>
 
-<div class="mb-3">
-<label>Select Role</label>
-<select name="role" class="form-control" required>
-<option value="">--Select Role--</option>
-<option value="admin">Admin</option>
-<option value="user">User</option>
-<option value="therapist">Therapist</option>
-</select>
 </div>
 
-<button type="submit" class="btn btn-success w-100">
-Register
+<button type="submit" class="btn btn-gold w-100 mt-2">
+Register Now
 </button>
 
 </form>
 
-<div class="text-center mt-3 bottom-text">
-Already registered?
-<a href="login.jsp">Login</a>
-</div>
-
 </div>
 </div>
 
-</div>
-
-<!-- ===== FOOTER ===== -->
 <div class="footer">
-© 2026 GoldenGlow Salon | All Rights Reserved
+© 2026 GoldenGlow Salon
 </div>
+
+<script>
+function togglePass(id,el){
+    const input=document.getElementById(id);
+    const icon=el.querySelector("i");
+    if(input.type==="password"){
+        input.type="text";
+        icon.classList.replace("fa-eye","fa-eye-slash");
+    }else{
+        input.type="password";
+        icon.classList.replace("fa-eye-slash","fa-eye");
+    }
+}
+</script>
 
 </body>
 </html>

@@ -3,6 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.*;
 import model.Appointment;
+import model.Client;
 import util.DBConnection;
 
 public class AppointmentDAO {
@@ -54,8 +55,10 @@ public class AppointmentDAO {
             ps.setInt(3, id);
 
             success = ps.executeUpdate() > 0;
-
-        } catch(Exception e){
+            
+         
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
         return success;
@@ -374,6 +377,114 @@ public class AppointmentDAO {
         return count;
     }
 
+    public Appointment getAppointmentById(int appointmentId) {
+        Appointment appt = null;
+
+        String sql = "SELECT * FROM appointments WHERE id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, appointmentId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    appt = new Appointment();
+                    appt.setId(rs.getInt("id"));
+                    appt.setUserId(rs.getInt("user_id"));
+                    appt.setSalonId(rs.getInt("salon_id"));
+                    appt.setTherapistId(rs.getInt("therapist_id"));
+                    appt.setServiceName(rs.getString("service_name"));
+                    appt.setAppointmentDate(rs.getDate("appointment_date"));
+                    appt.setAppointmentTime(rs.getTime("appointment_time"));
+                    appt.setStatus(rs.getString("status"));
+                    appt.setTherapistDecision(rs.getString("therapist_decision"));
+
+                    // These are for client creation
+                    appt.setCustomerName(rs.getString("customer_name")); // assuming your appointments table has this
+                    appt.setPhone(rs.getString("phone"));               // assuming your appointments table has this
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return appt;
+    }
+
+    public boolean markAppointmentCompleted(int appointmentId, int userId) {
+        boolean success = false;
+
+        try (Connection con = DBConnection.getConnection()) {
+
+            // 1️⃣ Update appointment status to COMPLETED
+            String sqlUpdate = "UPDATE appointments SET status='COMPLETED', therapist_decision='APPROVED' WHERE id=?";
+            try (PreparedStatement ps = con.prepareStatement(sqlUpdate)) {
+                ps.setInt(1, appointmentId);
+                success = ps.executeUpdate() > 0;
+            }
+
+            if (success) {
+
+                // 2️⃣ Get appointment details
+                Appointment appt = getAppointmentById(appointmentId);
+
+                if (appt != null) {
+
+                    ClientDAO clientDao = new ClientDAO();
+
+                    // 3️⃣ Check if client already exists by phone
+                    int clientId = clientDao.getClientByPhone(appt.getPhone());
+
+                    if (clientId == 0) {
+                        // 4️⃣ Add new client
+                        Client c = new Client();
+                        c.setName(appt.getCustomerName());
+                        c.setPhone(appt.getPhone());
+                        c.setUserId(appt.getUserId());
+
+                        clientId = clientDao.addClient(c);
+                    }
+
+                    // 5️⃣ Add visit history
+                    clientDao.addVisit(
+                            clientId,
+                            appt.getSalonId(),
+                            appt.getTherapistId(),
+                            appt.getServiceName(),
+                            appt.getAppointmentDate()
+                    );
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    public boolean rescheduleAppointment(int appointmentId, java.sql.Date newDate, java.sql.Time newTime) {
+        boolean success = false;
+
+        String sql = "UPDATE appointments SET appointment_date=?, appointment_time=? WHERE id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setDate(1, newDate);
+            ps.setTime(2, newTime);
+            ps.setInt(3, appointmentId);
+
+            success = ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
 
  }
 
