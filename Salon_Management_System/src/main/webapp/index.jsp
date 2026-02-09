@@ -4,10 +4,14 @@
 
 <style>
 /* =====================================================
-   FORCE TIMES NEW ROMAN — TEXT ONLY (ICONS SAFE)
+   GLOBAL RESET + FONT
    ===================================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-/* Apply Times New Roman to text elements only */
 body,
 h1, h2, h3, h4, h5, h6,
 p, span:not(i),
@@ -19,7 +23,75 @@ small,
 button,
 input,
 textarea {
-    font-family: "Times New Roman", Times, serif !important;
+    font-family:"Times New Roman", Times, serif !important;
+}
+
+body{
+    background:#0b0b0b;
+    color:#e6d8a8;
+}
+
+/* ===== LETTER BY LETTER ANIMATION ===== */
+/* ===== GOLD LETTER ANIMATION ===== */
+.gold-letter span{
+    display:inline-block;
+    opacity:0;
+    transform: translateY(40px);
+
+    /* GOLD COLOR */
+    background: linear-gradient(
+        120deg,
+        #b8860b,
+        #ffd700,
+        #fff1a8,
+        #ffd700,
+        #b8860b
+    );
+    background-size:300% auto;
+    color:transparent;
+    background-clip:text;
+    -webkit-background-clip:text;
+
+    animation:
+        letterReveal 0.8s ease forwards,
+        goldShimmer 4s linear infinite;
+}
+
+/* reveal animation */
+@keyframes letterReveal{
+    to{
+        opacity:1;
+        transform: translateY(0);
+    }
+}
+
+/* shimmer movement */
+@keyframes goldShimmer{
+    from{ background-position:0% center; }
+    to{ background-position:300% center; }
+}
+
+/* stagger delay */
+.gold-letter span:nth-child(1){animation-delay:0.1s;}
+.gold-letter span:nth-child(2){animation-delay:0.2s;}
+.gold-letter span:nth-child(3){animation-delay:0.3s;}
+.gold-letter span:nth-child(4){animation-delay:0.4s;}
+.gold-letter span:nth-child(5){animation-delay:0.5s;}
+.gold-letter span:nth-child(6){animation-delay:0.6s;}
+.gold-letter span:nth-child(7){animation-delay:0.7s;}
+.gold-letter span:nth-child(8){animation-delay:0.8s;}
+.gold-letter span:nth-child(9){animation-delay:0.9s;}
+.gold-letter span:nth-child(10){animation-delay:1s;}
+
+
+
+
+/* =====================================================
+   GOLD SHIMMER ANIMATION
+   ===================================================== */
+@keyframes goldShimmer{
+    0%{ background-position:-200% center; }
+    100%{ background-position:200% center; }
 }
 
 /* ===== HERO ===== */
@@ -371,7 +443,7 @@ body{
 
 /* TEXT */
 .service-box h4{
-    font-size:15px;
+    font-size:14px;
     margin:0 0 8px;
     letter-spacing:1px;
     color:#f5e6b0;
@@ -401,20 +473,22 @@ body{
 
 /* ===== HERO SECTION ===== */
 .hero{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height:100vh;
-    padding:0 8%;
-    background:#111;
-    color:#fff;
-     background-image:url("https://img.freepik.com/premium-photo/luxurious-salon-interior-with-soft-tones-elegant-modern-design_1025753-152493.jpg?semt=ais_hybrid&w=740&q=80"); /* change image */
+    min-height:100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
+        url("https://img.freepik.com/premium-photo/luxurious-salon-interior-with-soft-tones-elegant-modern-design_1025753-152493.jpg?w=1400");
     background-size:cover;
     background-position:center;
+    background-repeat:no-repeat;
+
     display:flex;
-    align-items:center;          /* vertical center */
-    justify-content:center;      /* horizontal center */
+    align-items:center;
+    justify-content:center;
     text-align:center;
+    padding:40px 20px;
+    animation:
+        fadeSlideGold 1.5s ease-out forwards,
+        goldShimmer 4s linear infinite;
 }
 
 /* LEFT IMAGE */
@@ -433,12 +507,9 @@ body{
 
 /* RIGHT CONTENT */
 .hero-content{
-    flex:1;
-    padding-left:50px;
-    max-width:620px;
-    margin:0 auto;
-    padding:0;
+    max-width:900px;
 }
+
 
 .hero-content h5{
     color:#c89b6d;
@@ -447,10 +518,40 @@ body{
     margin-bottom:15px;
 }
 
+@keyframes fadeSlideGold {
+    0%{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .hero-content h1{
     font-size:64px;
     font-weight:700;
-    line-height:1.1;
+    line-height:1.15;
+    margin-bottom:22px;
+    animation:
+        fadeSlideGold 1.5s ease-out forwards,
+        goldShimmer 4s linear infinite;
+
+    background:linear-gradient(
+        120deg,
+        #b8860b 0%,
+        #ffd700 25%,
+        #fff1a8 50%,
+        #ffd700 75%,
+        #b8860b 100%
+    );
+    background-size:300% auto;
+    color:transparent;
+    background-clip:text;
+    -webkit-background-clip:text;
+
+    animation:goldShimmer 4s linear infinite;
+    text-shadow:0 0 25px rgba(212,175,55,0.5);
 }
 
 .hero-content h1 span{
@@ -465,12 +566,19 @@ body{
 
 /* SERVICES LINE */
 .services{
-    margin:15px 0 35px;
-    font-size:14px;
-    color:#cfcfcf;
+    font-size:18px;
+    color:#ffffff;
+    background:rgba(0,0,0,0.65);
+    padding:12px 18px;
+    border-radius:8px;
+    line-height:1.8;
+    margin:18px 0 32px;
+    display:inline-block;
+    box-shadow:0 0 20px rgba(212,175,55,0.2);
 }
 .services span{
-    color:#c89b6d;
+    color:#d4af37;
+    font-weight:bold;
     margin:0 8px;
 }
 
@@ -478,6 +586,10 @@ body{
 .hero-buttons{
     display:flex;
     gap:20px;
+    margin-top: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero-buttons a{
@@ -502,19 +614,25 @@ body{
 /* RESPONSIVE */
 @media(max-width:900px){
     .hero{
-        flex-direction:column;
-        padding:40px 5%;
-        height:auto;
-        text-align:center;
+        min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
     }
     .hero-content{
-        padding-left:0;
-        margin-top:30px;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
     .hero-content h1{
         font-size:48px;
     }
-    }
+    
+}
     
     /* ===== HERO CONTENT ===== */
 .hero-content{
@@ -523,11 +641,10 @@ body{
 
 .hero-content h4{
     font-size:14px;
-    letter-spacing:3px;
+    letter-spacing:4px;
     color:#d4af37;
-    margin-bottom:16px;
-    font-weight:600;
-    font-family: "Times New Roman", Times, serif !important;
+    margin-bottom:18px;
+    text-shadow:0 0 10px rgba(212,175,55,0.4);
 }
 
 .hero-content h1{
@@ -547,11 +664,14 @@ body{
 
 /* ===== SERVICES LINE ===== */
 .services{
+	white-space: nowrap;      /* force single line */
+    overflow: hidden;         /* hide overflow */
+    text-overflow: ellipsis; 
     font-size:14px;
     color:#ffffff;
     background:#00000094;
     line-height:1.8;
-    margin-bottom:35px;
+     margin: 15px 0 30px;
     font-family: "Times New Roman", Times, serif !important;
     
 }
@@ -580,13 +700,31 @@ body{
     color:#000;
     border-radius:30px;
 
-    /* gold gradient */
     background:linear-gradient(45deg,#d4af37,#f5e6b0);
-
     border:1px solid #d4af37;
-    box-shadow:0 0 18px rgba(212,175,55,0.45);
+
+    box-shadow:0 0 18px rgba(212,175,55,0.5);
     transition:0.4s ease;
+    position:relative;
+    overflow:hidden;
 }
+
+.btn-appointment::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-150%;
+    width:150%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,255,255,0.6) 50%,
+        transparent 70%
+    );
+    transition:0.6s;
+}
+
 
 /* hover effect */
 .btn-appointment:hover{
@@ -608,9 +746,9 @@ body{
     color:#d4af37;
     margin-bottom:70px;
     letter-spacing:2px;
+    text-align:center;
     position:relative;
 }
-
 .section-title::after{
     content:'';
     width:80px;
@@ -628,14 +766,13 @@ body{
 }
 
 /* Card */
-.step-card{
-    background:rgba(255,255,255,0.03);
+.luxury-box,
+.step-card,
+.feedback-card{
+    background:rgba(255,255,255,0.04);
     border:1px solid rgba(212,175,55,0.4);
-    padding:45px 25px;
-    border-radius:50px;
-    transition:.4s ease;
-    position:relative;
-    overflow:hidden;
+    border-radius:18px;
+    transition:0.4s ease;
 }
 
 .step-card i{
@@ -695,7 +832,10 @@ body{
     <div class="hero-content mt-5">
         <h4>RANGE OF WOMEN'S SERVICES FOR YOUR</h4>
 
-        <h1>GOLDENGLOW</h1>
+        <h1 class="gold-letter">
+  <span>G</span><span>O</span><span>L</span><span>D</span><span>E</span><span>N</span><span>G</span><span>L</span><span>O</span><span>W</span>
+</h1>
+        
 
         <div class="services">
            <b>Haircut & Color <span>|</span>
@@ -706,7 +846,7 @@ body{
         </div>
 
         <div class="hero-buttons">
-            <a href="book-appointment.jsp" class="btn-appointment">Book Appointment</a>
+            <a href="register.jsp" class="btn-appointment">Register Now</a>
         </div>
     </div>
 
