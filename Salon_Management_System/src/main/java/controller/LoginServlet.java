@@ -25,14 +25,30 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
 
             // ===== Admin Login =====
-            Admin admin = new AdminDAO().login(email, password);
+         // ===== SINGLE ADMIN LOGIN =====
+            AdminDAO adminDAO = new AdminDAO();
+            Admin admin = adminDAO.login(email, password);
+
             if (admin != null) {
+
+                // Only allow ACTIVE admin (extra safety)
+                if (admin.getStatus() != null && 
+                    !admin.getStatus().equalsIgnoreCase("Active")) {
+
+                    resp.sendRedirect("login.jsp?error=Admin+is+inactive");
+                    return;
+                }
+
                 System.out.println("Admin login successful: " + admin.getName());
+
                 session.setAttribute("role", "admin");
                 session.setAttribute("admin", admin);
+
+                // redirect to admin dashboard
                 resp.sendRedirect("dashboard.jsp");
                 return;
             }
+
 
             // ===== Therapist Login =====
             Therapist therapist = new TherapistDAO().login(email, password);

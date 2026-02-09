@@ -114,4 +114,28 @@ public class UserDAO {
         return count;
     }
 
+    public boolean emailExists(String email) {
+
+        boolean exists = false;
+
+        try {
+            Connection con = DBConnection.getConnection();
+
+            String sql = "SELECT id FROM users WHERE email = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                exists = true;   // email already found
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return exists;
+    }
+
 }

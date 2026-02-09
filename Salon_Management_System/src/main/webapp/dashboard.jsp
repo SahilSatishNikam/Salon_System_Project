@@ -1,5 +1,6 @@
 <%@ page import="java.util.*, model.*, dao.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <%
 SalonDAO salonDAO = new SalonDAO();
 AppointmentDAO appointmentDAO = new AppointmentDAO();

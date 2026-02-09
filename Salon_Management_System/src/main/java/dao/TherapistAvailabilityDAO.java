@@ -3,7 +3,7 @@ package dao;
 import java.sql.*;
 import model.TherapistAvailability;
 import util.DBConnection;
-import util.DBConnection;
+
 
 public class TherapistAvailabilityDAO {
 

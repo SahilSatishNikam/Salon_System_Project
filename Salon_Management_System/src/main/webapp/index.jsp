@@ -548,7 +548,8 @@ body{
 /* ===== SERVICES LINE ===== */
 .services{
     font-size:14px;
-    color:#dcdcdc;
+    color:#ffffff;
+    background:#00000094;
     line-height:1.8;
     margin-bottom:35px;
     font-family: "Times New Roman", Times, serif !important;

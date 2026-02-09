@@ -33,7 +33,7 @@ public class UserAppointmentServlet extends HttpServlet {
         req.setAttribute("upcomingAppointments", upcoming);
         req.setAttribute("completedAppointments", completed);
 
-        RequestDispatcher rd = req.getRequestDispatcher("user/userAppointments.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher("userAppointments.jsp");
         rd.forward(req, resp);
     }
 
