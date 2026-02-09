@@ -15,34 +15,78 @@ body{
 }
 .container{ display:flex; }
 
-/* SIDEBAR */
-.sidebar{
-    width:240px;
-    background:#000;
-    min-height:100vh;
+.admin-sidebar{
     position:fixed;
-    border-right:2px solid #FFD700;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:linear-gradient(180deg,#0b0b0b,#141414);
+    box-shadow:4px 0 22px rgba(255,215,0,.18);
+    padding-top:15px;
+    z-index:1000;
+    font-family:Poppins, sans-serif;
 }
-.sidebar h2{
+
+/* LOGO */
+.admin-sidebar .logo{
     text-align:center;
-    padding:20px;
     color:#FFD700;
+    font-size:22px;
+    font-weight:700;
+    padding:20px 10px;
     border-bottom:1px solid #222;
+    margin-bottom:10px;
+    letter-spacing:1px;
 }
-.sidebar a{
+
+/* LINKS */
+.admin-sidebar a{
     display:block;
-    color:#fff;
-    padding:15px 22px;
+    padding:14px 22px;
+    color:#ddd;
     text-decoration:none;
-    border-bottom:1px solid #111;
-    transition:0.3s;
+    font-size:17px;
+    transition:.3s;
+    border-left:4px solid transparent;
 }
-.sidebar a i{ margin-right:10px; }
-.sidebar a:hover{
+
+.admin-sidebar a i{
+    width:26px;
+    color:#FFD700;   /* yellow icons */
+    transition:.3s;
+}
+
+.admin-sidebar a:hover i{
+    color:#000;   /* icon becomes black on yellow hover */
+}
+
+/* HOVER */
+.admin-sidebar a:hover{
     background:#FFD700;
     color:#000;
-    padding-left:28px;
+    border-left:4px solid #fff;
+    transform:translateX(6px);
 }
+
+/* LOGOUT */
+.admin-sidebar .logout{
+    margin-top:15px;
+    color:#ff6b6b;
+}
+
+.admin-sidebar .logout:hover{
+    background:#ff6b6b;
+    color:#fff;
+}
+
+/* ===== PAGE CONTENT SHIFT ===== */
+.main-content{
+    margin-left:250px;
+    padding:25px;
+}
+
+
 
 /* CONTENT */
 .content{
@@ -106,19 +150,47 @@ function toggleServiceForm(id){
 <div class="container">
 
 <!-- 🔥 NEW SIDEBAR -->
-<div class="sidebar">
+<div class="admin-sidebar">
 
-    <h2><i class="fa fa-crown"></i> Admin Menu</h2>
+    <div class="logo">
+        <i class="fa-solid fa-crown"></i> Admin Panel
+    </div>
 
-    <a href="dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
-    <a href="manage-salons.jsp"><i class="fa fa-shop"></i> Manage Salons</a>
-    <a href="manageVerifyAdmins.jsp"><i class="fa fa-user-shield"></i> Manage Admins</a>
-    <a href="AdminTherapistServlet"><i class="fa fa-user-nurse"></i> Manage Therapists</a>
-    <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="user-dashboard.jsp"><i class="fa fa-users"></i> Users</a>
-    <a href="feedback.jsp"><i class="fa fa-comments"></i> Feedback</a>
-    <a href="reports.jsp"><i class="fa fa-chart-pie"></i> Reports</a>
-    <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    <a href="dashboard.jsp">
+        <i class="fa fa-gauge"></i> Dashboard
+    </a>
+
+    <a href="manage-salons.jsp">
+        <i class="fa fa-store"></i> Salons
+    </a>
+
+    <a href="manageVerifyAdmins.jsp">
+        <i class="fa fa-user-shield"></i> Admins
+    </a>
+
+    <a href="AdminTherapistServlet">
+        <i class="fa fa-user-doctor"></i> Therapists
+    </a>
+
+    <a href="AdminAppointmentServlet">
+        <i class="fa fa-calendar-check"></i> Appointments
+    </a>
+
+    <a href="user-dashboard.jsp">
+        <i class="fa fa-users"></i> Users
+    </a>
+
+    <a href="feedback.jsp">
+        <i class="fa fa-comments"></i> Feedback
+    </a>
+
+    <a href="reports.jsp">
+        <i class="fa fa-chart-line"></i> Reports
+    </a>
+
+    <a href="logout.jsp" class="logout">
+        <i class="fa fa-right-from-bracket"></i> Logout
+    </a>
 
 </div>
 
