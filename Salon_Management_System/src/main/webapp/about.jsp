@@ -4,6 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>About Us - Salon</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
 <style>
 /* ===== STATS SECTION ANIMATED ===== */
@@ -82,10 +84,16 @@ body{
   border-bottom:1px solid rgba(255,215,0,0.2);
 
   padding:12px 60px;
+
   position:fixed;
   width:100%;
   top:0;
+  left:0;
+
   z-index:9999;
+
+  /* 🔥 IMPORTANT FIX */
+  box-sizing:border-box;
 }
 
 /* LOGO SIDE */
@@ -154,6 +162,152 @@ body{
   padding:6px 16px;
   border-radius:20px;
   text-decoration:none;
+}
+
+.brand-text{
+  font-size:23px;
+  font-weight:700;
+  font-family:"Times New Roman", serif;
+  color:#ffffff;
+}
+
+/* MAIN GLOW PART */
+.brand-text span{
+  color:#ffd700;
+
+  /* THIS MATCHES YOUR PHOTO HALO */
+  text-shadow:
+    0 0 12px rgba(255,215,0,0.85),
+    0 0 22px rgba(255,215,0,0.55),
+    0 0 32px rgba(255,215,0,0.35),
+    0 0 42px rgba(255,215,0,0.15);
+
+  animation: photoGlow 4s ease-in-out infinite;
+}
+
+/* ===== PHOTO STYLE ANIMATION ===== */
+@keyframes photoGlow{
+  0%{
+    opacity:.9;
+    text-shadow:0 0 12px rgba(255,215,0,.6);
+  }
+
+  40%{
+    opacity:1;
+    text-shadow:
+      0 0 18px rgba(255,215,0,1),
+      0 0 30px rgba(255,215,0,.6),
+      0 0 46px rgba(255,215,0,.3);
+  }
+
+  100%{
+    opacity:.9;
+    text-shadow:0 0 12px rgba(255,215,0,.6);
+  }
+}
+/* whole brand animation on load */
+
+.brand{
+  opacity:0;
+  transform:translateY(-10px);
+  animation: brandEntry 1.2s ease forwards;
+}
+
+@keyframes brandEntry{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+.brand-text span{
+  color:#ffd700;
+
+  text-shadow:
+    0 0 12px rgba(255,215,0,0.8),
+    0 0 22px rgba(255,215,0,0.5),
+    0 0 32px rgba(255,215,0,0.3);
+
+  animation: textIntro 2s ease forwards;
+}
+
+@keyframes textIntro{
+
+  0%{
+    opacity:0;
+    text-shadow:none;
+  }
+
+  40%{
+    opacity:1;
+    text-shadow:
+      0 0 16px rgba(255,215,0,1),
+      0 0 28px rgba(255,215,0,.7),
+      0 0 40px rgba(255,215,0,.4);
+  }
+
+  100%{
+    text-shadow:
+      0 0 10px rgba(255,215,0,.6),
+      0 0 18px rgba(255,215,0,.35),
+      0 0 26px rgba(255,215,0,.2);
+  }
+}
+/* ===== LOGO ANNIMATION ===== */
+.brand img{
+  width:34px;
+
+  animation: logoSpin 1.4s ease forwards;
+}
+
+@keyframes logoSpin{
+  0%{
+    transform:rotate(-60deg) scale(.8);
+    opacity:0;
+  }
+
+  60%{
+    transform:rotate(10deg) scale(1.05);
+    opacity:1;
+  }
+
+  100%{
+    transform:rotate(0) scale(1);
+  }
+}
+/*GOLDENGLOW TEXT SHINE ON LOAD*/
+
+.brand-text span{
+  color:#ffd700;
+
+  text-shadow:
+    0 0 12px rgba(255,215,0,0.8),
+    0 0 22px rgba(255,215,0,0.5),
+    0 0 32px rgba(255,215,0,0.3);
+
+  animation: textIntro 2s ease forwards;
+}
+
+@keyframes textIntro{
+
+  0%{
+    opacity:0;
+    text-shadow:none;
+  }
+
+  40%{
+    opacity:1;
+    text-shadow:
+      0 0 16px rgba(255,215,0,1),
+      0 0 28px rgba(255,215,0,.7),
+      0 0 40px rgba(255,215,0,.4);
+  }
+
+  100%{
+    text-shadow:
+      0 0 10px rgba(255,215,0,.6),
+      0 0 18px rgba(255,215,0,.35),
+      0 0 26px rgba(255,215,0,.2);
+  }
 }
 
 /* ===== EXACT NAVBAR SECTION  END STYLE ===== */
@@ -291,8 +445,6 @@ body{
  transform:translateY(-6px);
 }
 
-
-
 /* ===== HOW WE STARTED ===== */
 /* ===== TITLE LOGO BEFORE TEXT ===== */
 .tlogo{
@@ -318,6 +470,7 @@ body{
  width:86%;
  margin:auto;
 }
+
 
 
 /* ===== BLOCK ===== */
@@ -368,11 +521,18 @@ body{
 
 
 /* small golden line */
-.line{
- width:40px;
- height:2px;
- background:#c9a227;
- margin-bottom:10px;
+.text h3{
+   font-family:"Times New Roman", Times, serif;
+   font-weight:700;
+}
+
+.year{
+   font-family:"Times New Roman", Times, serif;
+}
+
+.text p{
+   font-family:"Times New Roman", Times, serif;
+}
 
  /* line grow effect */
  transform:scaleX(0);
@@ -389,35 +549,81 @@ body{
  color:#c9a227;
  letter-spacing:2px;
 }
+/* ===== YEAR + LINE STYLE LIKE IMAGE ===== */
+.year-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.year{
+  color:#c9a227;
+  font-family:"Times New Roman", Times, serif;
+  letter-spacing:2px;
+}
+
+.y-line{
+  flex:1;
+  height:1px;
+  background:rgba(201,162,39,.4);
+}
+
+/* HEADING WITH ICON */
+.idea-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  font-family:"Times New Roman", Times, serif;
+  font-size:22px;
+}
+
+.idea-title .icon{
+  color:#c9a227;
+  font-size:22px;
+}
 
 .text h3{
  margin:8px 0;
  letter-spacing:1px;
  font-family:Times New Roman;
 }
-
 .text p{
- opacity:.8;
- line-height:24px;
- 
+   font-family:"Times New Roman", Times, serif !important;
+
+   font-size:19px;
+   line-height:30px;
+   letter-spacing:.3px;
+
+   opacity:.95;
 }
+
 /* ===== ARTISANS SECTION ===== */
+
+/* Apply Times New Roman to full artisans section */
+.art-section,
+.art-section h2,
+.art-section h3,
+.art-section p,
+.art-top,
+.art-info{
+   font-family: "Times New Roman", Times, serif !important;
+}
 
 .art-section{
  background:#0b0905;
  padding:90px 40px;
  text-align:center;
- 
 }
 
 .art-top small{
  color:#c9a227;
  letter-spacing:4px;
- 
 }
 
 .art-top h2{
- font-size:44px;
+ font-size:38px;              /* 👈 YOU ASKED SIZE 38 */
  margin:10px 0 50px;
 }
 
@@ -425,7 +631,6 @@ body{
  color:#c9a227;
  font-style:italic;
 }
-
 
 /* GRID */
 .art-grid{
@@ -435,7 +640,6 @@ body{
  flex-wrap:wrap;
 }
 
-
 /* CARD */
 .art-card{
  width:320px;
@@ -444,13 +648,12 @@ body{
  overflow:hidden;
  border:1px solid #1e1b10;
 
- transition:.4s ease;
+ transition:all 2.4s cubic-bezier(.16,1,.3,1);   /* 👈 SLOWER ANIMATION */
 }
 
 .art-card.center{
- margin-top:-30px;       /* middle card up like image */
+ margin-top:-30px;
 }
-
 
 .art-card img{
  width:100%;
@@ -458,7 +661,6 @@ body{
  object-fit:cover;
  filter:grayscale(20%);
 }
-
 
 /* TEXT */
 .art-info{
@@ -474,52 +676,15 @@ body{
 
 .art-info h3{
  margin:6px 0;
- font-weight:320;
+ font-weight:30;
 }
 
-
-/* HOVER */
-.art-card:hover{
- transform:translateY(-8px);
- border-color:#c9a227;
-}
-/* ===== LEFT / RIGHT ARTISAN ANIMATION ===== */
+/* ===== LEFT / RIGHT ARTISAN ANIMATION (SLOW) ===== */
 
 /* initial state */
 .art-card{
  opacity:0;
- transition:all 1s cubic-bezier(.16,1,.3,1);
-}
-
-/* directions */
-.art-card:nth-child(1){
- transform:translateX(-120px);
-}
-
-.art-card:nth-child(2){
- transform:translateY(100px);
-}
-
-.art-card:nth-child(3){
- transform:translateX(120px);
-}
-
-/* visible */
-.art-card.show{
- opacity:1;
- transform:translate(0,0);
-}
-
-/* delay */
-.art-card:nth-child(1).show{ transition-delay:.2s; }
-.art-card:nth-child(2).show{ transition-delay:.5s; }
-.art-card:nth-child(3).show{ transition-delay:.8s; }
-
-/* ===== SLOW LUXURY REVEAL ===== */
-
-.art-card{
- opacity:0;
- transition:all 1.8s cubic-bezier(.16,1,.3,1);   /* SLOW */
+ transition:all 2.6s cubic-bezier(.16,1,.3,1);   /* 👈 SLOW SHOW */
  position:relative;
  overflow:hidden;
 }
@@ -543,10 +708,10 @@ body{
  transform:translate(0,0);
 }
 
-/* delay */
-.art-card:nth-child(1).show{ transition-delay:.3s; }
-.art-card:nth-child(2).show{ transition-delay:.7s; }
-.art-card:nth-child(3).show{ transition-delay:1.1s; }
+/* delay (a little slower steps) */
+.art-card:nth-child(1).show{ transition-delay:.5s; }
+.art-card:nth-child(2).show{ transition-delay:.9s; }
+.art-card:nth-child(3).show{ transition-delay:1.3s; }
 
 /* ===== HOVER PREMIUM ===== */
 
@@ -560,7 +725,7 @@ body{
 
 /* image zoom */
 .art-card img{
- transition:.6s;
+ transition:.8s;                /* 👈 slower zoom */
 }
 
 .art-card:hover img{
@@ -616,7 +781,6 @@ body{
  color:#c9a227;
 }
 
-
 /* RIGHT SIDE */
 .philo-right{
  width:50%;
@@ -624,12 +788,14 @@ body{
 }
 
 .philo-right .tag{
+font-size: 16px !important;  
  color:#c9a227;
  letter-spacing:3px;
 }
 
 .philo-right .main{
  margin:10px 0 40px;
+ font-size: 32px !important;   
 }
 
 
@@ -660,7 +826,7 @@ body{
 
 .p-item p{
  opacity:.8;
- font-size:14px;
+ font-size:17px;
  line-height:22px;
 }
 
@@ -871,7 +1037,7 @@ body{
 }
 
 .u-top h2{
- font-size:44px;
+ font-size:38px;
  margin:10px 0 40px;
 }
 
@@ -1015,8 +1181,10 @@ body{
 
 /* ===== HOVER PREMIUM ===== */
 
-.u-card:hover{
- transform:translateY(-10px) scale(1.05);
+ .u-card:hover{
+   transform:translateY(-4px);   /* 🔥 SAFE */
+}
+ 
 
  box-shadow:
    0 10px 40px rgba(0,0,0,.8),
@@ -1204,7 +1372,7 @@ body{
 <a href="index.jsp" class="brand">
    <img src="images/scissor.png">
    <div class="brand-text">
-      Golden<span>Glow</span>
+    Golden<span>Glow</span>
    </div>
 </a>
 
@@ -1287,10 +1455,16 @@ body{
 
  <div class="text">
 
-  <div class="line"></div>
+  <div class="year-row">
+   <span class="year">2022</span>
+   <div class="y-line"></div>
+</div>
 
-  <div class="year">2020</div>
-  <h3>THE IDEA</h3>
+<h3 class="idea-title">
+   <span class="material-icons icon">emoji_objects</span>
+   THE IDEA
+</h3>
+  
 
   <p>
    We realized the gap in the digital market.  
@@ -1311,10 +1485,19 @@ body{
 
  <div class="text">
 
-  <div class="line"></div>
+ 
 
-  <div class="year">2021</div>
-  <h3>THE STRUGGLE</h3>
+ <div class="year-row">
+   <span class="year">2023</span>
+   <div class="y-line"></div>
+</div>
+
+<h3 class="idea-title">
+   <span class="material-icons icon">auto_awesome
+</span>
+   THE STRUGGLE
+</h3>
+  
 
   <p>
    Transforming traditional salons into digital  
@@ -1327,7 +1510,6 @@ body{
 </div>
 
 
-
 <!-- BLOCK 3 -->
 <div class="block">
 
@@ -1335,10 +1517,16 @@ body{
 
  <div class="text">
 
-  <div class="line"></div>
 
-  <div class="year">2022</div>
-  <h3>THE SOLUTION</h3>
+  <div class="year-row">
+   <span class="year">2024</span>
+   <div class="y-line"></div>
+</div>
+
+<h3 class="idea-title">
+   <span class="material-icons icon">emoji_events</span>
+   THE SOLUTION
+</h3>
 
   <p>
    Finally we launched complete Salon Management  
@@ -1509,7 +1697,7 @@ body{
      <!-- ===== ITEM 1 ===== -->
      <div class="u-card">
 
-       <img src="images/t1.jpg" class="client">
+       <img src="images/c1.jpeg" class="client">
 
        <div class="stars">
          ★★★★★
@@ -1530,7 +1718,7 @@ body{
      <!-- ===== ITEM 2 ===== -->
      <div class="u-card">
 
-       <img src="images/t2.jpg" class="client">
+       <img src="images/c2.jpeg" class="client">
 
        <div class="stars">
          ★★★★☆
@@ -1564,17 +1752,71 @@ body{
         very knowledgeable.
        </p>
 
-       <h4>Rohan Mehta</h4>
-       <small>Skin Treatment</small>
+       <h4>Arav Patil</h4>
+       <small>facials</small>
 
      </div>
 
 
 
      <!-- ===== DUPLICATE FOR INFINITE LOOP ===== -->
-     <div class="u-card"> ...same 1...</div>
-     <div class="u-card"> ...same 2...</div>
-     <div class="u-card"> ...same 3...</div>
+      <!-- ===== ITEM 3 ===== -->
+     <div class="u-card">
+
+       <img src="images/c3.jpg" class="client">
+
+       <div class="stars">
+         ★★★★★
+       </div>
+
+       <p>
+        My haircut looked perfect for weeks.
+        The staff is skilled
+        and uses genuine products.”
+       </p>
+
+       <h4>Arti Khurana</h4>
+       <small>haircuts</small>
+
+     </div>
+     
+       <!-- ===== ITEM 3 ===== -->
+     <div class="u-card">
+
+       <img src="images/men.jpg" class="client">
+
+       <div class="stars">
+         ★★★★★
+       </div>
+
+       <p>
+        Facial result was glowing for weeks.  
+        Products are genuine and staff is  
+        very knowledgeable.
+       </p>
+
+       <h4>Rohan Mehta</h4>
+       <small>Skin Treatment</small>
+
+     </div>
+       <!-- ===== ITEM 3 ===== -->
+     <div class="u-card">
+
+       <img src="images/c3.jpeg" class="client">
+
+       <div class="stars">
+         ★★★★★
+       </div>
+
+       <p>
+       My haircut looked perfect for weeks.
+The staff is skilled, professional, and uses genuine products.
+       </p>
+
+       <h4>Arti Khurana</h4>
+       <small>haircuts</small>
+
+     </div>
 
 
    </div>
