@@ -3,22 +3,23 @@
 <%@ include file="header.jsp" %>
 
 <style>
+/* =====================================================
+   FORCE TIMES NEW ROMAN — TEXT ONLY (ICONS SAFE)
+   ===================================================== */
 
-/* ===== GLOBAL ===== */
-/* ===== FORCE TIMES NEW ROMAN (TEXT ONLY) ===== */
+/* Apply Times New Roman to text elements only */
 body,
 h1, h2, h3, h4, h5, h6,
-p, span, div,
-a, li, ul,
-button, input, textarea {
+p, span:not(i),
+div,
+a,
+ul, li,
+label,
+small,
+button,
+input,
+textarea {
     font-family: "Times New Roman", Times, serif !important;
-}
-
-body{
-    background:#0b0b0b;
-    color:#e6d8a8;
-    font-family: "Times New Roman", Times, serif !important;
-    
 }
 
 /* ===== HERO ===== */
@@ -187,6 +188,7 @@ gap:30px;
 .luxury-list{
     list-style:none;
     padding-left:0;
+    font-family: "Times New Roman", Times, serif !important;
 }
 
 .luxury-list li{
@@ -267,7 +269,7 @@ gap:30px;
 
 body{
     margin:0;
-    font-family:'Playfair Display', serif;
+    font-family: "Times New Roman", Times, serif !important;
     background:#0b0b0b;
     color:#e6d8a8;
 }
@@ -406,9 +408,13 @@ body{
     padding:0 8%;
     background:#111;
     color:#fff;
-     background-image:url("https://i.pinimg.com/originals/38/f1/e3/38f1e34c2b7ead76312ef69a9f4d8472.jpg"); /* change image */
+     background-image:url("https://img.freepik.com/premium-photo/luxurious-salon-interior-with-soft-tones-elegant-modern-design_1025753-152493.jpg?semt=ais_hybrid&w=740&q=80"); /* change image */
     background-size:cover;
     background-position:center;
+    display:flex;
+    align-items:center;          /* vertical center */
+    justify-content:center;      /* horizontal center */
+    text-align:center;
 }
 
 /* LEFT IMAGE */
@@ -416,6 +422,7 @@ body{
     flex:1;
     display:flex;
     justify-content:center;
+     display:none;
 }
 .hero-img img{
     max-height:90vh;
@@ -428,6 +435,9 @@ body{
 .hero-content{
     flex:1;
     padding-left:50px;
+    max-width:620px;
+    margin:0 auto;
+    padding:0;
 }
 
 .hero-content h5{
@@ -517,6 +527,7 @@ body{
     color:#d4af37;
     margin-bottom:16px;
     font-weight:600;
+    font-family: "Times New Roman", Times, serif !important;
 }
 
 .hero-content h1{
@@ -540,13 +551,22 @@ body{
     color:#dcdcdc;
     line-height:1.8;
     margin-bottom:35px;
+    font-family: "Times New Roman", Times, serif !important;
+    
 }
 
 .services span{
     color:#d4af37;
-    margin:0 8px;
     font-weight:bold;
+    margin: 0 8px;
+    color: #d4af37;
 }
+.services,
+.services b,
+.services span {
+    font-family: "Times New Roman", Times, serif !important;
+}
+
 
 /* ===== BUTTON ===== */
 /* ===== GOLD LUXURY BUTTON ===== */
@@ -674,8 +694,7 @@ body{
     <div class="hero-content mt-5">
         <h4>RANGE OF WOMEN'S SERVICES FOR YOUR</h4>
 
-        <h1>GOLDEN</h1>
-        <b><h1>GLOW</h1></b>
+        <h1>GOLDENGLOW</h1>
 
         <div class="services">
            <b>Haircut & Color <span>|</span>
@@ -686,7 +705,7 @@ body{
         </div>
 
         <div class="hero-buttons">
-            <a href="appointment.jsp" class="btn-appointment">Book Appointment</a>
+            <a href="book-appointment.jsp" class="btn-appointment">Book Appointment</a>
         </div>
     </div>
 
