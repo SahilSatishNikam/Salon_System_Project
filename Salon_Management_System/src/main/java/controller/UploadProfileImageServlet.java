@@ -1,40 +1,34 @@
 package controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import dao.UserDAO;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
+import jakarta.servlet.*;
+import java.io.*;
+
+import dao.UserDAO;
 import model.User;
 
+@MultipartConfig
 @WebServlet("/UploadProfileImageServlet")
-@MultipartConfig(maxFileSize = 5 * 1024 * 1024)
 public class UploadProfileImageServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        User user = (User) req.getSession().getAttribute("user");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    throws ServletException, IOException {
 
-        if (user == null) {
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null){
             resp.sendRedirect("login.jsp");
             return;
         }
 
-        Part photo = req.getPart("photo");
-        InputStream is = photo.getInputStream();
+        Part filePart = req.getPart("photo");
+        InputStream is = filePart.getInputStream();
 
-        try {
-			new UserDAO().updateUserImage(user.getId(), is);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        UserDAO dao = new UserDAO();
+        dao.updateProfilePhoto(user.getId(), is);
 
-        resp.sendRedirect("profile.jsp?success=Profile updated successfully");
+        resp.sendRedirect("profile.jsp?success=Photo uploaded");
     }
 }
+

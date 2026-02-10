@@ -115,4 +115,31 @@ public class ServiceDAO {
             return ps.executeUpdate() > 0;
         }
     }
+    
+    public List<Service> getBySalon(int salonId) {
+        List<Service> services = new ArrayList<>();
+        String sql = "SELECT * FROM services WHERE salon_id = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, salonId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Service s = new Service();
+                s.setId(rs.getInt("id"));
+                s.setName(rs.getString("name"));
+                s.setPrice(rs.getDouble("price"));
+                s.setDurationMinutes(rs.getInt("duration")); // if you have duration field
+                s.setDescription(rs.getString("description")); // if exists
+                services.add(s);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return services;
+    }
 }

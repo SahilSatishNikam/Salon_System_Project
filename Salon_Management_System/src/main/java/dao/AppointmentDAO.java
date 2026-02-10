@@ -1,6 +1,8 @@
 package dao;
 
 import java.sql.*;
+import java.sql.Date;
+import java.time.LocalTime;
 import java.util.*;
 import model.Appointment;
 import model.Client;
@@ -227,9 +229,13 @@ public class AppointmentDAO {
         a.setStatus(rs.getString("status"));
         a.setTherapistDecision(rs.getString("therapist_decision"));
 
+        // ✅ ADD THESE (missing in your code)
+        a.setCustomerName(rs.getString("customerName"));
+        a.setFeedbackGiven(rs.getBoolean("feedback_given"));
+
         return a;
     }
-    
+
     public List<Appointment> getUpcomingAppointments(int userId){
 
         List<Appointment> list = new ArrayList<>();
@@ -271,7 +277,7 @@ public class AppointmentDAO {
             SELECT *
             FROM appointments
             WHERE user_id = ?
-            AND status = 'Completed'
+            AND status = 'COMPLETED'
             ORDER BY appointment_date DESC, appointment_time DESC
         """;
 
@@ -485,7 +491,206 @@ public class AppointmentDAO {
 
         return success;
     }
+    
+    public List<String> getBookedSlots(int therapistId, String date) {
+        List<String> slots = new ArrayList<>();
+        String sql = "SELECT appointment_time FROM appointments " +
+                     "WHERE therapist_id=? AND appointment_date=?";
 
- }
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            ps.setDate(2, Date.valueOf(date)); // convert string to java.sql.Date
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Time time = rs.getTime("appointment_time");
+                slots.add(time.toLocalTime().toString()); // convert Time -> HH:mm string
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return slots;
+    }
+
+    // -------------------------------
+    // 2️⃣ Check if a specific slot is already booked
+    // -------------------------------
+    public boolean isSlotAlreadyBooked(int therapistId, String date, String time) {
+        String sql = "SELECT 1 FROM appointments " +
+                     "WHERE therapist_id=? AND appointment_date=? AND appointment_time=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            ps.setDate(2, Date.valueOf(date));
+            ps.setTime(3, Time.valueOf(time + ":00")); // convert "HH:mm" to Time
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // true if slot exists
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true; // assume booked if error occurs
+        }
+    }
+
+    // -------------------------------
+    // 3️⃣ Insert a new appointment into the database
+    // -------------------------------
+    public void insertAppointment(int userId, int therapistId, int salonId,
+                                  String serviceName, String date, String time,
+                                  String customerName) {
+        String sql = "INSERT INTO appointments " +
+                     "(user_id, therapist_id, salon_id, service_name, " +
+                     "appointment_date, appointment_time, customerName) " +
+                     "VALUES (?,?,?,?,?,?,?)";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, therapistId);
+            ps.setInt(3, salonId);
+            ps.setString(4, serviceName);
+            ps.setDate(5, Date.valueOf(date));
+            ps.setTime(6, Time.valueOf(time + ":00")); // convert HH:mm -> Time
+            ps.setString(7, customerName);
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<Appointment> getAvailableSlotsByTherapist(int therapistId) {
+        List<Appointment> slots = new ArrayList<>();
+
+        String sql = "SELECT * FROM appointments WHERE therapist_id=? AND status='available' ORDER BY appointment_time";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Appointment a = new Appointment();
+
+                    a.setId(rs.getInt("id"));
+                    a.setAppointmentDate(rs.getDate("appointment_date"));   // DB Date
+                    a.setAppointmentTime(rs.getTime("appointment_time"));   // DB Time
+                    a.setServiceName(rs.getString("service_name"));
+                    a.setStatus(rs.getString("status"));
+
+                    // For display purposes
+                    a.setDate(rs.getDate("appointment_date").toString());
+                    a.setTime(rs.getTime("appointment_time").toString());
+
+                    slots.add(a);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return slots;
+    }
+
+    
+    public List<Appointment> getAvailableSlotsByTherapistAndDate(int therapistId, java.sql.Date date) {
+        List<Appointment> slots = new ArrayList<>();
+        String sql = "SELECT * FROM appointments WHERE therapist_id=? AND appointment_date=? AND status='available' ORDER BY appointment_time";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            ps.setDate(2, date);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Appointment a = new Appointment();
+
+                    a.setId(rs.getInt("id"));
+                    a.setAppointmentDate(rs.getDate("appointment_date"));
+                    a.setAppointmentTime(rs.getTime("appointment_time"));
+                    a.setServiceName(rs.getString("service_name"));
+                    a.setStatus(rs.getString("status"));
+
+                    // Populate display fields
+                    a.setDate(rs.getDate("appointment_date").toString());
+                    a.setTime(rs.getTime("appointment_time").toString());
+
+                    slots.add(a);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return slots;
+    }
+
+    
+    public List<String> getAvailableSlots(int therapistId, java.sql.Date date) {
+        List<String> slots = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection()) {
+            // 1️⃣ Get therapist availability for the date
+            String availQuery = "SELECT start_time, end_time, slot_duration FROM therapist_availability WHERE therapist_id=? AND available_date=?";
+            PreparedStatement ps = conn.prepareStatement(availQuery);
+            ps.setInt(1, therapistId);
+            ps.setDate(2, date);
+            ResultSet rs = ps.executeQuery();
+
+            if(!rs.next()) return slots; // No availability
+
+            Time startTime = rs.getTime("start_time");
+            Time endTime = rs.getTime("end_time");
+            int duration = rs.getInt("slot_duration"); // in minutes
+
+            // 2️⃣ Generate all slots between start and end
+            LocalTime start = startTime.toLocalTime();
+            LocalTime end = endTime.toLocalTime();
+
+            List<String> allSlots = new ArrayList<>();
+            while(start.plusMinutes(duration).compareTo(end) <= 0){
+                allSlots.add(start.toString());
+                start = start.plusMinutes(duration);
+            }
+
+            // 3️⃣ Remove already booked slots
+            String bookedQuery = "SELECT appointment_time FROM user_appointments WHERE therapist_id=? AND appointment_date=?";
+            ps = conn.prepareStatement(bookedQuery);
+            ps.setInt(1, therapistId);
+            ps.setDate(2, date);
+            rs = ps.executeQuery();
+
+            List<String> bookedSlots = new ArrayList<>();
+            while(rs.next()){
+                bookedSlots.add(rs.getTime("appointment_time").toLocalTime().toString());
+            }
+
+            for(String slot : allSlots){
+                if(!bookedSlots.contains(slot)) slots.add(slot);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return slots;
+    }
+
+
+
+}
 
 

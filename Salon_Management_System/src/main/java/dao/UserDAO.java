@@ -20,32 +20,41 @@ public class UserDAO {
     }
 
     public User login(String email, String password) {
+
         User user = null;
 
-        String sql = "SELECT * FROM users WHERE email=? AND password=?";
+        try {
+            Connection con = DBConnection.getConnection();
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+            String sql = "SELECT * FROM users WHERE email=? AND password=?";
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, email);
             ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            if(rs.next()){
                 user = new User();
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
                 user.setPhone(rs.getString("phone"));
+                user.setLoyaltyPoints(rs.getInt("loyalty_points"));
+                user.setCustomerName(rs.getString("customerName"));
 
+                // ✅ important
+                user.setProfilePhoto(rs.getBytes("profile_photo"));
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return user;
     }
+
 
     public User validateUser(String email, String password) throws Exception {
         String sql = "SELECT * FROM users WHERE email=? AND password=?";
@@ -137,5 +146,24 @@ public class UserDAO {
 
         return exists;
     }
+
+    public void updateProfilePhoto(int userId, InputStream photoStream) {
+
+        try {
+            Connection con = DBConnection.getConnection();
+
+            String sql = "UPDATE users SET profile_photo=? WHERE id=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setBlob(1, photoStream);
+            ps.setInt(2, userId);
+
+            ps.executeUpdate();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 }

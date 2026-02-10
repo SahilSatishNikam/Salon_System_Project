@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List, model.Therapist, model.Salon" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +17,6 @@
             background-color: #111;
             color: #f5c518;
         }
-
 
         .main {
             margin-left: 250px;
@@ -57,6 +56,7 @@
 
 <!-- SIDEBAR -->
 <%@ include file="sidebar.jsp" %>
+
 <!-- MAIN CONTENT -->
 <div class="main">
 
@@ -92,11 +92,16 @@
             <div class="col-md-2">
                 <select name="salonId" class="form-select" required>
                     <option value="">Assign Salon</option>
-                    <c:forEach var="s" items="${salons}">
-                        <option value="${s.id}">
-                            ${s.name}
-                        </option>
-                    </c:forEach>
+                    <%
+                        if(request.getAttribute("salons") != null){
+                            List<Salon> salons = (List<Salon>) request.getAttribute("salons");
+                            for(Salon s : salons){
+                    %>
+                        <option value="<%= s.getId() %>"><%= s.getName() %></option>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
             </div>
 
@@ -128,53 +133,53 @@
                 <th><i class="bi bi-gear"></i> Actions</th>
             </tr>
 
-            <c:forEach var="t" items="${therapists}">
+            <%
+                if(request.getAttribute("therapists") != null){
+                    List<Therapist> therapists = (List<Therapist>) request.getAttribute("therapists");
+                    for(Therapist t : therapists){
+                        String statusClass = "Active".equals(t.getStatus()) ? "bg-success" : "bg-danger";
+                        String approvedClass = t.getApproved() == 1 ? "bg-success" : "bg-warning";
+                        String approvedText = t.getApproved() == 1 ? "Approved" : "Pending";
+                        String toggleStatus = "Active".equals(t.getStatus()) ? "Inactive" : "Active";
+            %>
                 <tr>
-                    <td>${t.name}</td>
-                    <td>${t.phone}</td>
-                    <td>${t.email}</td>
-                    <td>${t.specialty}</td>
-                    <td>${t.salonId}</td>
+                    <td><%= t.getName() %></td>
+                    <td><%= t.getPhone() %></td>
+                    <td><%= t.getEmail() %></td>
+                    <td><%= t.getSpecialty() %></td>
+                    <td><%= t.getSalonId() %></td>
+
+                    <td><span class="badge <%= statusClass %>"><%= t.getStatus() %></span></td>
+                    <td><span class="badge <%= approvedClass %>"><%= approvedText %></span></td>
 
                     <td>
-                        <span class="badge ${t.status=='Active'?'bg-success':'bg-danger'}">
-                            ${t.status}
-                        </span>
-                    </td>
-
-                    <td>
-                        <span class="badge ${t.approved==1?'bg-success':'bg-warning'}">
-                            ${t.approved==1?'Approved':'Pending'}
-                        </span>
-                    </td>
-
-                    <td>
-
                         <!-- Activate / Deactivate -->
                         <form action="AdminTherapistServlet" method="post" class="d-inline">
                             <input type="hidden" name="action" value="status">
-                            <input type="hidden" name="therapistId" value="${t.id}">
-                            <input type="hidden" name="status" value="${t.status=='Active'?'Inactive':'Active'}">
-
+                            <input type="hidden" name="therapistId" value="<%= t.getId() %>">
+                            <input type="hidden" name="status" value="<%= toggleStatus %>">
                             <button class="btn btn-sm btn-warning">
-                                <i class="bi bi-power"></i>
-                                ${t.status=='Active'?'Deactivate':'Activate'}
+                                <i class="bi bi-power"></i> <%= "Active".equals(t.getStatus()) ? "Deactivate" : "Activate" %>
                             </button>
                         </form>
 
                         <!-- Approve -->
-                        <c:if test="${t.approved != 1}">
-                            <form action="ApproveTherapistServlet" method="post" class="d-inline">
-                                <input type="hidden" name="therapistId" value="${t.id}">
-                                <button class="btn btn-sm btn-success">
-                                    <i class="bi bi-check-circle"></i> Approve
-                                </button>
-                            </form>
-                        </c:if>
-
+                        <%
+                            if(t.getApproved() != 1){
+                        %>
+                        <form action="ApproveTherapistServlet" method="post" class="d-inline">
+                            <input type="hidden" name="therapistId" value="<%= t.getId() %>">
+                            <button class="btn btn-sm btn-success">
+                                <i class="bi bi-check-circle"></i> Approve
+                            </button>
+                        </form>
+                        <% } %>
                     </td>
                 </tr>
-            </c:forEach>
+            <% 
+                    }
+                }
+            %>
         </table>
     </div>
 
