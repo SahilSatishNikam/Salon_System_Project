@@ -294,6 +294,96 @@ public class TherapistDAO {
         }
     }
 
+    public List<String> getTherapistSlotRange(int therapistId, String date) {
+
+        List<String> list = new ArrayList<>();
+
+        String sql = """
+            SELECT start_time, end_time, duration
+            FROM therapist_slots
+            WHERE therapist_id=? AND work_date=?
+        """;
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, therapistId);
+            ps.setDate(2, Date.valueOf(date));
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+
+                Time start = rs.getTime("start_time");
+                Time end   = rs.getTime("end_time");
+                int dur    = rs.getInt("duration");
+
+                LocalTime s = start.toLocalTime();
+                LocalTime e = end.toLocalTime();
+
+                while(!s.plusMinutes(dur).isAfter(e)) {
+                    list.add(s.toString().substring(0,5));
+                    s = s.plusMinutes(dur);
+                }
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<Therapist> getBySalon(int salonId) {
+
+        List<Therapist> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM therapists WHERE salon_id=?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, salonId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                Therapist t = new Therapist();
+                t.setId(rs.getInt("id"));
+                t.setName(rs.getString("name"));
+                t.setSpecialty(rs.getString("specialty"));
+                list.add(t);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    public List<Therapist> getTherapistsByService(int serviceId){
+        List<Therapist> therapists = new ArrayList<>();
+        try(Connection conn = DBConnection.getConnection()){
+            String sql = "SELECT t.id, t.name, t.specialty FROM therapists t " +
+                         "JOIN therapist_services ts ON t.id = ts.therapist_id " +
+                         "WHERE ts.service_id = ? AND t.status='Active'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, serviceId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Therapist t = new Therapist();
+                t.setId(rs.getInt("id"));
+                t.setName(rs.getString("name"));
+                t.setSpecialty(rs.getString("specialty"));
+                therapists.add(t);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return therapists;
+    }
+
+
 }
 
 

@@ -139,5 +139,31 @@ public class SalonDAO {
 	        return count;
 	    }
 
+	    public Salon getById(int salonId) {
+	        Salon salon = null;
+	        String sql = "SELECT * FROM salons WHERE id = ?";
+
+	        try (Connection con = DBConnection.getConnection();
+	             PreparedStatement ps = con.prepareStatement(sql)) {
+
+	            ps.setInt(1, salonId);
+	            ResultSet rs = ps.executeQuery();
+
+	            if (rs.next()) {
+	                salon = new Salon();
+	                salon.setId(rs.getInt("id"));
+	                salon.setName(rs.getString("name"));
+	                salon.setAddress(rs.getString("address"));
+	                salon.setPhone(rs.getString("phone"));
+	                salon.setEmail(rs.getString("email"));
+	                // add any other Salon fields from your DB
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return salon;
+	    }
 	}
 

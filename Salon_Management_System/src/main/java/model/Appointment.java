@@ -13,6 +13,7 @@ public class Appointment {
     private Date appointmentDate;
     private Time appointmentTime;
     private String status;
+    private boolean feedbackGiven;
 
     // dashboard display fields
     private String customerName;
@@ -65,6 +66,14 @@ public class Appointment {
     public String getTherapistDecision() { return therapistDecision; }
     public void setTherapistDecision(String therapistDecision) {
         this.therapistDecision = therapistDecision;
+    }
+
+    public boolean isFeedbackGiven() {
+        return feedbackGiven;
+    }
+
+    public void setFeedbackGiven(boolean feedbackGiven) {
+        this.feedbackGiven = feedbackGiven;
     }
 
 }
