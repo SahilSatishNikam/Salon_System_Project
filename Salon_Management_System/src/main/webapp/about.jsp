@@ -60,22 +60,56 @@
 
 .stat p{
  color:#aaa;
- font-size:12px;
+ font-size:15px;
  letter-spacing:3px;
  opacity:.8;
+}
+/* ===== HOVER WHOLE CARD EFFECT ===== */
+
+.stat{
+ transition:.4s ease;
+ cursor:pointer;
+}
+
+/* when cursor on stat */
+.stat:hover h2{
+ text-shadow:
+   0 0 10px rgba(201,162,39,.9),
+   0 0 20px rgba(201,162,39,.5);
+
+ transform:scale(1.12);
+}
+
+/* highlight text also */
+.stat:hover p{
+ color:#fff;
+ letter-spacing:4px;
+ text-shadow:0 0 8px rgba(255,255,255,.6);
+
+ transition:.4s;
+}
+
+/* golden line brighter */
+.stat:hover .s-line{
+ background:#ffd700;
+ box-shadow:0 0 10px rgba(201,162,39,.8);
+ transform:scaleX(1.3);
+}
+
+/* subtle card lift */
+.stat:hover{
+ transform:translateY(-6px);
 }
 
 /* ===== GLOBAL ===== */
 body{
  margin:0;
- font-family:'Segoe UI',sans-serif;
+ font-family: "Times New Roman", Times, serif !important;
  background:#0b0905;
  color:#fff;
 }
 
-
 /* ===== EXACT NAVBAR SECTION START STYLE ===== */
-
 .navbar {
   display:flex;
   justify-content:space-between;
@@ -84,7 +118,7 @@ body{
   background:#0a0a0a;
   border-bottom:1px solid rgba(255,215,0,0.2);
 
-  padding:12px 60px;
+  padding:20px 80px;
 
   position:fixed;
   width:100%;
@@ -123,13 +157,13 @@ body{
 .nav-links{
   display:flex;
   align-items:center;
-  gap:22px;
+  gap:30px;
 }
 
 .nav-links a{
   color:#fff;
   text-decoration:none;
-  font-size:15px;
+  font-size:20px;
   position:relative;
 }
 
@@ -311,6 +345,7 @@ body{
   }
 }
 
+
 /* ===== EXACT NAVBAR SECTION  END STYLE ===== */
 /* ===== HERO ===== */
 /* ===== HERO PREMIUM ANIMATION ===== */
@@ -336,6 +371,7 @@ body{
 .hero small{
  letter-spacing:4px;
  color:#c9a227;
+ font-size:20px;
 
  opacity:0;
  transform:translateY(-20px);
@@ -409,42 +445,7 @@ body{
  to{ background-size:100%; }
 }
 
-/* ===== HOVER WHOLE CARD EFFECT ===== */
 
-.stat{
- transition:.4s ease;
- cursor:pointer;
-}
-
-/* when cursor on stat */
-.stat:hover h2{
- text-shadow:
-   0 0 10px rgba(201,162,39,.9),
-   0 0 20px rgba(201,162,39,.5);
-
- transform:scale(1.12);
-}
-
-/* highlight text also */
-.stat:hover p{
- color:#fff;
- letter-spacing:4px;
- text-shadow:0 0 8px rgba(255,255,255,.6);
-
- transition:.4s;
-}
-
-/* golden line brighter */
-.stat:hover .s-line{
- background:#ffd700;
- box-shadow:0 0 10px rgba(201,162,39,.8);
- transform:scaleX(1.3);
-}
-
-/* subtle card lift */
-.stat:hover{
- transform:translateY(-6px);
-}
 
 /* ===== HOW WE STARTED ===== */
 /* ===== TITLE LOGO BEFORE TEXT ===== */
@@ -621,6 +622,7 @@ body{
 .art-top small{
  color:#c9a227;
  letter-spacing:4px;
+ font-size:20px;  
 }
 
 .art-top h2{
@@ -630,7 +632,6 @@ body{
 
 .art-top span{
  color:#c9a227;
- font-style:italic;
 }
 
 /* GRID */
@@ -672,7 +673,7 @@ body{
 .art-info small{
  color:#c9a227;
  letter-spacing:2px;
- font-size:11px;
+ font-size:15px;
 }
 
 .art-info h3{
@@ -1044,7 +1045,7 @@ font-size: 16px !important;
 
 .u-top span{
  color:#c9a227;
- font-style:italic;
+
 }
 
 
@@ -1496,7 +1497,7 @@ font-size: 16px !important;
 <h3 class="idea-title">
    <span class="material-icons icon">auto_awesome
 </span>
-   THE STRUGGLE
+   THE RESEARCH
 </h3>
   
 
@@ -1567,7 +1568,7 @@ font-size: 16px !important;
 
       <!-- CARD 2 -->
       <div class="art-card center">
-         <img src="images/women.jpg">
+         <img src="images/w1.jpeg">
 
          <div class="art-info">
             <small>MAKEUP EXPERT</small>
@@ -1578,7 +1579,7 @@ font-size: 16px !important;
 
       <!-- CARD 3 -->
       <div class="art-card">
-         <img src="images/women2.jpg">
+         <img src="images/w2.jpeg">
 
          <div class="art-info">
             <small>SKIN SPECIALIST</small>
@@ -1607,7 +1608,7 @@ font-size: 16px !important;
   <!-- RIGHT CONTENT -->
   <div class="philo-right">
 
-     <small class="tag">WHY LUXE SALON</small>
+     <small class="tag">WHY GOLDENGLOW SALON</small>
      <h2 class="main">OUR CORE PHILOSOPHY</h2>
 
 
