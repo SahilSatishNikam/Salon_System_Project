@@ -4,53 +4,70 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import model.Feedback;
 import model.User;
-import model.Appointment;
-import model.Service;
-import dao.AppointmentDAO;
-import dao.ServiceDAO;
+import dao.FeedbackDAO;
 
-@WebServlet("/FeedbackServlet")
+@WebServlet("/submitFeedback")
 public class FeedbackServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
-        User user = (User) (session != null ? session.getAttribute("user") : null);
-
-        if (user == null) {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get logged-in user
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        String appointmentIdStr = request.getParameter("appointmentId");
-        if (appointmentIdStr == null || appointmentIdStr.isEmpty()) {
-            response.sendRedirect("user-dashboard.jsp?error=Missing+appointmentId");
+        // Get form parameters
+        String message = request.getParameter("message");
+        String ratingParam = request.getParameter("rating");
+
+        if(message == null || ratingParam == null || message.trim().isEmpty()) {
+            session.setAttribute("feedbackMsg", "Please fill in all fields.");
+            response.sendRedirect("user-feedback.jsp");
             return;
         }
 
+        int rating = 0;
         try {
-            int appointmentId = Integer.parseInt(appointmentIdStr);
-            Appointment appointment = new AppointmentDAO().getAppointmentById(appointmentId);
-
-            if (appointment == null || appointment.getUserId() != user.getId()) {
-                response.sendRedirect("user-dashboard.jsp?error=Invalid+appointment");
-                return;
-            }
-
-            Service service = new ServiceDAO().getServiceById(appointment.getSalonId());
-
-            // Pass objects to JSP
-            request.setAttribute("appointment", appointment);
-            request.setAttribute("service", service);
-            request.getRequestDispatcher("feedback.jsp").forward(request, response);
-
-        } catch (NumberFormatException e) {
-            response.sendRedirect("user-dashboard.jsp?error=Invalid+appointmentId");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("user-dashboard.jsp?error=Something+went+wrong");
+            rating = Integer.parseInt(ratingParam);
+            if(rating < 1 || rating > 5) rating = 0;
+        } catch(NumberFormatException e) {
+            rating = 0;
         }
+
+        if(rating == 0) {
+            session.setAttribute("feedbackMsg", "Please select a valid rating.");
+            response.sendRedirect("user-feedback.jsp");
+            return;
+        }
+
+        // Create Feedback object
+        Feedback f = new Feedback();
+        f.setUser(user.getName());
+        f.setMessage(message);
+        f.setRating(rating);
+
+        // Save using DAO
+        FeedbackDAO dao = new FeedbackDAO();
+        boolean saved = dao.saveFeedback(f);
+
+        if(saved) {
+            session.setAttribute("feedbackMsg", "Thank you! Your feedback has been submitted.");
+        } else {
+            session.setAttribute("feedbackMsg", "Oops! Something went wrong. Try again.");
+        }
+
+        // Redirect back to feedback page
+        response.sendRedirect("user-feedback.jsp");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("user-feedback.jsp");
     }
 }

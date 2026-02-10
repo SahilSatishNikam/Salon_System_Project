@@ -9,11 +9,10 @@
     <!-- MENU LINKS -->
     <a class="active" href="dashboard.jsp"><i class="bi bi-speedometer2"></i> Dashboard</a>
     <a href="manage-salons.jsp"><i class="bi bi-shop"></i> Manage Salons</a>
-    <a href="manageVerifyAdmins.jsp"><i class="bi bi-shield-check"></i> Manage Admins</a>
+    <a href="AdminClientViewServlet"><i class="bi bi-shield-check"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="bi bi-person-badge"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"><i class="bi bi-calendar-check"></i> Appointments</a>
-    <a href="user-dashboard.jsp"><i class="bi bi-people"></i> Users</a>
-    <a href="feedback.jsp"><i class="bi bi-chat-left-text"></i> Feedback</a>
+    <a href="FeedbackServlet"><i class="bi bi-chat-left-text"></i> Feedback</a>
     <a href="reports.jsp"><i class="bi bi-bar-chart"></i> Reports</a>
     <a href="logout.jsp"><i class="bi bi-box-arrow-right"></i> Logout</a>
 

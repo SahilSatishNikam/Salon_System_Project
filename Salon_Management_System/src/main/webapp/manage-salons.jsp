@@ -3,8 +3,9 @@
 <head>
 <title>Manage Salons</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
 body{
@@ -13,8 +14,13 @@ body{
     background:#0f0f0f;
     color:#fff;
 }
-.container{ display:flex; }
+.container{
+    display:flex;
+}
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 .admin-sidebar{
     position:fixed;
     left:0;
@@ -68,6 +74,8 @@ body{
     border-left:4px solid #fff;
     transform:translateX(6px);
 }
+=======
+>>>>>>> Stashed changes
 
 /* LOGOUT */
 .admin-sidebar .logout{
@@ -87,6 +95,10 @@ body{
 }
 
 
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
 /* CONTENT */
 .content{
@@ -95,11 +107,11 @@ body{
     width:100%;
 }
 
-h2{ color:#FFD700; }
+h2{ color:#FFD700; margin-bottom:15px; }
 
 form input{
     padding:10px;
-    margin:6px;
+    margin:6px 6px 6px 0;
     border:1px solid #333;
     border-radius:6px;
     background:#000;
@@ -111,6 +123,7 @@ button{
     border:none;
     border-radius:6px;
     font-weight:600;
+    cursor:pointer;
 }
 
 table{
@@ -126,6 +139,7 @@ th{
 td,th{
     border:1px solid #222;
     padding:12px;
+    vertical-align:middle;
 }
 .service-table{
     margin-left:30px;
@@ -135,6 +149,13 @@ td,th{
 img{
     border-radius:8px;
     border:2px solid #FFD700;
+}
+
+/* SERVICE TOGGLE */
+.toggle-btn{
+    cursor:pointer;
+    color:#FFD700;
+    margin-left:6px;
 }
 </style>
 
@@ -147,8 +168,10 @@ function toggleServiceForm(id){
 </head>
 
 <body>
-<div class="container">
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <!-- 🔥 NEW SIDEBAR -->
 <div class="admin-sidebar">
 
@@ -193,21 +216,36 @@ function toggleServiceForm(id){
     </a>
 
 </div>
+=======
+
+<!-- SIDEBAR -->
+<%@ include file="sidebar.jsp" %>
+>>>>>>> Stashed changes
+=======
+
+<!-- SIDEBAR -->
+<%@ include file="sidebar.jsp" %>
+>>>>>>> Stashed changes
+=======
+
+<!-- SIDEBAR -->
+<%@ include file="sidebar.jsp" %>
+>>>>>>> Stashed changes
 
 <!-- CONTENT -->
 <div class="content">
 
-<h2><i class="fa fa-plus-circle"></i> Add New Salon</h2>
+<h2><i class="fa-solid fa-circle-plus"></i> Add New Salon</h2>
 <form method="post" action="AddSalonServlet" enctype="multipart/form-data">
 <input type="text" name="name" placeholder="Salon Name" required>
 <input type="text" name="email" placeholder="Email">
 <input type="text" name="phone" placeholder="Phone">
 <input type="text" name="address" placeholder="Address">
 <input type="file" name="image" required>
-<button type="submit"><i class="fa fa-save"></i> Add</button>
+<button type="submit"><i class="fa-solid fa-floppy-disk"></i> Add</button>
 </form>
 
-<h2><i class="fa fa-shop"></i> All Salons</h2>
+<h2><i class="fa-solid fa-shop"></i> All Salons</h2>
 
 <%
 SalonDAO salonDAO=new SalonDAO();
@@ -215,7 +253,7 @@ ServiceDAO serviceDAO=new ServiceDAO();
 List<Salon> salons=salonDAO.getAllSalons();
 
 for(Salon s:salons){
-s.setServices(serviceDAO.getServicesBySalon(s.getId()));
+    s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 %>
 
 <table>
@@ -232,18 +270,18 @@ s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 <td><%=s.getAddress()%></td>
 
 <td>
-<a href="EditSalonServlet?id=<%=s.getId()%>"><i class="fa fa-edit"></i></a>
-<a href="DeleteSalonServlet?id=<%=s.getId()%>" onclick="return confirm('Delete?')"><i class="fa fa-trash"></i></a>
-<a href="javascript:void(0)" onclick="toggleServiceForm(<%=s.getId()%>)"><i class="fa fa-scissors"></i></a>
+<a href="EditSalonServlet?id=<%=s.getId()%>"><i class="fa-solid fa-pen-to-square"></i></a>
+<a href="DeleteSalonServlet?id=<%=s.getId()%>" onclick="return confirm('Delete?')"><i class="fa-solid fa-trash"></i></a>
+<span class="toggle-btn" onclick="toggleServiceForm(<%=s.getId()%>)"><i class="fa-solid fa-scissors"></i></span>
 </td>
 </tr>
 
 <tr>
 <td colspan="5">
 
-<div id="serviceForm-<%=s.getId()%>" style="display:none">
+<div id="serviceForm-<%=s.getId()%>" style="display:none; margin-top:10px;">
 
-<h4 style="color:#FFD700;"><i class="fa fa-cut"></i> Services</h4>
+<h4 style="color:#FFD700;"><i class="fa-solid fa-cut"></i> Services</h4>
 
 <form method="post" action="AddServiceServlet">
 <input type="hidden" name="salonId" value="<%=s.getId()%>">
@@ -251,7 +289,7 @@ s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 <input type="text" name="description" placeholder="Description">
 <input type="number" name="price" placeholder="Price" step="0.01" required>
 <input type="number" name="durationMinutes" placeholder="Duration" required>
-<button type="submit"><i class="fa fa-plus"></i></button>
+<button type="submit"><i class="fa-solid fa-plus"></i> Add</button>
 </form>
 
 <table class="service-table">
@@ -264,21 +302,18 @@ s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 
 <% if(s.getServices()!=null){
 for(Service srv:s.getServices()){ %>
-
 <tr>
 <td><%=srv.getName()%></td>
 <td>₹<%=srv.getPrice()%></td>
 <td><%=srv.getDurationMinutes()%> min</td>
 <td>
-<a href="EditServiceServlet?id=<%=srv.getId()%>"><i class="fa fa-edit"></i></a>
-<a href="DeleteServiceServlet?id=<%=srv.getId()%>&salonId=<%=s.getId()%>"><i class="fa fa-trash"></i></a>
+<a href="EditServiceServlet?id=<%=srv.getId()%>"><i class="fa-solid fa-pen-to-square"></i></a>
+<a href="DeleteServiceServlet?id=<%=srv.getId()%>&salonId=<%=s.getId()%>"><i class="fa-solid fa-trash"></i></a>
 </td>
 </tr>
-
 <% }} %>
 
 </table>
-
 </div>
 </td>
 </tr>

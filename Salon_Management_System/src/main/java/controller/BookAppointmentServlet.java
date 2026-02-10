@@ -23,7 +23,7 @@ import java.util.List;
 import model.EmailUtil;
 
 
-@WebServlet("/book-appointment")
+@WebServlet("/BookAppointmentServlet")
 public class BookAppointmentServlet extends HttpServlet {
 
     @Override
@@ -47,7 +47,7 @@ public class BookAppointmentServlet extends HttpServlet {
             request.setAttribute("services", services);
             request.setAttribute("therapists", therapists);
 
-            request.getRequestDispatcher("/book-appointment.jsp").forward(request, response);
+            request.getRequestDispatcher("book-appointment.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
