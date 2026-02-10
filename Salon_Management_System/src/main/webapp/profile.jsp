@@ -90,10 +90,9 @@ body{
     align-items:center;
 }
 
-<<<<<<< Updated upstream
+
 /* ================= PROFILE CARD ================= */
-=======
->>>>>>> Stashed changes
+
 .profile-card{
     background:#0c0c0c;
     border-radius:22px;
@@ -106,15 +105,16 @@ body{
     border:1px solid #d4af37;
 }
 
-<<<<<<< Updated upstream
+
 /* avatar */
 .avatar-box{
     flex:1;
     text-align:center;
 }
-=======
 .avatar-box{ flex:1; text-align:center; }
->>>>>>> Stashed changes
+
+.avatar-box{ flex:1; text-align:center; }
+
 
 .avatar{
     width:180px;
@@ -149,14 +149,16 @@ body{
     font-weight:600;
 }
 
-<<<<<<< Updated upstream
+
 /* info */
 .info-box{
     flex:2;
 }
-=======
+
 .info-box{ flex:2; color:#fff; }
->>>>>>> Stashed changes
+
+.info-box{ flex:2; color:#fff; }
+
 
 .info-box h2{
     color:#ffd700;
@@ -164,8 +166,7 @@ body{
 
 .email{ color:#d4af37; margin-bottom:15px; }
 
-<<<<<<< Updated upstream
-=======
+
 .success{
     background:#0c3321;
     color:#3cffb1;
@@ -174,7 +175,7 @@ body{
     margin-bottom:15px;
 }
 
->>>>>>> Stashed changes
+
 .profile-form label{
     margin-top:10px;
     color:#ffd700;
@@ -200,13 +201,13 @@ body{
 }
 
 @media(max-width:768px){
-<<<<<<< Updated upstream
+
     .container-fluid{ flex-direction:column; }
     .sidebar{ width:100%; min-height:auto; }
     .profile-card{ flex-direction:column; }
-=======
     .profile-card{ flex-direction:column; text-align:center; }
->>>>>>> Stashed changes
+    .profile-card{ flex-direction:column; text-align:center; }
+
 }
 </style>
 </head>
@@ -215,7 +216,6 @@ body{
 
 <div class="container-fluid">
 
-<<<<<<< Updated upstream
     <!-- SIDEBAR -->
     <div class="sidebar">
        
@@ -277,66 +277,10 @@ body{
         </div>
 
     </div>
-=======
-<!-- LEFT -->
-<div class="avatar-box">
 
-<img src="ImageServlet?id=<%= user.getId() %>&v=<%= System.currentTimeMillis() %>"
-     onerror="this.src='images/user-avatar.png'"
-     class="avatar">
-
-<form action="UploadProfileImageServlet"
-      method="post"
-      enctype="multipart/form-data">
-
-<label class="upload-btn">
-<i class="fa-solid fa-camera"></i> Change Photo
-<input type="file" name="photo" accept="image/*" hidden required>
-</label>
-
-<br>
-<button type="submit" class="save-photo">Upload</button>
-</form>
 
 </div>
 
-<!-- RIGHT -->
-<div class="info-box">
-
-<h2><%= user.getName() %></h2>
-<p class="email">
-<i class="fa-solid fa-envelope"></i>
-<%= user.getEmail() %>
-</p>
-
-<%
-String msg = request.getParameter("success");
-if(msg != null){
-%>
-<div class="success"><%= msg %></div>
-<% } %>
-
-<form action="UserServlet" method="post" class="profile-form">
-<input type="hidden" name="action" value="update">
-
-<label>Full Name</label>
-<input type="text" name="name" value="<%= user.getName() %>" required>
-
-<label>Email</label>
-<input type="email" value="<%= user.getEmail() %>" disabled>
-
-<label>New Password</label>
-<input type="password" name="password" placeholder="Enter new password">
-
-<label>Phone</label>
-<input type="text" name="phone" value="<%= user.getPhone() %>">
-
-<button class="update-btn">Update Profile</button>
-</form>
-
-</div>
->>>>>>> Stashed changes
-</div>
 
 </body>
 </html>
