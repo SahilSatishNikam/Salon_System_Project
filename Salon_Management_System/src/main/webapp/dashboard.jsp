@@ -170,6 +170,7 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 margin:25px 0;
 }
+<<<<<<< Updated upstream
 .card{
 background:#111;
 border:2px solid #FFD700;
@@ -181,6 +182,20 @@ transition:.3s;
 .card:hover{
 transform:translateY(-6px);
 box-shadow:0 12px 24px rgba(255,215,0,.25);
+=======
+.card-box{
+    background:#151515;
+    border:1px solid #fff;
+    border-radius:15px;
+    padding:25px;
+}
+.card-box:hover{
+ box-shadow:#f5c518;
+
+}
+.card-box h6{
+    color:#aaa;
+>>>>>>> Stashed changes
 }
 .num{
 font-size:28px;

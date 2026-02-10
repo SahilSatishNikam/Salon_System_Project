@@ -18,36 +18,6 @@
             color: #f5c518;
         }
 
-        .sidebar {
-            height: 100vh;
-            background: #000;
-            padding: 20px;
-            position: fixed;
-            width: 230px;
-        }
-
-        .sidebar h4 {
-            color: #f5c518;
-            font-weight: bold;
-        }
-
-        .sidebar a {
-            color: #f5c518;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-        }
-
-        .sidebar a i {
-            margin-right: 8px;
-        }
-
-        .sidebar a:hover {
-            background: #f5c518;
-            color: black;
-        }
 
         .main {
             margin-left: 250px;
@@ -86,20 +56,7 @@
 <body>
 
 <!-- SIDEBAR -->
-<div class="sidebar">
-    <h4><i class="bi bi-gem"></i> Admin Panel</h4>
-
-    <a href="dashboard.jsp"><i class="bi bi-speedometer2"></i> Dashboard</a>
-    <a href="manage-salons.jsp"><i class="bi bi-shop"></i> Salons</a>
-    <a href="manageVerifyAdmins.jsp"><i class="bi bi-shield-check"></i> Admins</a>
-    <a href="AdminTherapistServlet"><i class="bi bi-person-badge"></i> Therapists</a>
-    <a href="AdminAppointmentServlet"><i class="bi bi-calendar-check"></i> Appointments</a>
-    <a href="user-dashboard.jsp"><i class="bi bi-people"></i> Users</a>
-    <a href="feedback.jsp"><i class="bi bi-chat-left-text"></i> Feedback</a>
-    <a href="reports.jsp"><i class="bi bi-bar-chart"></i> Reports</a>
-    <a href="logout.jsp"><i class="bi bi-box-arrow-right"></i> Logout</a>
-</div>
-
+<%@ include file="sidebar.jsp" %>
 <!-- MAIN CONTENT -->
 <div class="main">
 

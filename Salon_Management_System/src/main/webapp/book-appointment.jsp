@@ -13,9 +13,115 @@
     }
 %>
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Book Appointment</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            color: #ffc107;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: #111;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+        }
+
+        .salon-info p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .error-msg {
+            background-color: #ff4d4d;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        form select, form input[type="date"], form button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        select, input[type="date"] {
+            background-color: #222;
+            color: #fff;
+        }
+
+        button {
+            background-color: #ffc107;
+            color: #111;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .back-link i {
+            margin-right: 5px;
+        }
+
+        /* Icon inside select */
+        select option::before {
+            content: "\f007"; /* user icon example */
+            font-family: "Font Awesome 6 Free";
+            padding-right: 5px;
+        }
+
+    </style>
+
     <script>
         function loadAvailableSlots() {
             var therapistId = document.getElementById("therapistSelect").value;
@@ -50,58 +156,61 @@
 </head>
 <body>
 
-<h2>Booking for: <%= salon.getName() %></h2>
-<p>Address: <%= salon.getAddress() %></p>
-<p>Contact: <%= salon.getPhone() %></p>
+<div class="container">
 
-<% if(error != null){ %>
-    <div style="color:red;"><%= error %></div>
-<% } %>
+    <h2><i class="fa-solid fa-calendar-check"></i> Book Appointment</h2>
 
-<form action="<%= request.getContextPath() %>/book-appointment" method="post">
+    <div class="salon-info">
+        <p><i class="fa-solid fa-shop"></i> <strong><%= salon.getName() %></strong></p>
+        <p><i class="fa-solid fa-location-dot"></i> <%= salon.getAddress() %></p>
+        <p><i class="fa-solid fa-phone"></i> <%= salon.getPhone() %></p>
+    </div>
 
-    <input type="hidden" name="salonId" value="<%= salon.getId() %>">
+    <% if(error != null){ %>
+        <div class="error-msg"><i class="fa-solid fa-triangle-exclamation"></i> <%= error %></div>
+    <% } %>
 
-    <!-- SERVICE -->
-    <label>Select Service:</label>
-    <select name="serviceId" required>
-        <% for(Service s : services){ %>
-            <option value="<%= s.getId() %>">
-                <%= s.getName() %> (₹<%= s.getPrice() %>)
-            </option>
-        <% } %>
-    </select>
-    <br><br>
+    <form action="<%= request.getContextPath() %>/book-appointment" method="post">
 
-    <!-- THERAPIST -->
-    <label>Select Therapist:</label>
-    <select name="therapistId" id="therapistSelect" onchange="loadAvailableSlots()" required>
-        <option value="">-- Select Therapist --</option>
-        <% for(Therapist t : therapists){ %>
-            <option value="<%= t.getId() %>">
-                <%= t.getName() %> - <%= t.getSpecialty() %>
-            </option>
-        <% } %>
-    </select>
-    <br><br>
+        <input type="hidden" name="salonId" value="<%= salon.getId() %>">
 
-    <!-- DATE -->
-    <label>Date:</label>
-    <input type="date" name="date" id="dateInput" onchange="loadAvailableSlots()" required min="<%= java.time.LocalDate.now() %>">
-    <br><br>
+        <!-- SERVICE -->
+        <label><i class="fa-solid fa-scissors"></i> Select Service:</label>
+        <select name="serviceId" required>
+            <% for(Service s : services){ %>
+                <option value="<%= s.getId() %>">
+                    <%= s.getName() %> (₹<%= s.getPrice() %>)
+                </option>
+            <% } %>
+        </select>
 
-    <!-- TIME -->
-    <label>Time:</label>
-    <select name="time" id="timeSelect" required>
-        <option value="">Select therapist and date</option>
-    </select>
-    <br><br>
+        <!-- THERAPIST -->
+        <label><i class="fa-solid fa-user"></i> Select Therapist:</label>
+        <select name="therapistId" id="therapistSelect" onchange="loadAvailableSlots()" required>
+            <option value="">-- Select Therapist --</option>
+            <% for(Therapist t : therapists){ %>
+                <option value="<%= t.getId() %>">
+                    <%= t.getName() %> - <%= t.getSpecialty() %>
+                </option>
+            <% } %>
+        </select>
 
-    <button type="submit">Confirm Booking</button>
-</form>
+        <!-- DATE -->
+        <label><i class="fa-solid fa-calendar-days"></i> Date:</label>
+        <input type="date" name="date" id="dateInput" onchange="loadAvailableSlots()" required min="<%= java.time.LocalDate.now() %>">
 
-<br>
-<a href="search-salons.jsp">← Back</a>
+        <!-- TIME -->
+        <label><i class="fa-solid fa-clock"></i> Time:</label>
+        <select name="time" id="timeSelect" required>
+            <option value="">Select therapist and date</option>
+        </select>
+
+        <button type="submit"><i class="fa-solid fa-check"></i> Confirm Booking</button>
+    </form>
+
+    <a href="search-salons.jsp" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
+
+</div>
 
 </body>
 </html>

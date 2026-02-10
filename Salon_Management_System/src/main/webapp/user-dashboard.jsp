@@ -193,6 +193,7 @@ body {
             <a href="dashboard.jsp" class="active"><i class="fa fa-chart-line"></i> Dashboard</a>
             <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
             <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
+            <a href="user-feedback.jsp"><i class="fa fa-feedback"></i>Feedback</a>
             <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
             <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
         </div>
