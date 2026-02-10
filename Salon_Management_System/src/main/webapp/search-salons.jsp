@@ -1,5 +1,13 @@
-<%@ page import="java.util.*, dao.SalonDAO, dao.ServiceDAO, model.Salon" %>
+<%@ page import="java.util.*, dao.SalonDAO, dao.ServiceDAO, model.Salon, model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    User user = (User) session.getAttribute("user");
+    if(user == null){
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 
 <!DOCTYPE html>
 <html>
@@ -13,12 +21,77 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+/* ========== GLOBAL ========== */
 body{
+    margin:0;
     min-height:100vh;
-    background:radial-gradient(circle at top,#111,#000);
+    background:#000;
     font-family:'Segoe UI',sans-serif;
     color:#fff;
 }
+
+.container-fluid{
+    display:flex;
+    padding:0;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar{
+    width:260px;
+    min-height:100vh;
+    background:linear-gradient(180deg,#0f0f0f,#1a1a1a);
+    border-right:2px solid #ffd700;
+    padding:25px 20px;
+}
+
+.sidebar-profile{
+    text-align:center;
+    border-bottom:1px solid #444;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.sidebar-profile img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:2px solid #ffd700;
+}
+
+.sidebar-profile h5{
+    color:#ffd700;
+    margin-top:10px;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+    padding:12px 15px;
+    margin:6px 0;
+    color:#fff;
+    text-decoration:none;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar-menu a i{
+    margin-right:12px;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+    background:#ffd700;
+    color:#000;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main{
+    flex:1;
+    padding:40px;
+    background:radial-gradient(circle at top,#111,#000);
+}
+
+/* ---------- YOUR EXISTING STYLES ---------- */
 
 /* Title */
 .page-title{
@@ -26,7 +99,6 @@ body{
     color:#ffd700;
     font-weight:700;
     letter-spacing:1px;
-    margin-top:60px; /* TOP → DOWN */
     margin-bottom:40px;
 }
 
@@ -37,40 +109,14 @@ body{
     border-radius:28px;
     border:1px solid #d4af37;
     max-width:900px;
-    margin:0 auto 50px auto; /* CENTER */
-    box-shadow:
-        0 0 25px rgba(212,175,55,.35),
-        inset 0 0 15px rgba(255,215,0,.15);
+    margin:0 auto 50px auto;
+    box-shadow:0 0 25px rgba(212,175,55,.35);
     position:relative;
     overflow:hidden;
 }
 
-/* Shining animation */
-.search-box::before{
-    content:'';
-    position:absolute;
-    top:-50%;
-    left:-50%;
-    width:200%;
-    height:200%;
-    background:linear-gradient(120deg,
-        transparent,
-        rgba(255,215,0,.25),
-        transparent);
-    animation:shine 6s infinite linear;
-}
-
-@keyframes shine{
-    from{transform:translateX(-100%);}
-    to{transform:translateX(100%);}
-}
-
-/* Input wrapper */
-.input-box{
-    position:relative;
-}
-
-/* Icons */
+/* Inputs */
+.input-box{ position:relative; }
 .input-box i{
     position:absolute;
     top:50%;
@@ -78,27 +124,16 @@ body{
     transform:translateY(-50%);
     color:#ffd700;
 }
-
-/* Inputs */
 .search-box input{
     padding:12px 20px 12px 45px;
     background:#000;
     border:1px solid #d4af37;
     border-radius:35px;
     color:#fff;
-    text-align:left;
 }
-
-.search-box input::placeholder{
-    color:#bbb;
-    opacity:1;
-}
-
 .search-box input:focus{
     border-color:#ffd700;
     box-shadow:0 0 15px rgba(255,215,0,.9);
-    background:#000;
-    color:#fff;
 }
 
 /* Button */
@@ -107,15 +142,8 @@ body{
     border-radius:35px;
     padding:12px;
     font-weight:700;
-    letter-spacing:.5px;
     background:linear-gradient(135deg,#d4af37,#ffd700);
     color:#000;
-    transition:.3s;
-}
-
-.search-btn:hover{
-    transform:translateY(-2px) scale(1.05);
-    box-shadow:0 0 25px rgba(255,215,0,1);
 }
 
 /* Salon card */
@@ -129,44 +157,18 @@ body{
     align-items:center;
     border:1px solid rgba(212,175,55,.4);
     box-shadow:0 0 30px rgba(212,175,55,.25);
-    transition:.3s;
-    position:relative;
 }
-
-.salon-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 0 45px rgba(255,215,0,.8);
-}
-
-/* Image */
 .salon-card img{
     width:150px;
     height:150px;
-    object-fit:cover;
     border-radius:18px;
     border:3px solid #d4af37;
 }
-
-/* Heart */
-.fav{
-    position:absolute;
-    top:18px;
-    right:22px;
-    color:#555;
-    font-size:22px;
-    cursor:pointer;
-}
-.fav:hover{color:#ffd700}
-
-/* Text */
-.salon-card h3{color:#ffd700}
-.rating i{color:#ffd700}
-.salon-card p{color:#ddd;margin:4px 0}
+.salon-card h3{ color:#ffd700; }
+.rating i{ color:#ffd700; }
 
 /* Buttons */
 .gold-btn{
-    display:inline-block;
-    margin-top:12px;
     padding:9px 20px;
     border-radius:30px;
     background:linear-gradient(135deg,#d4af37,#ffd700);
@@ -174,10 +176,7 @@ body{
     font-weight:600;
     text-decoration:none;
 }
-
 .outline-btn{
-    display:inline-block;
-    margin-top:12px;
     padding:9px 20px;
     border-radius:30px;
     border:1px solid #ffd700;
@@ -185,103 +184,84 @@ body{
     text-decoration:none;
     margin-left:10px;
 }
-
 .outline-btn:hover{
     background:#ffd700;
     color:#000;
 }
 
-/* Responsive */
 @media(max-width:768px){
-    .salon-card{
-        flex-direction:column;
-        text-align:center;
-    }
+    .container-fluid{ flex-direction:column; }
+    .sidebar{ width:100%; min-height:auto; }
+    .salon-card{ flex-direction:column; text-align:center; }
 }
 </style>
 </head>
 
-<body class="container">
+<body>
 
-<h2 class="page-title">
-    <i class="fa-solid fa-scissors"></i> Find Your Perfect Salon
-</h2>
+<div class="container-fluid">
 
-<!-- SEARCH -->
-<div class="search-box">
-<form method="get" action="search-salons.jsp"
-      class="row g-4 justify-content-center align-items-center">
-
-    <div class="col-md-4 input-box">
-        <i class="fa-solid fa-store"></i>
-        <input type="text" name="name" class="form-control"
-               placeholder="Salon Name"
-               value="<%=request.getParameter("name")!=null?request.getParameter("name"):""%>">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+       
+        <div class="sidebar-menu">
+            <a href="dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="search-salons.jsp" class="active"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
+            <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
+            <a href="user-feedback.jsp"><i class="fa fa-star"></i> Feedback</a>
+            <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
+            <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        </div>
     </div>
 
-    <div class="col-md-4 input-box">
-        <i class="fa-solid fa-location-dot"></i>
-        <input type="text" name="location" class="form-control"
-               placeholder="Location"
-               value="<%=request.getParameter("location")!=null?request.getParameter("location"):""%>">
+    <!-- MAIN -->
+    <div class="main">
+
+        <h2 class="page-title">
+            <i class="fa fa-scissors"></i> Find Your Perfect Salon
+        </h2>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+            <form method="get" action="search-salons.jsp" class="row g-4 justify-content-center">
+                <div class="col-md-4 input-box">
+                    <i class="fa fa-store"></i>
+                    <input type="text" name="name" class="form-control" placeholder="Salon Name">
+                </div>
+                <div class="col-md-4 input-box">
+                    <i class="fa fa-location-dot"></i>
+                    <input type="text" name="location" class="form-control" placeholder="Location">
+                </div>
+                <div class="col-md-2">
+                    <button class="search-btn w-100">
+                        <i class="fa fa-magnifying-glass"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <%
+        SalonDAO salonDAO = new SalonDAO();
+        List<Salon> salons = salonDAO.getAllSalons();
+        for(Salon s: salons){
+        %>
+
+        <div class="salon-card">
+            <img src="SalonImageServlet?id=<%=s.getId()%>">
+            <div>
+                <h3><%=s.getName()%></h3>
+                <p><b>Location:</b> <%=s.getAddress()%></p>
+                <p><b>Phone:</b> <%=s.getPhone()%></p>
+
+                <a href="BookAppointmentServlet?salonId=<%=s.getId()%>" class="gold-btn">Book Now</a>
+                <a href="salon-details.jsp?salonId=<%=s.getId()%>" class="outline-btn">Explore</a>
+            </div>
+        </div>
+
+        <% } %>
+
     </div>
-
-    <div class="col-md-2">
-        <button class="search-btn w-100">
-            <i class="fa fa-magnifying-glass"></i> Search
-        </button>
-    </div>
-</form>
 </div>
-
-<%
-SalonDAO salonDAO = new SalonDAO();
-String name = request.getParameter("name");
-String location = request.getParameter("location");
-
-boolean searched = (name!=null && !name.trim().isEmpty()) ||
-                   (location!=null && !location.trim().isEmpty());
-
-List<Salon> salons = searched ?
-        salonDAO.searchSalons(name,location,null) :
-        salonDAO.getAllSalons();
-%>
-
-<% if(!salons.isEmpty()){
-   for(Salon s: salons){ %>
-
-<div class="salon-card">
-
-<i class="fa-solid fa-heart fav"></i>
-
-<div>
-    <% if(s.getImage()!=null){ %>
-        <img src="SalonImageServlet?id=<%=s.getId()%>">
-    <% } else { %>
-        <img src="../images/no-image.png">
-    <% } %>
-</div>
-
-<div>
-    <h3><%=s.getName()%></h3>
-    <div class="rating">
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star-half-stroke"></i>
-    </div>
-    <p><b>Location:</b> <%=s.getAddress()%></p>
-    <p><b>Phone:</b> <%=s.getPhone()%></p>
-
-    <a href="BookAppointmentServlet?salonId=<%=s.getId()%>" class="gold-btn">Book Now</a>
-    <a href="salon-details.jsp?salonId=<%=s.getId()%>" class="outline-btn">Explore</a>
-</div>
-</div>
-
-<% } } else { %>
-<p class="text-center text-warning">No salons found</p>
-<% } %>
 
 </body>
 </html>

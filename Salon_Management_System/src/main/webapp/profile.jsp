@@ -22,16 +22,78 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+/* ================= GLOBAL ================= */
 body{
-    background:linear-gradient(135deg,#000,#111);
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#000;
+    color:#fff;
+}
+
+.container-fluid{
+    display:flex;
+    padding:0;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar{
+    width:260px;
     min-height:100vh;
+    background:linear-gradient(180deg,#0f0f0f,#1a1a1a);
+    border-right:2px solid #ffd700;
+    padding:25px 20px;
+}
+
+.sidebar-profile{
+    text-align:center;
+    border-bottom:1px solid #444;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.sidebar-profile img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:2px solid #ffd700;
+}
+
+.sidebar-profile h5{
+    color:#ffd700;
+    margin-top:10px;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+    padding:12px 15px;
+    margin:6px 0;
+    color:#fff;
+    text-decoration:none;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar-menu a i{
+    margin-right:12px;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+    background:#ffd700;
+    color:#000;
+}
+
+/* ================= MAIN ================= */
+.main{
+    flex:1;
+    padding:40px;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:'Segoe UI',sans-serif;
 }
 
-/* main card */
+/* ================= PROFILE CARD ================= */
 .profile-card{
     background:#0c0c0c;
     border-radius:22px;
@@ -44,7 +106,7 @@ body{
     border:1px solid #d4af37;
 }
 
-/* avatar section */
+/* avatar */
 .avatar-box{
     flex:1;
     text-align:center;
@@ -56,7 +118,6 @@ body{
     border-radius:50%;
     border:4px solid #d4af37;
     object-fit:cover;
-    box-shadow:0 0 20px rgba(255,215,0,.9);
     background:#000;
 }
 
@@ -68,7 +129,6 @@ body{
     border:1px solid #ffd700;
     color:#ffd700;
     cursor:pointer;
-    transition:0.3s;
 }
 
 .upload-btn:hover{
@@ -81,25 +141,17 @@ body{
     padding:8px 22px;
     border:none;
     border-radius:30px;
-    background:linear-gradient(135deg,#d4af37,#ffd700);
+    background:#ffd700;
     font-weight:600;
-    transition:0.3s;
 }
 
-.save-photo:hover{
-    box-shadow:0 0 15px rgba(255,215,0,.9);
-    transform:scale(1.05);
-}
-
-/* info section */
+/* info */
 .info-box{
     flex:2;
-    color:#fff;
 }
 
 .info-box h2{
     color:#ffd700;
-    text-shadow:0 0 10px rgba(255,215,0,.8);
 }
 
 .email{
@@ -107,19 +159,9 @@ body{
     margin-bottom:15px;
 }
 
-.success{
-    background:#0c3321;
-    color:#3cffb1;
-    padding:10px;
-    border-radius:10px;
-    margin-bottom:15px;
-    border-left:4px solid #3cffb1;
-}
-
 .profile-form label{
     margin-top:10px;
     color:#ffd700;
-    font-weight:600;
 }
 
 .profile-form input{
@@ -131,87 +173,89 @@ body{
     color:#fff;
 }
 
-.profile-form input:focus{
-    outline:none;
-    border-color:#ffd700;
-    box-shadow:0 0 10px rgba(255,215,0,.7);
-}
-
 .update-btn{
     margin-top:20px;
     width:100%;
     padding:12px;
     border:none;
     border-radius:40px;
-    background:linear-gradient(135deg,#d4af37,#ffd700);
-    color:#000;
+    background:#ffd700;
     font-weight:700;
-    letter-spacing:1px;
-    transition:0.3s;
-}
-
-.update-btn:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 25px rgba(255,215,0,.9);
 }
 
 @media(max-width:768px){
-    .profile-card{
-        flex-direction:column;
-        text-align:center;
-    }
+    .container-fluid{ flex-direction:column; }
+    .sidebar{ width:100%; min-height:auto; }
+    .profile-card{ flex-direction:column; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="profile-card">
+<div class="container-fluid">
 
-    <!-- LEFT -->
-    <div class="avatar-box">
-        <img src="ImageServlet?entity=user&id=<%= user.getId() %>"
-             onerror="this.src='images/user-avatar.png'"
-             class="avatar">
-
-        <form action="UploadProfileImageServlet" method="post" enctype="multipart/form-data">
-            <label class="upload-btn">
-                <i class="fa-solid fa-camera"></i> Change Photo
-                <input type="file" name="photo" hidden required>
-            </label>
-            <br>
-            <button type="submit" class="save-photo">Upload</button>
-        </form>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+       
+ <div class="sidebar-menu">
+            <a href="dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
+            <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
+            <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
+            <a href="user-feedback.jsp"><i class="fa fa-star"></i> Feedback</a>
+            <a href="profile.jsp" class="active"><i class="fa fa-user"></i> Profile</a>
+            <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            
+        </div>
     </div>
 
-    <!-- RIGHT -->
-    <div class="info-box">
-        <h2><%= user.getName() %></h2>
-        <p class="email"><i class="fa-solid fa-envelope"></i> <%= user.getEmail() %></p>
+    <!-- MAIN -->
+    <div class="main">
 
-        <% if(request.getParameter("success") != null){ %>
-            <div class="success"><%= request.getParameter("success") %></div>
-        <% } %>
+        <div class="profile-card">
 
-        <form action="UserServlet" method="post" class="profile-form">
-            <input type="hidden" name="action" value="update">
+            <!-- LEFT -->
+            <div class="avatar-box">
+                <img src="ImageServlet?entity=user&id=<%= user.getId() %>"
+                     onerror="this.src='images/user-avatar.png'"
+                     class="avatar">
 
-            <label>Full Name</label>
-            <input type="text" name="name" value="<%= user.getName() %>" required>
+                <form action="UploadProfileImageServlet" method="post" enctype="multipart/form-data">
+                    <label class="upload-btn">
+                        <i class="fa fa-camera"></i> Change Photo
+                        <input type="file" name="photo" hidden required>
+                    </label><br>
+                    <button class="save-photo">Upload</button>
+                </form>
+            </div>
 
-            <label>Email (cannot change)</label>
-            <input type="email" value="<%= user.getEmail() %>" disabled>
+            <!-- RIGHT -->
+            <div class="info-box">
+                <h2><%= user.getName() %></h2>
+                <p class="email"><i class="fa fa-envelope"></i> <%= user.getEmail() %></p>
 
-            <label>Password</label>
-            <input type="password" name="password" value="<%= user.getPassword() %>" required>
+                <form action="UserServlet" method="post" class="profile-form">
+                    <input type="hidden" name="action" value="update">
 
-            <label>Phone</label>
-            <input type="text" name="phone" value="<%= user.getPhone() %>">
+                    <label>Full Name</label>
+                    <input type="text" name="name" value="<%= user.getName() %>" required>
 
-            <button class="update-btn">Update Profile</button>
-        </form>
+                    <label>Email</label>
+                    <input type="email" value="<%= user.getEmail() %>" disabled>
+
+                    <label>Password</label>
+                    <input type="password" name="password" value="<%= user.getPassword() %>" required>
+
+                    <label>Phone</label>
+                    <input type="text" name="phone" value="<%= user.getPhone() %>">
+
+                    <button class="update-btn">Update Profile</button>
+                </form>
+            </div>
+
+        </div>
+
     </div>
-
 </div>
 
 </body>
