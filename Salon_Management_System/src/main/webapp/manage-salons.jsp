@@ -19,6 +19,7 @@ body{
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 .admin-sidebar{
     position:fixed;
     left:0;
@@ -93,6 +94,8 @@ body{
 }
 
 
+=======
+>>>>>>> Stashed changes
 
 /* CONTENT */
 .content{
@@ -164,6 +167,7 @@ function toggleServiceForm(id){
 <body>
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <!-- 🔥 NEW SIDEBAR -->
 <div class="admin-sidebar">
 
@@ -208,6 +212,11 @@ function toggleServiceForm(id){
     </a>
 
 </div>
+=======
+
+<!-- SIDEBAR -->
+<%@ include file="sidebar.jsp" %>
+>>>>>>> Stashed changes
 =======
 
 <!-- SIDEBAR -->
