@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,125 +7,236 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/footer.css">
 <style>
+/* ===== PAGE BACKGROUND ===== */
+html, body{
+    height: 100%;
+}
+
 body{
-    height:100vh;
-    margin:0;
-    display:flex;
-    flex-direction:column;
+    margin: 0;
     background:
-    linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
-    url("https://wallpapers.com/images/hd/luxurious-aesthetic-hair-salon-fouu8bx77gcoygos.jpg");
-    background-size:cover;
-    font-family:'Poppins',sans-serif;
-    color:#fff;
+        url("https://img.freepik.com/premium-photo/luxurious-salon-interior-with-soft-tones-elegant-modern-design_1025753-152477.jpg?semt=ais_hybrid&w=740&q=80"); /* 🔁 change path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-/* NAVBAR */
-.navbar{
-    padding:12px 40px;
-    background:rgba(0,0,0,.7);
-}
-.navbar-brand{
-    color:#f0d14a;
-    font-weight:700;
-    font-size:24px;
-}
+/* ===============================
+   REGISTER FORM ONLY (SCOPED)
+================================ */
 
-/* CENTER */
+/* center wrapper (safe) */
 .center{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+margin-top:40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 50px;   /* navbar height */
+    padding-bottom: 10px; /* footer height */
+
+    box-sizing: border-box;
+}
+@media (max-width:768px){
+    .center{
+        padding-top:95px;
+        padding-bottom:80px;
+    }
 }
 
-/* CARD */
-.card{
-    width:950px;
-    background:rgba(20,20,20,.85);
-    border-radius:25px;
-    padding:35px;
-    border:1px solid rgba(229,198,109,.35);
-    box-shadow:0 0 35px rgba(229,198,109,.25);
-    backdrop-filter:blur(15px);
-    animation:fadeIn .6s ease;
-    color:#fff;
+
+/* card – scoped */
+.center .card{
+	max-width:720px;        /* ⬅️ smaller card */
+    padding:40px 20px;      /* ⬅️ less inner space */
+    width:100%;
+    background:rgba(18,18,18,.88);
+    border-radius:20px;
+    border:1px solid rgba(212,175,55,.35);
+    backdrop-filter:blur(20px);
+    box-shadow:
+        0 0 70px rgba(212,175,55,.12),
+        inset 0 0 30px rgba(212,175,55,.05);
+    animation:registerFadeUp 1.1s ease forwards;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+/* animation */
+@keyframes registerFadeUp{
+    from{
+        opacity:0;
+        transform:translateY(35px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-/* TITLE */
-.title{
+/* title */
+.center .card .title{
     text-align:center;
-    font-size:28px;
-    color:#f0d14a;
-    font-weight:700;
-    margin-bottom:25px;
+    font-size:40px;
+    letter-spacing:2px;
+    margin-bottom:12px;
+    color:#d4af37;
+    text-shadow:
+        0 0 14px rgba(212,175,55,.6),
+        0 0 28px rgba(212,175,55,.3);
+    animation:titlePulse 2.8s ease-in-out infinite alternate;
 }
 
-/* INPUT */
-.input-group-text{
-    background:#000;
-    border:1px solid rgba(255,215,100,.25);
-    color:#f0d14a;
+@keyframes titlePulse{
+    from{ text-shadow:0 0 12px rgba(212,175,55,.45); }
+    to{ text-shadow:0 0 26px rgba(212,175,55,.85); }
 }
 
-.form-control{
-    background:#000!important;
-    border:1px solid rgba(255,215,100,.25);
-    color:#fff!important;
-}
-.form-control:focus{
-    border-color:#f0d14a;
-    box-shadow:0 0 10px rgba(240,209,74,.7);
+/* labels */
+.center .card label{
+    font-size:14px;
+    letter-spacing:1px;
+    color:#cfae5c;
 }
 
-/* BUTTON */
-.btn-gold{
-    background:linear-gradient(135deg,#ffd84d,#e6b82e);
+/* input group */
+.center .card .input-group-text{
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(212,175,55,.45);
+    color:#d4af37;
+    transition:.3s ease;
+}
+
+/* inputs */
+.center .card .form-control{
+    background:transparent !important;
+    border:none;
+    border-bottom:1px solid rgba(212,175,55,.45);
+    border-radius:0;
+    color:#fff !important;
+    padding:12px 8px;
+    transition:.35s ease;
+}
+
+.center .card .form-control::placeholder{
+    color:#777;
+}
+
+/* hover & focus */
+.center .card .form-control:focus,
+.center .card .form-control:hover{
+    box-shadow:none;
+    border-bottom-color:#ffd65c;
+}
+
+/* icon glow */
+.center .card .input-group:hover .input-group-text{
+    color:#ffd65c;
+    text-shadow:0 0 8px rgba(255,215,0,.6);
+}
+
+/* eye icon */
+.center .card .eye{
+    cursor:pointer;
+    transition:.3s ease;
+}
+
+.center .card .eye:hover{
+    color:#ffd65c;
+    transform:scale(1.15);
+}
+
+/* register button */
+.center .card .btn-gold{
+    margin-top:28px;
+    background:linear-gradient(120deg,#c9a24d,#ffd65c,#c9a24d);
+    background-size:200%;
+    color:#000;
     border:none;
     font-weight:700;
-    color:#000;
-    padding:12px;
-    border-radius:30px;
-    transition:.3s;
-}
-.btn-gold:hover{
-    box-shadow:0 0 20px rgba(240,209,74,.8);
-    transform:translateY(-1px);
+    letter-spacing:3px;
+    padding:16px;
+    border-radius:10px;
+    transition:.45s ease;
+    animation:goldSlide 3s linear infinite;
 }
 
-/* LABEL */
-label{
-    font-size:13px;
-    margin-bottom:4px;
-   
+@keyframes goldSlide{
+    0%{ background-position:left; }
+    100%{ background-position:right; }
 }
 
-/* FOOTER */
-.footer{
-    text-align:center;
-    font-size:12px;
-    padding:6px;
-    background:#000;
+.center .card .btn-gold:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 0 24px rgba(212,175,55,.8),
+        0 0 48px rgba(212,175,55,.4);
 }
 
-/* SHOW PASSWORD */
-.eye{
-    cursor:pointer;
+/* alerts inside form only */
+.center .card .alert{
+    border-radius:10px;
+    border:none;
 }
+
 </style>
 </head>
 
 <body>
 
-<nav class="navbar">
-    <span class="navbar-brand">GoldenGlow</span>
+<!-- HEADER -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-lg glass-nav">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold gold brand-glow brand-premium"
+           href="${pageContext.request.contextPath}/index.jsp">
+
+            <span class="brand-icon gold-icon">
+                <!-- ICON UNCHANGED -->
+                <svg class="scissor-lg" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M9 12l-5 5a3 3 0 1 1-1.4-1.4l5-5-5-5A3 3 0 1 1 4 4l5 5 6-3-3 6 3 6-6-3z"
+                          fill="#FFD700"/>
+                </svg>
+            </span>
+
+            <span class="brand-text">
+                Golden<span class="brand-accent">Glow</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav ms-auto gap-3 align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link nav-underline"
+                       href="${pageContext.request.contextPath}/index.jsp">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-underline"
+                       href="${pageContext.request.contextPath}/about.jsp">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-underline"
+                       href="${pageContext.request.contextPath}/contact.jsp">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light btn-sm rounded-pill px-3 glow-hover"
+                       href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-gold btn-sm rounded-pill px-3 glow-btn"
+                       href="${pageContext.request.contextPath}/register.jsp">Register</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <div class="center">
@@ -221,9 +333,9 @@ Register Now
 </div>
 </div>
 
-<div class="footer">
-© 2026 GoldenGlow Salon
-</div>
+<div class="footer-bottom">
+        © 2026 GoldenGlow Salon Management System | Designed for Luxury <span>❤</span>
+    </div>
 
 <script>
 function togglePass(id,el){
@@ -238,6 +350,6 @@ function togglePass(id,el){
     }
 }
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

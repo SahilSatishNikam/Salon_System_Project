@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <title>About Us - Salon</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/footer.css">
 
 <style>
 /* ===== STATS SECTION ANIMATED ===== */
