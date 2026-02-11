@@ -41,109 +41,516 @@ for(Appointment a : completed){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #000;
-    color: #F5A927;
-}
-.container-fluid { display: flex; padding: 0; }
-
-/* SIDEBAR */
-.sidebar {
-    width: 250px;
-    background: #111;
-    min-height: 100vh;
-    position: fixed;
-    border-right: 2px solid #F5A927;
-    padding-top: 20px;
-}
-.sidebar h2 {
-    text-align: center;
-    color: #F5A927;
-    font-weight: 700;
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 6px #F5A927;
-}
-.sidebar a {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    padding: 14px 22px;
-    text-decoration: none;
-    border-bottom: 1px solid #222;
-    font-weight: 500;
-    font-size: 18px;
-    transition: all 0.3s ease;
-}
-.sidebar a i { margin-right: 12px; font-size: 1.1rem; }
-.sidebar a:hover, .sidebar a.active {
-    background: #F5A927;
-    color: #000;
-    box-shadow: 0 0 12px #F5A927;
+/* ===============================
+   GLOBAL
+================================ */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* MAIN CONTENT */
-.main {
-    flex: 1;
-    margin-left: 250px;
-    padding: 25px;
+body{
+    font-family:'Times New Roman', serif;
+    background:#000;
+    color:#d4af37;
+    overflow-x:hidden;
 }
 
-/* CARDS */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-    gap: 20px;
-    margin: 20px 0;
-}
-.card-box {
-    background: #1a1a1a;
-    border: 1px solid #F5A927;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    transition: 0.4s;
-}
-.card-box:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 20px #F5A927;
-}
-.card-box i {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #f5e6b0;
-    text-shadow: 0 0 6px #F5A927;
-}
-.card-box p {
-    margin: 5px 0;
-    font-weight: 500;
-    color: #F5A927;
-}
-.card-box b {
-    font-size: 22px;
-    color: #F5A927;
-    text-shadow: 0 0 4px #F5A927;
+.container-fluid{
+    display:flex;
+    padding:0;
 }
 
-/* TABLE */
-.table-custom {
-    background: #1a1a1a;
-    border: 1px solid #F5A927;
-    color: #F5A927;
+/* =========================================
+   SIDEBAR CONTAINER
+========================================= */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    backdrop-filter:blur(6px);
+    padding-top:10px;
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    animation:sidebarSlide 0.8s ease;
 }
-.table-custom th {
-    background: #111;
-    color: #F5A927;
-    border-bottom: 1px solid #F5A927;
+
+/* Golden vertical glow line */
+.sidebar::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+    background:linear-gradient(to bottom,#d4af37,#ffd700,#d4af37);
+    box-shadow:0 0 15px #d4af37;
 }
-.table-custom td { border-bottom: 1px solid #333; }
-.table-custom tr:hover {
-    background: rgba(245,230,176,0.1);
-    box-shadow: 0 0 6px #F5A927 inset;
+
+/* =========================================
+   TOP SECTION (LOGO + MENU)
+========================================= */
+.sidebar-top{
+    display:flex;
+    flex-direction:column;
 }
+
+/* Logo */
+.logo{
+    padding:26px 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-img{
+    width:30px;
+    filter:drop-shadow(0 0 6px #c9a227);
+    transition:0.4s;
+}
+
+.logo:hover .logo-img{
+    transform:rotate(10deg) scale(1.1);
+}
+
+.s1{
+    color:#ffffff;
+    font-weight:bold;
+    font-size:19px;
+}
+
+.s2{
+    color:#c9a227;
+    font-size:19px;
+}
+
+/* =========================================
+   MENU LINKS
+========================================= */
+.sidebar a{
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:16px 26px;
+    margin:6px 10px;
+    border-radius:14px;
+    font-size:17px;
+    color:#ffffff;
+    text-decoration:none;
+    transition:all 0.4s ease;
+    overflow:hidden;
+}
+
+/* Hover golden background animation */
+.sidebar a::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:0;
+    background:linear-gradient(to right,#c9a227,#ffd700);
+    opacity:0.15;
+    transition:0.4s ease;
+}
+
+.sidebar a:hover::before{
+    width:100%;
+}
+
+/* Icon */
+.sidebar a i{
+    margin-right:14px;
+    color:#ffffff;
+    transition:0.4s ease;
+}
+
+/* Hover Effect */
+.sidebar a:hover{
+    color:#ffd700;
+    transform:translateX(8px);
+}
+
+.sidebar a:hover i{
+    color:#ffd700;
+    transform:scale(1.2);
+}
+
+/* =========================================
+   ACTIVE MENU ITEM
+========================================= */
+.sidebar a.active{
+    color:#ffd700;
+    background:rgba(201,162,39,0.15);
+    border-right:4px solid #ffd700;
+
+    box-shadow:
+        0 0 12px rgba(201,162,39,0.4),
+        inset 0 0 10px rgba(201,162,39,0.3);
+
+    animation:activePulse 2s infinite;
+}
+
+/* =========================================
+   LOGOUT BUTTON (BOTTOM)
+========================================= */
+.logout{
+    margin:20px 10px;
+    padding:16px;
+    border-radius:14px;
+    font-size:17px;
+    font-weight:bold;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(145deg,#2a0000,#110000);
+    border:1px solid rgba(255,80,80,0.4);
+    color:#ffdddd;
+
+    transition:all 0.4s ease;
+    text-decoration:none;
+}
+
+.logout i{
+    margin-right:12px;
+    color:#ff6b6b;
+    transition:0.4s;
+}
+
+.logout:hover{
+    background:linear-gradient(145deg,#5a0000,#2a0000);
+    color:#ffffff;
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 0 20px rgba(255,80,80,0.6),
+        inset 0 0 10px rgba(255,100,100,0.3);
+}
+
+.logout:hover i{
+    color:#ffffff;
+    transform:rotate(-10deg) scale(1.2);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+/* Sidebar Slide */
+@keyframes sidebarSlide{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* Active Glow Pulse */
+@keyframes activePulse{
+    0%,100%{
+        box-shadow:
+        0 0 10px rgba(201,162,39,0.3),
+        inset 0 0 8px rgba(201,162,39,0.2);
+    }
+    50%{
+        box-shadow:
+        0 0 20px rgba(255,215,0,0.6),
+        inset 0 0 12px rgba(255,215,0,0.4);
+    }
+}
+
+/* ===============================
+   MAIN
+================================ */
+.main{
+    margin-left:260px;
+    padding:40px;
+    width:100%;
+    animation:fadeIn 0.6s ease;
+}
+
+.main h2{
+    font-size:28px;
+    margin-bottom:20px;
+    color:#ffd700;
+}
+
+.main h2 span{
+    color:#f5e6b0;
+    text-shadow:0 0 8px rgba(212,175,55,0.6);
+}
+
+/* ===============================
+   CARDS (SIDE BY SIDE)
+================================ */
+.cards{
+    display:flex;
+    gap:25px;
+    margin:30px 0;
+}
+
+.card-box{
+    flex:1;
+    background:linear-gradient(145deg,#0f0f0f,#141414);
+    border:1px solid #d4af37;
+    border-radius:18px;
+    padding:25px;
+    text-align:center;
+    transition:0.4s ease;
+    position:relative;
+    overflow:hidden;
+    animation:fadeUp 0.6s ease;
+}
+
+.card-box:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 25px rgba(212,175,55,0.6);
+}
+
+/* Shine Effect */
+.card-box::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,215,0,0.2),transparent);
+    transition:0.6s;
+}
+
+.card-box:hover::before{
+    left:100%;
+}
+
+/* Icon */
+.card-box i{
+    font-size:30px;
+    margin-bottom:10px;
+    color:#ffd700;
+    transition:0.3s;
+}
+
+.card-box:hover i{
+    transform:scale(1.2);
+}
+
+/* Text */
+.card-box p{
+    color:#bbb;
+    margin:5px 0;
+}
+
+.card-box b{
+    font-size:26px;
+    color:#f5e6b0;
+}
+
+/* ===============================
+   TABLE SECTION
+================================ */
+h4{
+    color:#ffd700;
+    margin:40px 0 15px 0;
+}
+
+.table-custom{
+    background:#111;
+    border-radius:15px;
+    overflow:hidden;
+    border:1px solid #d4af37;
+}
+
+.table-custom th{
+    background:#0f0f0f;
+    color:#ffd700;
+    border-bottom:1px solid #d4af37;
+}
+
+.table-custom td{
+    color:#ddd;
+}
+
+.table-custom tbody tr{
+    transition:0.3s;
+}
+
+.table-custom tbody tr:hover{
+    background:rgba(212,175,55,0.08);
+    transform:scale(1.01);
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+@keyframes sidebarSlide{
+    from{transform:translateX(-100%);opacity:0;}
+    to{transform:translateX(0);opacity:1;}
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes fadeUp{
+    from{transform:translateY(30px);opacity:0;}
+    to{transform:translateY(0);opacity:1;}
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media(max-width:992px){
+    .cards{
+        flex-wrap:wrap;
+    }
+
+    .card-box{
+        flex:1 1 45%;
+    }
+}
+
+@media(max-width:576px){
+    .sidebar{
+        width:200px;
+    }
+
+    .main{
+        margin-left:200px;
+        padding:20px;
+    }
+
+    .card-box{
+        flex:1 1 100%;
+    }
+}
+/* =====================================
+   EXTRA PREMIUM ANIMATIONS
+===================================== */
+
+/* 1️⃣ Animated Golden Heading Gradient */
+.main h2{
+    background:linear-gradient(90deg,#d4af37,#ffd700,#d4af37);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:goldFlow 4s linear infinite;
+}
+
+@keyframes goldFlow{
+    0%{background-position:0% center;}
+    100%{background-position:200% center;}
+}
+
+/* 2️⃣ Stagger Card Animation */
+.card-box:nth-child(1){ animation-delay:0.2s; }
+.card-box:nth-child(2){ animation-delay:0.4s; }
+.card-box:nth-child(3){ animation-delay:0.6s; }
+.card-box:nth-child(4){ animation-delay:0.8s; }
+
+.card-box{
+    opacity:0;
+    animation:fadeUp 0.8s ease forwards;
+}
+
+/* 3️⃣ Icon Floating Animation */
+.card-box i{
+    animation:iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px); }
+}
+
+/* 4️⃣ Sidebar Link Shine Sweep */
+.sidebar a::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-75%;
+    width:50%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,215,0,0.3),transparent);
+    transform:skewX(-25deg);
+}
+
+.sidebar a:hover::after{
+    animation:shineSweep 0.8s ease;
+}
+
+@keyframes shineSweep{
+    100%{ left:125%; }
+}
+
+/* 5️⃣ Table Smooth Reveal */
+.table-custom tbody tr{
+    opacity:0;
+    animation:tableFade 0.6s ease forwards;
+}
+
+.table-custom tbody tr:nth-child(1){ animation-delay:0.2s; }
+.table-custom tbody tr:nth-child(2){ animation-delay:0.4s; }
+.table-custom tbody tr:nth-child(3){ animation-delay:0.6s; }
+.table-custom tbody tr:nth-child(4){ animation-delay:0.8s; }
+.table-custom tbody tr:nth-child(5){ animation-delay:1s; }
+
+@keyframes tableFade{
+    from{
+        opacity:0;
+        transform:translateX(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+/* 6️⃣ Subtle Floating Golden Background Glow */
+body::before{
+    content:"";
+    position:fixed;
+    top:-200px;
+    right:-200px;
+    width:400px;
+    height:400px;
+    background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);
+    animation:glowMove 8s ease-in-out infinite alternate;
+    z-index:-1;
+}
+
+@keyframes glowMove{
+    from{ transform:translateY(0); }
+    to{ transform:translateY(60px); }
+}
+
+/* 7️⃣ Smooth Page Fade-In */
+body{
+    animation:pageFade 1s ease;
+}
+
+@keyframes pageFade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+
+
 </style>
 </head>
 
@@ -151,16 +558,18 @@ body {
 
 <div class="container-fluid">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h2>User Dashboard</h2>
-        <a href="user-dashboard.jsp" class="active"><i class="fa fa-chart-line"></i> Dashboard</a>
-        <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
-        <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
-        <a href="user-feedback.jsp"><i class="fa fa-star"></i> Feedback</a>
-        <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
-        <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
-    </div>
+ <!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+    <h2><i class="fa fa-gem"></i>User Dashboard</h2>
+    <a class="active" href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+    <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
+    <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
+    <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
+    <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
+    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
+    <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
 
     <!-- MAIN CONTENT -->
     <div class="main">
