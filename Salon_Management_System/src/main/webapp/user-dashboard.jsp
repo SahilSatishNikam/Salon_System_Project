@@ -2,7 +2,7 @@
 <%@ page import="java.util.*, model.*, dao.*" %>
 
 <%
-User user = (User) session.getAttribute("user");
+User user = (User)session.getAttribute("user");
 if(user == null){
     response.sendRedirect("login.jsp");
     return;

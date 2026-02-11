@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -237,7 +238,8 @@
         </div>
     <% } %>
 
-    <form action="LoginServlet" method="post">
+   <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
+
 
         <div class="mb-3">
             <label>Email Address</label>
