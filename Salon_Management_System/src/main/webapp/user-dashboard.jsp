@@ -42,6 +42,7 @@ for(Appointment a : completed){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+<<<<<<< Updated upstream
 body { margin:0; font-family:'Segoe UI',sans-serif; background:#000; color:#d4af37; }
 .container-fluid { display:flex; padding:0; }
 
@@ -103,12 +104,146 @@ body { margin:0; font-family:'Segoe UI',sans-serif; background:#000; color:#d4af
 
 .card-box i { font-size:28px; color:#ffd700; }
 
-.table-custom {
-    background:#0f0f0f;
-    border:1px solid #d4af37;
-    color:#d4af37;
+=======
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #000;
+    color: #F5A927;
 }
+.container-fluid {
+    display: flex;
+    padding: 0;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 250px;
+    background: #111;
+    min-height: 100vh;
+    position: fixed;
+    border-right: 2px solid #F5A927;
+    padding-top: 10px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #F5A927;
+    font-weight: 700;
+    border-bottom: 1px solid #333;
+    font-size: 1.3rem;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 6px #F5A927;
+    padding:20px 0px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 14px 22px;
+    text-decoration: none;
+    border-bottom: 1px solid #222;
+    font-weight: 500;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+.sidebar a:hover {
+    background: #F5A927;
+    color: #000;
+    padding-left: 28px;
+    box-shadow: 0 0 12px #F5A927;
+}
+
+.sidebar a.active {
+    background: #F5A927;
+    color: #000;
+    box-shadow: 0 0 10px #F5A927;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+    flex: 1;
+    margin-left: 250px;
+    padding: 25px;
+}
+
+/* ===== CARDS ===== */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.card-box {
+    background: #1a1a1a;
+    border: 1px solid #F5A927;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.4s;
+}
+
+.card-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 20px #F5A927;
+}
+
+.card-box i {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #f5e6b0;
+    text-shadow: 0 0 6px #F5A927;
+}
+
+.card-box p {
+    margin: 5px 0;
+    font-weight: 500;
+    color: #F5A927;
+}
+
+.card-box b {
+    font-size: 22px;
+    color: #F5A927;
+    text-shadow: 0 0 4px #F5A927;
+}
+
+/* ===== TABLE ===== */
+>>>>>>> Stashed changes
+.table-custom {
+    background: #1a1a1a;
+    border: 1px solid #F5A927;
+    color: #fF5A927;
+}
+<<<<<<< Updated upstream
 .table-custom th { background:#000; color:#ffd700; }
+=======
+
+.table-custom th {
+    background: #111;
+    color: #F5A927;
+    border-bottom: 1px solid #F5A927;
+    
+}
+
+.table-custom td {
+    border-bottom: 1px solid #333;
+}
+
+.table-custom tr:hover {
+    background: rgba(245,230,176,0.1);
+    box-shadow: 0 0 6px #F5A927 inset;
+}
+>>>>>>> Stashed changes
 </style>
 </head>
 
@@ -116,6 +251,7 @@ body { margin:0; font-family:'Segoe UI',sans-serif; background:#000; color:#d4af
 
 <div class="container-fluid">
 
+<<<<<<< Updated upstream
 <!-- SIDEBAR -->
 <div class="sidebar">
 
@@ -124,10 +260,27 @@ body { margin:0; font-family:'Segoe UI',sans-serif; background:#000; color:#d4af
 <img src="ImageServlet?id=<%=user.getId()%>&v=<%=System.currentTimeMillis()%>"
      onerror="this.src='images/user.png'"
      class="profile-img">
+=======
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>User Dashboard</h2>
+        <a href="user-dashboard.jsp" class="active"><i class="fa fa-chart-line"></i> Dashboard</a>
+        <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
+        <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
+        <a href="user-feedback.jsp"><i class="fa fa-star"></i> Feedback</a>
+        <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
+        <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        <h2 class="mb-3">Welcome, <span style="color:#f5e6b0"><%=user.getName()%></span></h2>
+>>>>>>> Stashed changes
 
 <h5><%= user.getName() %></h5>
 <p>Loyalty Points: <b><%= user.getLoyaltyPoints() %></b></p>
 
+<<<<<<< Updated upstream
 </div>
 
 <div class="sidebar-menu">
@@ -138,6 +291,46 @@ body { margin:0; font-family:'Segoe UI',sans-serif; background:#000; color:#d4af
 <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
 <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
+=======
+        <!-- UPCOMING TABLE -->
+        <h4 class="mt-4 mb-3">Upcoming Appointments</h4>
+        <table class="table table-custom table-striped">
+            <thead>
+                <tr>
+                    <th>Salon</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            <%
+            if(upcoming.isEmpty()){
+            %>
+                <tr>
+                    <td colspan="5" class="text-center">No upcoming appointments</td>
+                </tr>
+            <%
+            }else{
+                for(Appointment appt: upcoming){
+                    Salon salon = salonDAO.getSalonById(appt.getSalonId());
+            %>
+                <tr>
+                    <td><%=salon!=null ? salon.getName() : "Salon"%></td>
+                    <td><%=appt.getServiceName()%></td>
+                    <td><%=appt.getAppointmentDate()%></td>
+                    <td><%=appt.getAppointmentTime()%></td>
+                    <td><%=appt.getStatus()%></td>
+                </tr>
+            <%
+                }
+            }
+            %>
+            </tbody>
+        </table>
+    </div>
+>>>>>>> Stashed changes
 
 </div>
 

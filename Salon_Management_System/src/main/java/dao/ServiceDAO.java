@@ -27,28 +27,37 @@ public class ServiceDAO {
         }
     }
 
-    public List<Service> getServicesBySalon(int salonId) throws Exception {
+    public List<Service> getServicesBySalon(int salonId) {
+
         List<Service> list = new ArrayList<>();
-        String sql = "SELECT * FROM services WHERE salon_id=? ORDER BY created_at DESC";
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try {
+            Connection con = DBConnection.getConnection();
 
+            String sql = "SELECT * FROM services WHERE salon_id=?";
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, salonId);
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Service s = new Service();
+
                 s.setId(rs.getInt("id"));
-                s.setSalonId(rs.getInt("salon_id"));
                 s.setName(rs.getString("name"));
                 s.setDescription(rs.getString("description"));
                 s.setPrice(rs.getDouble("price"));
                 s.setDurationMinutes(rs.getInt("duration_minutes"));
+                s.setSalonId(rs.getInt("salon_id"));
                 s.setCreatedAt(rs.getTimestamp("created_at"));
+
                 list.add(s);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return list;
     }
 
@@ -116,6 +125,7 @@ public class ServiceDAO {
         }
     }
     
+<<<<<<< Updated upstream
     public List<Service> getBySalon(int salonId) {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT * FROM services WHERE salon_id = ?";
@@ -142,4 +152,7 @@ public class ServiceDAO {
 
         return services;
     }
+=======
+  
+>>>>>>> Stashed changes
 }
