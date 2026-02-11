@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 import model.Salon;
@@ -72,18 +73,6 @@ public class SalonDAO {
 	        return list;
 	    }
 
-	    public Salon getSalonById(int id) throws Exception {
-	        String sql = "SELECT * FROM salons WHERE id=?";
-	        try (Connection con = DBConnection.getConnection();
-	             PreparedStatement ps = con.prepareStatement(sql)) {
-
-	            ps.setInt(1, id);
-	            try (ResultSet rs = ps.executeQuery()) {
-	                if (rs.next()) return mapRowToSalon(rs);
-	            }
-	        }
-	        return null;
-	    }
 
 	    public List<Salon> searchSalons(String name, String location, Integer serviceId) throws Exception {
 	        List<Salon> list = new ArrayList<>();
@@ -138,7 +127,28 @@ public class SalonDAO {
 	        } catch(Exception e) { e.printStackTrace(); }
 	        return count;
 	    }
+	    
+	 // Get a single salon by ID
+	    public Salon getSalonById(int id){
+	        Salon salon = null;
+	        try(Connection con = DBConnection.getConnection();
+	            PreparedStatement ps = con.prepareStatement("SELECT * FROM salons WHERE id=?")) {
+	            ps.setInt(1, id);
+	            ResultSet rs = ps.executeQuery();
+	            if(rs.next()){
+	                salon = new Salon();
+	                salon.setId(rs.getInt("id"));
+	                salon.setName(rs.getString("name"));
+	                salon.setEmail(rs.getString("email"));
+	                salon.setPhone(rs.getString("phone"));
+	                salon.setAddress(rs.getString("address"));
+	                salon.setImage(rs.getBytes("image"));
+	            }
+	        } catch(Exception e){ e.printStackTrace(); }
+	        return salon;
+	    }
 
+<<<<<<< Updated upstream
 	    public Salon getById(int salonId) {
 	        Salon salon = null;
 	        String sql = "SELECT * FROM salons WHERE id = ?";
@@ -166,4 +176,40 @@ public class SalonDAO {
 	        return salon;
 	    }
 	}
+=======
+	    // Update salon info
+	    public boolean updateSalon(int id, String name, String email, String phone, String address, InputStream imageStream){
+	        boolean success = false;
+	        String sql;
+	        if(imageStream != null){
+	            sql = "UPDATE salons SET name=?, email=?, phone=?, address=?, image=? WHERE id=?";
+	        } else {
+	            sql = "UPDATE salons SET name=?, email=?, phone=?, address=? WHERE id=?";
+	        }
+
+	        try(Connection con = DBConnection.getConnection();
+	            PreparedStatement ps = con.prepareStatement(sql)) {
+
+	            ps.setString(1, name);
+	            ps.setString(2, email);
+	            ps.setString(3, phone);
+	            ps.setString(4, address);
+
+	            if(imageStream != null){
+	                ps.setBlob(5, imageStream);
+	                ps.setInt(6, id);
+	            } else {
+	                ps.setInt(5, id);
+	            }
+
+	            int rows = ps.executeUpdate();
+	            success = rows > 0;
+
+	        } catch(Exception e){ e.printStackTrace(); }
+
+	        return success;
+	    }
+
+}
+>>>>>>> Stashed changes
 
