@@ -19,6 +19,7 @@ if(user == null){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+<<<<<<< Updated upstream
 /* ================= GLOBAL ================= */
 body{
     margin:0;
@@ -227,6 +228,215 @@ body{
     .profile-card{ flex-direction:column; text-align:center; }
 >>>>>>> Stashed changes
 }
+=======
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: "Times New Roman", serif;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+
+    /* Dark image + overlay */
+    background:
+        
+        url("https://png.pngtree.com/thumb_back/fh260/background/20230516/pngtree-small-black-hair-salon-in-an-empty-space-image_2566444.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* layout */
+.container-fluid {
+    display: flex;
+    height: 100vh;
+    padding: 0;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 250px;
+    background: #111;
+    min-height: 100vh;
+    position: fixed;
+    border-right: 2px solid #F5A927;
+    padding-top: 10px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #F5A927;
+    font-weight: 700;
+    border-bottom: 1px solid #333;
+    font-size: 1.3rem;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 6px #F5A927;
+      padding:20px 0px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 14px 22px;
+    text-decoration: none;
+    border-bottom: 1px solid #222;
+    font-weight: 500;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+.sidebar a:hover {
+    background: #F5A927;
+    color: #000;
+    padding-left: 28px;
+    box-shadow: 0 0 12px #F5A927;
+}
+
+.sidebar a.active {
+    background: #F5A927;
+    color: #000;
+    box-shadow: 0 0 10px #F5A927;
+}
+
+/* ===== MAIN CENTER ===== */
+.main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    font-family:"Times New Roman", serif;
+    margin-left:30px;
+}
+
+/* ===== PROFILE CARD ===== */
+.profile-card{
+    width:560px;
+    max-width:92%;
+    background:linear-gradient(145deg,#000,#111);
+    border:2px solid #F5A927;
+    border-radius:22px;
+    padding:30px 34px;
+    box-shadow:0 0 30px rgba(255,215,0,.35);
+
+    animation:cardEnter .6s ease;
+    transition:.35s;
+    margin-left:30px;
+}
+
+/* hover glow */
+.profile-card:hover{
+    transform:translateY(-6px) scale(1.02);
+    box-shadow:0 0 55px rgba(255,215,0,.75);
+}
+
+/* ===== INFO BOX ===== */
+.info-box h2{
+    font-size:26px;
+    text-align:center;
+    color:#F5A927;
+    margin-bottom:5px;
+    letter-spacing:.5px;
+}
+
+.email{
+    text-align:center;
+    font-size:17px;
+    color:#F5A927;
+    margin-bottom:18px;
+}
+
+/* ===== FORM LABEL ===== */
+.profile-form label{
+    font-size:17px;
+    margin-top:10px;
+    color:#F5A927;
+    letter-spacing:.3px;
+}
+
+/* ===== INPUT FIELD ===== */
+.profile-form input{
+    width:100%;
+    padding:11px 14px;
+    border-radius:12px;
+    border:1px solid #FFD700;
+    background:#0b0b0b;
+    color:#fff;
+    font-size:17px;
+    margin-top:4px;
+    transition:.3s;
+}
+
+/* input hover */
+.profile-form input:hover{
+    border-color:#F5A927;
+    box-shadow:0 0 6px rgba(255,215,0,.4);
+}
+
+/* input focus animation */
+.profile-form input:focus{
+    outline:none;
+    box-shadow:0 0 12px #FFD700;
+    transform:scale(1.02);
+}
+
+/* ===== UPDATE BUTTON ===== */
+.update-btn{
+    margin-top:20px;
+    width:100%;
+    padding:13px;
+    font-size:18px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#F5A927,#ffcc00);
+    color:#000;
+    font-weight:bold;
+    border:none;
+    letter-spacing:.5px;
+    transition:.35s;
+}
+
+/* button hover */
+.update-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 18px #FFD700;
+}
+
+/* button click */
+.update-btn:active{
+    transform:scale(.97);
+}
+
+/* ===== ENTRY ANIMATION ===== */
+@keyframes cardEnter{
+    from{
+        opacity:0;
+        transform:translateY(40px) scale(.95);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* ===== SMALL SCREEN FIT ===== */
+@media(max-height:700px){
+    .profile-card{
+        padding:22px 26px;
+    }
+
+    .profile-form input{
+        padding:9px 12px;
+    }
+}
+
+>>>>>>> Stashed changes
 </style>
 </head>
 
@@ -234,6 +444,7 @@ body{
 
 <div class="container-fluid">
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     <!-- SIDEBAR -->
     <div class="sidebar">
@@ -322,10 +533,33 @@ body{
 </div>
 
 <!-- RIGHT -->
+=======
+<!-- ===== SIDEBAR (MATCHED) ===== -->
+<div class="sidebar">
+    <h2>User Dashboard</h2>
+
+    <a href="user-dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
+    <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
+    <a href="user-feedback.jsp" class="active"><i class="fa fa-star"></i> Feedback</a>
+    <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
+    <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+<div class="profile-card">
+
+<!-- LEFT AVATAR -->
+
+<!-- RIGHT INFO -->
+>>>>>>> Stashed changes
 <div class="info-box">
 
 <h2><%= user.getName() %></h2>
 <p class="email">
+<<<<<<< Updated upstream
 <i class="fa-solid fa-envelope"></i>
 <%= user.getEmail() %>
 </p>
@@ -338,6 +572,13 @@ if(msg != null){
 <% } %>
 
 <form action="UserServlet" method="post" class="profile-form">
+=======
+<i class="fa fa-envelope"></i> <%= user.getEmail() %>
+</p>
+
+<form action="UserServlet" method="post" class="profile-form">
+
+>>>>>>> Stashed changes
 <input type="hidden" name="action" value="update">
 
 <label>Full Name</label>
@@ -346,12 +587,18 @@ if(msg != null){
 <label>Email</label>
 <input type="email" value="<%= user.getEmail() %>" disabled>
 
+<<<<<<< Updated upstream
 <label>New Password</label>
 <input type="password" name="password" placeholder="Enter new password">
+=======
+<label>Password</label>
+<input type="password" name="password" value="<%= user.getPassword() %>" required>
+>>>>>>> Stashed changes
 
 <label>Phone</label>
 <input type="text" name="phone" value="<%= user.getPhone() %>">
 
+<<<<<<< Updated upstream
 <button class="update-btn">Update Profile</button>
 </form>
 
@@ -360,5 +607,19 @@ if(msg != null){
 </div>
 
 
+=======
+<button class="update-btn">
+<i class="fa fa-save"></i> Update Profile
+</button>
+
+</form>
+
+</div>
+
+</div>
+</div>
+</div>
+
+>>>>>>> Stashed changes
 </body>
 </html>

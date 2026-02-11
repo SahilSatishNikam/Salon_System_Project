@@ -70,4 +70,21 @@ public class FeedbackDAO {
         return total;
     }
 
+    public double getAverageRating() {
+        double avg = 0;
+        String sql = "SELECT AVG(rating) as avgRating FROM feedback";
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                avg = rs.getDouble("avgRating");
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return avg;
+    }
 }
+

@@ -294,6 +294,7 @@ public class TherapistDAO {
         }
     }
 
+<<<<<<< Updated upstream
     public List<String> getTherapistSlotRange(int therapistId, String date) {
 
         List<String> list = new ArrayList<>();
@@ -352,11 +353,26 @@ public class TherapistDAO {
                 t.setName(rs.getString("name"));
                 t.setSpecialty(rs.getString("specialty"));
                 list.add(t);
+=======
+    public Map<String, Integer> getAppointmentsCountPerTherapist() {
+        Map<String, Integer> map = new HashMap<>();
+        String sql = "SELECT t.name, COUNT(a.id) as count " +
+                     "FROM therapists t " +
+                     "LEFT JOIN appointments a ON t.id = a.therapist_id AND a.status='completed' " +
+                     "GROUP BY t.name";
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                map.put(rs.getString("name"), rs.getInt("count"));
+>>>>>>> Stashed changes
             }
 
         } catch(Exception e){
             e.printStackTrace();
         }
+<<<<<<< Updated upstream
 
         return list;
     }
@@ -384,6 +400,10 @@ public class TherapistDAO {
     }
 
 
+=======
+        return map;
+    }
+>>>>>>> Stashed changes
 }
 
 

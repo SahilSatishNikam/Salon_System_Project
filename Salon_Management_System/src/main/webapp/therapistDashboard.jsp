@@ -33,42 +33,61 @@ body {
     overflow-x: hidden;
 }
 
-/* ===== Sidebar ===== */
+/* ===== SIDEBAR (Same as User Dashboard) ===== */
 .sidebar {
-    height: 100vh;
-    background: #1B1B1B;
-    border-right: 2px solid #FFD700;
-    padding-top: 30px;
+    width: 250px;
+    background: #111;
+    min-height: 100vh;
     position: fixed;
-    width: 220px;
-    transition: all 0.3s ease;
+    border-right: 2px solid #F5A927;
+    padding-top: 10px;
 }
-.sidebar h3 {
-    color: #FFD700;
+
+.sidebar h2 {
     text-align: center;
-    margin-bottom: 40px;
-    font-weight: 800;
+    color: #F5A927;
+    font-weight: 700;
+    border-bottom: 1px solid #333;
+    font-size: 1.3rem;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 6px #F5A927;
+    padding:20px 0px;
 }
+
 .sidebar a {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: #E0E0E0;
-    padding: 12px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
+    color: #fff;
+    padding: 14px 22px;
+    text-decoration: none;
+    border-bottom: 1px solid #222;
+    font-weight: 500;
+    font-size: 18px;
     transition: all 0.3s ease;
-    text-decoration:none;
 }
-.sidebar a:hover, .sidebar a.active {
-    background: #FFD700;
-    color: #1B1B1B;
-    transform: translateX(5px);
-    width:200px;
-    
-}
+
 .sidebar a i {
-    transition: 0.3s ease;
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+.sidebar a:hover {
+    background: #F5A927;
+    color: #000;
+    padding-left: 28px;
+    box-shadow: 0 0 12px #F5A927;
+}
+
+.sidebar a.active {
+    background: #F5A927;
+    color: #000;
+    box-shadow: 0 0 10px #F5A927;
+}
+
+/* adjust main content shift */
+.main-content {
+    margin-left: 250px;
 }
 
 /* ===== Main Content ===== */
@@ -220,13 +239,38 @@ body {
 <body>
 
 <!-- Sidebar -->
+<!-- SIDEBAR -->
 <div class="sidebar">
-    <h3><i class="fa-solid fa-hand-sparkles"></i> Therapist</h3>
-    <a href="therapistDashboard.jsp" class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
-    <a href="therapistAvailability.jsp"><i class="fa-solid fa-clock"></i> Set Availability</a>
-    <a href="TherapistAppointmentServlet"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
-    <a href="logoutServlet"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    <h2>Therapist Panel</h2>
+
+    <a href="therapistDashboard.jsp" class="active">
+        <i class="fa fa-chart-line"></i> Dashboard
+    </a>
+
+    <a href="therapistAvailability.jsp">
+        <i class="fa fa-clock"></i> Set Availability
+    </a>
+
+    <a href="${pageContext.request.contextPath}/slots?therapistId=${therapist.id}">View Slots</a>
+
+    
+    <a href="therapist-services?salonId=<%=t.getSalonId()%>">
+        <i class="fa fa-spa"></i> Services
+    </a>
+
+    <a href="TherapistAppointmentServlet">
+        <i class="fa fa-calendar"></i> Appointments
+    </a>
+
+    <a href="editTherapistProfile.jsp">
+        <i class="fa fa-user"></i> Profile
+    </a>
+
+    <a href="LogoutServlet">
+        <i class="fa fa-sign-out-alt"></i> Logout
+    </a>
 </div>
+
 
 <!-- Main Content -->
 <div class="main-content">
