@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
     <title>Manage Salons</title>
 
     <!-- Bootstrap & Icons -->
@@ -84,6 +85,10 @@
         }
     </script>
 <%@ page import="java.util.*, dao.SalonDAO, model.Salon" %>
+=======
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="java.util.*, dao.SalonDAO, dao.ServiceDAO, model.Salon, model.Service" %>
+>>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,9 +97,10 @@
 
 <!-- Bootstrap & Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
+/* ===== GENERAL ===== */
 body {
     margin:0;
     font-family:'Poppins',sans-serif;
@@ -104,9 +110,32 @@ body {
 }
 
 /* ===== SIDEBAR ===== */
-.sidebar { width:250px; background:#000; min-height:100vh; position:fixed; border-right:2px solid #FFD700; padding-top:10px; }
-.sidebar h2 { text-align:center; padding:20px; color:#FFD700; font-weight:600; border-bottom:1px solid #222; font-size:1.3rem; }
-.sidebar a { display:flex; align-items:center; color:#fff; padding:14px 22px; text-decoration:none; border-bottom:1px solid #111; font-weight:500; font-size:19px; }
+.sidebar {
+    width:250px;
+    background:#000;
+    min-height:100vh;
+    position:fixed;
+    border-right:2px solid #FFD700;
+    padding-top:10px;
+}
+.sidebar h2 {
+    text-align:center;
+    padding:20px;
+    color:#FFD700;
+    font-weight:600;
+    border-bottom:1px solid #222;
+    font-size:1.3rem;
+}
+.sidebar a {
+    display:flex;
+    align-items:center;
+    color:#fff;
+    padding:14px 22px;
+    text-decoration:none;
+    border-bottom:1px solid #111;
+    font-weight:500;
+    font-size:19px;
+}
 .sidebar a i { margin-right:12px; font-size:1.1rem; }
 .sidebar a:hover, .sidebar a.active { background:#FFD700; color:#000; padding-left:28px; }
 
@@ -134,7 +163,7 @@ body {
 }
 .salon-form button:hover { box-shadow:0 8px 25px rgba(255,215,0,.8); }
 
-/* ===== SALON CARD ===== */
+/* ===== SALON CARDS ===== */
 .card.bg-dark {
     border-radius: 25px;
     background: rgba(20,20,20,0.6);
@@ -145,43 +174,11 @@ body {
     box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
 }
-
-.card.bg-dark::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    z-index: 0;
-    opacity: 0.2;
-    transform: rotate(0deg);
-    transition: opacity 0.3s ease;
-}
-
-.card.bg-dark:hover::before {
-    opacity: 0.6;
-    animation: shimmer 4s linear infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.card.bg-dark .card-body {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-}
-
 .card.bg-dark:hover {
     transform: scale(1.05);
     box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
     border: 2px solid #FFD700;
 }
-
 .card-img-top {
     border-radius: 25px;
     height: 220px;
@@ -190,54 +187,33 @@ body {
     border: 2px solid #FFD700;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .card-img-top:hover {
     transform: scale(1.1);
     box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
 }
+.card-title { color:#FFD700; font-weight:700; font-size:1.5rem; margin-bottom:10px; }
+.card-text i { margin-right:8px; color:#FFD700; }
+.card-body .actions a { font-size:1.5rem; transition: color 0.3s, transform 0.3s; }
+.card-body .actions a:hover { color:#ffea00; transform:scale(1.4); }
 
-.card-title {
-    color: #FFD700;
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
+/* ===== MODAL STYLING ===== */
+.modal-content { background:#111; color:#fff; border:2px solid #FFD700; }
+.modal-content input { background:#222; border:2px solid #FFD700; color:#fff; }
+.modal-content button { background:linear-gradient(45deg,#FFD700,#ffea00); color:#000; }
 
-.card-text i {
-    margin-right: 8px;
-    color: #FFD700;
-}
-
-.card-body .actions a {
-    font-size: 1.5rem;
-    transition: color 0.3s, transform 0.3s;
-}
-
-.card-body .actions a:hover {
-    color: #ffea00;
-    transform: scale(1.4);
-}
-
-/* ADD SUBTLE GRADIENT TO CARD BACKGROUND */
-.card.bg-dark::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.05));
-    border-radius: 25px;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* RESPONSIVE GRID */
+/* ===== RESPONSIVE ===== */
 @media(max-width:1200px){ .col-lg-4{ margin-bottom:20px; } }
 
 </style>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 </head>
 <body>
 
 <!-- SIDEBAR -->
+<<<<<<< Updated upstream
 <%@ include file="sidebar.jsp" %>
 
 <!-- ===== MAIN CONTENT ===== -->
@@ -316,16 +292,18 @@ onclick="return confirm('Delete this salon?')">
 </div>
 
 
+=======
+>>>>>>> Stashed changes
 <div class="sidebar">
-    <h2><i class="fa fa-gem"></i> SalonEase Admin</h2>
-    <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
-    <a href="manage-salons.jsp" class="active"><i class="fa fa-store"></i> Manage Salons</a>
-    <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
-    <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
-    <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
-    <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
-    <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    <h2><i class="bi bi-scissors"></i> SalonEase Admin</h2>
+    <a href="dashboard.jsp"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="manage-salons.jsp" class="active"><i class="bi bi-shop"></i> Manage Salons</a>
+    <a href="visitedClients"><i class="bi bi-people"></i> Clients</a>
+    <a href="AdminTherapistServlet"><i class="bi bi-person-badge"></i> Manage Therapists</a>
+    <a href="AdminAppointmentServlet"><i class="bi bi-calendar-check"></i> Appointments</a>
+    <a href="feedback.jsp"><i class="bi bi-chat-left-text"></i> Feedback</a>
+    <a href="reports.jsp"><i class="bi bi-bar-chart"></i> Reports</a>
+    <a href="logout.jsp"><i class="bi bi-box-arrow-right"></i> Logout</a>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -333,7 +311,7 @@ onclick="return confirm('Delete this salon?')">
 
     <!-- ADD SALON FORM -->
     <form method="post" action="AddSalonServlet" enctype="multipart/form-data" class="salon-form">
-        <h3><i class="fa-solid fa-circle-plus"></i> Add New Salon</h3>
+        <h3><i class="bi bi-plus-circle"></i> Add New Salon</h3>
         <div class="form-row">
             <input type="text" name="name" placeholder="Salon Name" required>
             <input type="text" name="email" placeholder="Email">
@@ -345,67 +323,55 @@ onclick="return confirm('Delete this salon?')">
         <div class="form-row">
             <input type="file" name="image" required>
         </div>
-        <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Add Salon</button>
+        <button type="submit"><i class="bi bi-save"></i> Add Salon</button>
     </form>
 
     <!-- SALON LIST -->
-    <h2 style="margin-top:50px; margin-bottom:40px;"><i class="fa-solid fa-shop"></i> All Salons</h2>
+    <h2 style="margin-top:50px; margin-bottom:40px;"><i class="bi bi-shop"></i> All Salons</h2>
     <div class="row g-4">
         <%
             SalonDAO salonDAO = new SalonDAO();
+            ServiceDAO serviceDAO = new ServiceDAO();
             List<Salon> salons = salonDAO.getAllSalons();
             for(Salon s : salons){
+                s.setServices(serviceDAO.getServicesBySalon(s.getId()));
         %>
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card bg-dark text-white h-100 shadow-sm">
-                <% if(s.getImage() != null){ %>
-                <img src="SalonImageServlet?id=<%=s.getId()%>" class="card-img-top" alt="Salon Image">
+                <% if(s.getImage()!=null){ %>
+                    <img src="SalonImageServlet?id=<%=s.getId()%>" class="card-img-top" alt="Salon Image">
                 <% } %>
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="fa-solid fa-store"></i> <%=s.getName()%></h5>
-                    <p class="card-text mb-1"><i class="fa-solid fa-envelope"></i> <%=s.getEmail()%></p>
-                    <p class="card-text mb-1"><i class="fa-solid fa-phone"></i> <%=s.getPhone()%></p>
-                    <p class="card-text"><i class="fa-solid fa-location-dot"></i> <%=s.getAddress()%></p>
+                    <h5 class="card-title"><i class="bi bi-shop"></i> <%=s.getName()%></h5>
+                    <p class="card-text mb-1"><i class="bi bi-envelope"></i> <%=s.getEmail()%></p>
+                    <p class="card-text mb-1"><i class="bi bi-telephone"></i> <%=s.getPhone()%></p>
+                    <p class="card-text"><i class="bi bi-geo-alt"></i> <%=s.getAddress()%></p>
 
                     <div class="mt-auto d-flex justify-content-between actions">
-                        <a href="EditSalonServlet?id=<%=s.getId()%>" class="text-warning" title="Edit Salon"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="DeleteSalonServlet?id=<%=s.getId()%>" class="text-warning" onclick="return confirm('Delete?')" title="Delete Salon"><i class="fa-solid fa-trash"></i></a>
-                        <a href="#" class="text-warning" data-bs-toggle="modal" data-bs-target="#serviceModal-<%=s.getId()%>" title="Add Service"><i class="fa-solid fa-scissors"></i></a>
+                        <a href="EditSalonServlet?id=<%=s.getId()%>" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                        <a href="DeleteSalonServlet?id=<%=s.getId()%>" onclick="return confirm('Delete this salon?')" title="Delete"><i class="bi bi-trash"></i></a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#serviceModal-<%=s.getId()%>" title="Add Service"><i class="bi bi-scissors"></i></a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ADD SERVICE MODAL -->
+        <!-- SERVICE MODAL -->
         <div class="modal fade" id="serviceModal-<%=s.getId()%>" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content" style="background:#111; color:#fff; border:2px solid #FFD700;">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Service for <%=s.getName()%></h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="AddServiceServlet">
-                            <input type="hidden" name="salonId" value="<%=s.getId()%>">
-                            <div class="mb-3">
-                                <input type="text" name="name" placeholder="Service Name" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" name="description" placeholder="Description" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <input type="number" name="price" placeholder="Price" step="0.01" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <input type="number" name="durationMinutes" placeholder="Duration (min)" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-warning w-100"><i class="fa-solid fa-plus"></i> Add Service</button>
-                        </form>
-                    </div>
+                <div class="modal-content p-4">
+                    <h5>Add Service for <%=s.getName()%></h5>
+                    <form method="post" action="AddServiceServlet">
+                        <input type="hidden" name="salonId" value="<%=s.getId()%>">
+                        <input type="text" name="name" placeholder="Service Name" class="form-control mb-3" required>
+                        <input type="text" name="description" placeholder="Description" class="form-control mb-3">
+                        <input type="number" name="price" placeholder="Price" step="0.01" class="form-control mb-3">
+                        <input type="number" name="durationMinutes" placeholder="Duration (min)" class="form-control mb-3">
+                        <button type="submit" class="btn btn-warning w-100"><i class="bi bi-plus"></i> Add Service</button>
+                    </form>
                 </div>
             </div>
         </div>
-
         <% } %>
     </div>
 </div>
