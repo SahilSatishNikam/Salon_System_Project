@@ -1,189 +1,228 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.List, dao.SalonDAO, dao.ServiceDAO, model.Salon, model.Service" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Salons</title>
+<title>Manage Salons</title>
 
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #0f0f0f;
-            color: #fff;
-        }
+<style>
 
-        /* SIDEBAR is included separately */
-        .content {
-            margin-left: 250px;
-            padding: 30px;
-            width: calc(100% - 250px);
-        }
+/* ===== GLOBAL ===== */
+body{
+    background:#0f0f0f;
+    font-size:18px;
+    color:#c9a227;
+    font-family:"Times New Roman", serif;
+}
 
-        h2 {
-            color: #FFD700;
-            margin-bottom: 15px;
-        }
+/* ===== CONTENT SHIFT (FOR SIDEBAR) ===== */
+.content{
+    margin-left:260px;
+    padding:40px;
+}
 
-        form input, form select, form button {
-            padding: 10px;
-            margin: 6px 6px 6px 0;
-            border: 1px solid #333;
-            border-radius: 6px;
-            background: #000;
-            color: #fff;
-        }
+/* ===== FORM ===== */
+.form-row{
+    display:flex;
+    gap:20px;
+}
 
-        button {
-            background: linear-gradient(45deg, #FFD700, #ffb300);
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+.form-row input{
+    flex:1;
+    background:white;
+    border-radius:16px;
+    padding:16px;
+    border:none;
+    font-size:18px;
+}
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 18px;
-            background: #111;
-        }
+/* ===== UPLOAD BOX (GLASS EFFECT) ===== */
+.upload-box{
+    border:2px dashed #c9a227;
+    border-radius:20px;
+    height:180px;
+    margin-top:20px;
 
-        th {
-            background: #FFD700;
-            color: #000;
-        }
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 
-        td, th {
-            border: 1px solid #222;
-            padding: 12px;
-            vertical-align: middle;
-        }
+    cursor:pointer;
 
-        .service-table {
-            margin-left: 30px;
-            width: 90%;
-            background: #000;
-        }
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(8px);
+    transition:0.3s;
+}
 
-        img {
-            border-radius: 8px;
-            border: 2px solid #FFD700;
-        }
+.upload-box:hover{
+    background:rgba(201,162,39,0.08);
+    transform:scale(1.01);
+}
 
-        .toggle-btn {
-            cursor: pointer;
-            color: #FFD700;
-            margin-left: 6px;
-        }
-    </style>
+.upload-box i{
+    font-size:28px;
+    color:#c9a227;
+}
 
-    <script>
-        function toggleServiceForm(id) {
-            const f = document.getElementById("serviceForm-" + id);
-            f.style.display = (f.style.display === "none") ? "block" : "none";
-        }
-    </script>
+.upload-box span{
+    color:#c9a227;
+    margin-top:8px;
+}
+
+.upload-box input{
+    display:none;
+}
+
+/* ===== ADD BUTTON ===== */
+.add-row{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:14px;
+}
+
+.add-btn{
+    background:#b89632;
+    color:black;
+    border-radius:14px;
+    padding:12px 28px;
+    border:none;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.add-btn:hover{
+    box-shadow:0 0 14px #c9a227;
+    transform:translateY(-2px);
+}
+
+/* ===== SALON LIST CARDS ===== */
+table{
+    background:#161616;
+    border-radius:20px;
+    margin-top:18px;
+    font-size:18px;
+    width:100%;
+
+    border:1px solid rgba(201,162,39,0.2);
+    transition:0.3s;
+}
+
+table:hover{
+    box-shadow:0 0 14px rgba(201,162,39,0.2);
+}
+
+td{
+    border:none;
+    padding:18px;
+}
+
+img{
+    border-radius:50%;
+    border:2px solid #c9a227;
+}
+
+/* ICON ACTIONS */
+.bi-pencil{
+    color:#c9a227;
+    margin-right:10px;
+}
+
+.bi-trash{
+    color:#ff5c5c;
+}
+
+</style>
+
+<script>
+function chooseFile(){
+    document.getElementById("fileInput").click();
+}
+</script>
+
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- ===== USE YOUR SIDEBAR FILE ===== -->
 <%@ include file="sidebar.jsp" %>
 
-<!-- MAIN CONTENT -->
+<!-- ===== MAIN CONTENT ===== -->
 <div class="content">
 
-    <!-- ADD NEW SALON -->
-    <h2><i class="fa-solid fa-circle-plus"></i> Add New Salon</h2>
-    <form method="post" action="AddSalonServlet" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Salon Name" required>
-        <input type="text" name="email" placeholder="Email">
-        <input type="text" name="phone" placeholder="Phone">
-        <input type="text" name="address" placeholder="Address">
-        <input type="file" name="image" required>
-        <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Add</button>
-    </form>
+<h2 style="margin-bottom:20px;">Add New Salon</h2>
 
-    <!-- LIST ALL SALONS -->
-    <h2><i class="fa-solid fa-shop"></i> All Salons</h2>
+<form method="post" action="AddSalonServlet" enctype="multipart/form-data">
 
-    <%
-        SalonDAO salonDAO = new SalonDAO();
-        ServiceDAO serviceDAO = new ServiceDAO();
-        List<Salon> salons = salonDAO.getAllSalons();
+<div class="form-row">
+<input type="text" name="name" placeholder="Salon Name" required>
+<input type="text" name="email" placeholder="Email">
+<input type="text" name="phone" placeholder="Phone">
+<input type="text" name="address" placeholder="Address">
+</div>
 
-        for (Salon s : salons) {
-            s.setServices(serviceDAO.getServicesBySalon(s.getId()));
-    %>
+<div class="upload-box" onclick="chooseFile()">
+    <i class="bi bi-cloud-arrow-up"></i>
+    <span>Click to upload salon thumbnail</span>
+    <input id="fileInput" type="file" name="image" required>
+</div>
 
-    <table>
-        <tr>
-            <td rowspan="2" style="width:100px;">
-                <% if (s.getImage() != null) { %>
-                    <img src="SalonImageServlet?id=<%= s.getId() %>" width="80" height="80">
-                <% } %>
-            </td>
-            <td><b style="color:#FFD700;"><%= s.getName() %></b></td>
-            <td><%= s.getEmail() %></td>
-            <td><%= s.getPhone() %></td>
-            <td><%= s.getAddress() %></td>
-            <td>
-                <a href="EditSalonServlet?id=<%= s.getId() %>"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="DeleteSalonServlet?id=<%= s.getId() %>" onclick="return confirm('Delete this salon?')"><i class="fa-solid fa-trash"></i></a>
-                <span class="toggle-btn" onclick="toggleServiceForm(<%= s.getId() %>)">
-                    <i class="fa-solid fa-scissors"></i> Services
-                </span>
-            </td>
-        </tr>
+<div class="add-row">
+<button class="add-btn" type="submit">+ ADD SALON</button>
+</div>
 
-        <tr>
-            <td colspan="5">
-                <div id="serviceForm-<%= s.getId() %>" style="display:none; margin-top:10px;">
+</form>
 
-                    <!-- ADD SERVICE FORM -->
-                    <h4 style="color:#FFD700;"><i class="fa-solid fa-cut"></i> Add Service</h4>
-                    <form method="post" action="AddServiceServlet">
-                        <input type="hidden" name="salonId" value="<%= s.getId() %>">
-                        <input type="text" name="name" placeholder="Service Name" required>
-                        <input type="text" name="description" placeholder="Description">
-                        <input type="number" name="price" placeholder="Price" step="0.01" required>
-                        <input type="number" name="durationMinutes" placeholder="Duration (min)" required>
-                        <button type="submit"><i class="fa-solid fa-plus"></i> Add</button>
-                    </form>
+<h2 style="margin-top:30px;">All Salons</h2>
 
-                    <!-- LIST SERVICES -->
-                    <table class="service-table">
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Duration</th>
-                            <th>Action</th>
-                        </tr>
-                        <% if (s.getServices() != null) {
-                            for (Service srv : s.getServices()) { %>
-                                <tr>
-                                    <td><%= srv.getName() %></td>
-                                    <td>₹<%= srv.getPrice() %></td>
-                                    <td><%= srv.getDurationMinutes() %> min</td>
-                                    <td>
-                                        <a href="EditServiceServlet?id=<%= srv.getId() %>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="DeleteServiceServlet?id=<%= srv.getId() %>&salonId=<%= s.getId() %>" onclick="return confirm('Delete this service?')"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                        <%  } } %>
-                    </table>
+<%
+SalonDAO salonDAO = new SalonDAO();
+ServiceDAO serviceDAO = new ServiceDAO();
+List<Salon> salons = salonDAO.getAllSalons();
 
-                </div>
-            </td>
-        </tr>
-    </table>
+for (Salon s : salons) {
+    s.setServices(serviceDAO.getServicesBySalon(s.getId()));
+%>
 
-    <% } %>
+<table>
+<tr>
+
+<td width="120">
+<% if (s.getImage() != null) { %>
+<img src="SalonImageServlet?id=<%= s.getId() %>" width="90" height="90">
+<% } %>
+</td>
+
+<td>
+<b style="font-size:19px;color:#c9a227"><%= s.getName() %></b><br>
+<%= s.getEmail() %> | <%= s.getPhone() %>
+</td>
+
+<td>
+<%= s.getAddress() %>
+</td>
+
+<td width="120">
+
+<a href="EditSalonServlet?id=<%= s.getId() %>">
+    <i class="bi bi-pencil"></i>
+</a>
+
+<a href="DeleteSalonServlet?id=<%= s.getId() %>"
+onclick="return confirm('Delete this salon?')">
+    <i class="bi bi-trash"></i>
+</a>
+
+</td>
+
+</tr>
+</table>
+
+<% } %>
 
 </div>
 
