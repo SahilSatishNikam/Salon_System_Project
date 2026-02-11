@@ -9,7 +9,7 @@
     <!-- MENU LINKS -->
     <a class="active" href="dashboard.jsp"><i class="bi bi-speedometer2"></i> Dashboard</a>
     <a href="manage-salons.jsp"><i class="bi bi-shop"></i> Manage Salons</a>
-    <a href="AdminClientViewServlet"><i class="bi bi-shield-check"></i> Clients</a>
+    <a href="VisitedClientServlet"><i class="bi bi-shield-check"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="bi bi-person-badge"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"><i class="bi bi-calendar-check"></i> Appointments</a>
     <a href="feedback.jsp"><i class="bi bi-chat-left-text"></i> Feedback</a>

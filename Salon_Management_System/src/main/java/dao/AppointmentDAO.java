@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.time.LocalTime;
 import java.util.*;
 import model.Appointment;
-import model.Client;
+import model.Slot;
 import util.DBConnection;
 
 public class AppointmentDAO {
@@ -419,57 +419,6 @@ public class AppointmentDAO {
         return appt;
     }
 
-    public boolean markAppointmentCompleted(int appointmentId, int userId) {
-        boolean success = false;
-
-        try (Connection con = DBConnection.getConnection()) {
-
-            // 1️⃣ Update appointment status to COMPLETED
-            String sqlUpdate = "UPDATE appointments SET status='COMPLETED', therapist_decision='APPROVED' WHERE id=?";
-            try (PreparedStatement ps = con.prepareStatement(sqlUpdate)) {
-                ps.setInt(1, appointmentId);
-                success = ps.executeUpdate() > 0;
-            }
-
-            if (success) {
-
-                // 2️⃣ Get appointment details
-                Appointment appt = getAppointmentById(appointmentId);
-
-                if (appt != null) {
-
-                    ClientDAO clientDao = new ClientDAO();
-
-                    // 3️⃣ Check if client already exists by phone
-                    int clientId = clientDao.getClientByPhone(appt.getPhone());
-
-                    if (clientId == 0) {
-                        // 4️⃣ Add new client
-                        Client c = new Client();
-                        c.setName(appt.getCustomerName());
-                        c.setPhone(appt.getPhone());
-                        c.setUserId(appt.getUserId());
-
-                        clientId = clientDao.addClient(c);
-                    }
-
-                    // 5️⃣ Add visit history
-                    clientDao.addVisit(
-                            clientId,
-                            appt.getSalonId(),
-                            appt.getTherapistId(),
-                            appt.getServiceName(),
-                            appt.getAppointmentDate()
-                    );
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return success;
-    }
 
     public boolean rescheduleAppointment(int appointmentId, java.sql.Date newDate, java.sql.Time newTime) {
         boolean success = false;
@@ -497,6 +446,7 @@ public class AppointmentDAO {
         String sql = "SELECT appointment_time FROM appointments " +
                      "WHERE therapist_id=? AND appointment_date=?";
 
+<<<<<<< Updated upstream
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -680,11 +630,23 @@ public class AppointmentDAO {
 
             for(String slot : allSlots){
                 if(!bookedSlots.contains(slot)) slots.add(slot);
+=======
+    public double getTotalRevenue() {
+        double revenue = 0;
+        String sql = "SELECT SUM(price) as total FROM appointments WHERE status='completed'";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                revenue = rs.getDouble("total");
+>>>>>>> Stashed changes
             }
 
         } catch(Exception e){
             e.printStackTrace();
         }
+<<<<<<< Updated upstream
 
         return slots;
     }
@@ -692,5 +654,38 @@ public class AppointmentDAO {
 
 
 }
+=======
+        return revenue;
+    }
+    public List<Appointment> getAppointmentsBySlot(Slot slot) { 
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT * FROM appointments WHERE therapist_id=? AND appointment_date=? AND appointment_time BETWEEN ? AND ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, slot.getTherapistId());
+            ps.setDate(2, new java.sql.Date(slot.getAvailableDate().getTime())); // if Date
+            ps.setTime(3, new java.sql.Time(slot.getStartTime().getTime()));       // if java.util.Date
+            ps.setTime(4, new java.sql.Time(slot.getEndTime().getTime()));
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Appointment a = new Appointment();
+                a.setCustomerName(rs.getString("customerName")); // <-- FIXED
+                a.setServiceName(rs.getString("service_name"));
+                a.setStatus(rs.getString("status"));
+                a.setAppointmentTime(rs.getTime("appointment_time"));
+                list.add(a);
+            }
+        } catch(Exception e) { 
+            e.printStackTrace(); 
+        }
+        return list;
+    }
+
+
+    
+ }
+>>>>>>> Stashed changes
 
 

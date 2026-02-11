@@ -8,16 +8,24 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
     <style>
         body {
             background-color: #111;
             color: #f5c518;
         }
 
+<<<<<<< Updated upstream
+=======
+        .sidebar { width:250px; background:#000; min-height:100vh; position:fixed; border-right:2px solid #FFD700; padding-top:10px; }
+.sidebar h2 { text-align:center; padding:20px; color:#FFD700; font-weight:600; border-bottom:1px solid #222; font-size:1.3rem; }
+.sidebar a { display:flex; align-items:center; color:#fff; padding:14px 22px; text-decoration:none; border-bottom:1px solid #111; font-weight:500; font-size:19px; }
+.sidebar a i { margin-right:12px; font-size:1.1rem; }
+.sidebar a:hover, .sidebar a.active { background:#FFD700; color:#000; padding-left:28px; }
+        
+
+>>>>>>> Stashed changes
         .main {
             margin-left: 250px;
             padding: 30px;
@@ -55,7 +63,21 @@
 <body>
 
 <!-- SIDEBAR -->
+<<<<<<< Updated upstream
 <%@ include file="sidebar.jsp" %>
+=======
+<div class="sidebar">
+    <h2><i class="fa fa-gem"></i> SalonEase Admin</h2>
+    <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+    <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
+    <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
+    <a href="AdminTherapistServlet" class="active"><i class="fa fa-user-tie"></i> Manage Therapists</a>
+    <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
+    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
+    <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+>>>>>>> Stashed changes
 
 <!-- MAIN CONTENT -->
 <div class="main">
