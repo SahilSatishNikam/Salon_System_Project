@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.util.List, dao.SalonDAO, dao.ServiceDAO, model.Salon, model.Service" %>
-<!DOCTYPE html>
-<html>
-<head>
     <title>Manage Salons</title>
 
     <!-- Bootstrap & Icons -->
@@ -89,7 +83,6 @@
             f.style.display = (f.style.display === "none") ? "block" : "none";
         }
     </script>
-=======
 <%@ page import="java.util.*, dao.SalonDAO, model.Salon" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -240,107 +233,89 @@ body {
 @media(max-width:1200px){ .col-lg-4{ margin-bottom:20px; } }
 
 </style>
->>>>>>> Stashed changes
+
 </head>
 <body>
 
 <!-- SIDEBAR -->
-<<<<<<< Updated upstream
 <%@ include file="sidebar.jsp" %>
 
-<!-- MAIN CONTENT -->
+<!-- ===== MAIN CONTENT ===== -->
 <div class="content">
 
-    <!-- ADD NEW SALON -->
-    <h2><i class="fa-solid fa-circle-plus"></i> Add New Salon</h2>
-    <form method="post" action="AddSalonServlet" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Salon Name" required>
-        <input type="text" name="email" placeholder="Email">
-        <input type="text" name="phone" placeholder="Phone">
-        <input type="text" name="address" placeholder="Address">
-        <input type="file" name="image" required>
-        <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Add</button>
-    </form>
+<h2 style="margin-bottom:20px;">Add New Salon</h2>
 
-    <!-- LIST ALL SALONS -->
-    <h2><i class="fa-solid fa-shop"></i> All Salons</h2>
+<form method="post" action="AddSalonServlet" enctype="multipart/form-data">
 
-    <%
-        SalonDAO salonDAO = new SalonDAO();
-        ServiceDAO serviceDAO = new ServiceDAO();
-        List<Salon> salons = salonDAO.getAllSalons();
+<div class="form-row">
+<input type="text" name="name" placeholder="Salon Name" required>
+<input type="text" name="email" placeholder="Email">
+<input type="text" name="phone" placeholder="Phone">
+<input type="text" name="address" placeholder="Address">
+</div>
 
-        for (Salon s : salons) {
-            s.setServices(serviceDAO.getServicesBySalon(s.getId()));
-    %>
+<div class="upload-box" onclick="chooseFile()">
+    <i class="bi bi-cloud-arrow-up"></i>
+    <span>Click to upload salon thumbnail</span>
+    <input id="fileInput" type="file" name="image" required>
+</div>
 
-    <table>
-        <tr>
-            <td rowspan="2" style="width:100px;">
-                <% if (s.getImage() != null) { %>
-                    <img src="SalonImageServlet?id=<%= s.getId() %>" width="80" height="80">
-                <% } %>
-            </td>
-            <td><b style="color:#FFD700;"><%= s.getName() %></b></td>
-            <td><%= s.getEmail() %></td>
-            <td><%= s.getPhone() %></td>
-            <td><%= s.getAddress() %></td>
-            <td>
-                <a href="EditSalonServlet?id=<%= s.getId() %>"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="DeleteSalonServlet?id=<%= s.getId() %>" onclick="return confirm('Delete this salon?')"><i class="fa-solid fa-trash"></i></a>
-                <span class="toggle-btn" onclick="toggleServiceForm(<%= s.getId() %>)">
-                    <i class="fa-solid fa-scissors"></i> Services
-                </span>
-            </td>
-        </tr>
+<div class="add-row">
+<button class="add-btn" type="submit">+ ADD SALON</button>
+</div>
 
-        <tr>
-            <td colspan="5">
-                <div id="serviceForm-<%= s.getId() %>" style="display:none; margin-top:10px;">
+</form>
 
-                    <!-- ADD SERVICE FORM -->
-                    <h4 style="color:#FFD700;"><i class="fa-solid fa-cut"></i> Add Service</h4>
-                    <form method="post" action="AddServiceServlet">
-                        <input type="hidden" name="salonId" value="<%= s.getId() %>">
-                        <input type="text" name="name" placeholder="Service Name" required>
-                        <input type="text" name="description" placeholder="Description">
-                        <input type="number" name="price" placeholder="Price" step="0.01" required>
-                        <input type="number" name="durationMinutes" placeholder="Duration (min)" required>
-                        <button type="submit"><i class="fa-solid fa-plus"></i> Add</button>
-                    </form>
+<h2 style="margin-top:30px;">All Salons</h2>
 
-                    <!-- LIST SERVICES -->
-                    <table class="service-table">
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Duration</th>
-                            <th>Action</th>
-                        </tr>
-                        <% if (s.getServices() != null) {
-                            for (Service srv : s.getServices()) { %>
-                                <tr>
-                                    <td><%= srv.getName() %></td>
-                                    <td>₹<%= srv.getPrice() %></td>
-                                    <td><%= srv.getDurationMinutes() %> min</td>
-                                    <td>
-                                        <a href="EditServiceServlet?id=<%= srv.getId() %>"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a href="DeleteServiceServlet?id=<%= srv.getId() %>&salonId=<%= s.getId() %>" onclick="return confirm('Delete this service?')"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                        <%  } } %>
-                    </table>
+<%
+SalonDAO salonDAO = new SalonDAO();
+ServiceDAO serviceDAO = new ServiceDAO();
+List<Salon> salons = salonDAO.getAllSalons();
 
-                </div>
-            </td>
-        </tr>
-    </table>
+for (Salon s : salons) {
+    s.setServices(serviceDAO.getServicesBySalon(s.getId()));
+%>
 
-    <% } %>
+<table>
+<tr>
+
+<td width="120">
+<% if (s.getImage() != null) { %>
+<img src="SalonImageServlet?id=<%= s.getId() %>" width="90" height="90">
+<% } %>
+</td>
+
+<td>
+<b style="font-size:19px;color:#c9a227"><%= s.getName() %></b><br>
+<%= s.getEmail() %> | <%= s.getPhone() %>
+</td>
+
+<td>
+<%= s.getAddress() %>
+</td>
+
+<td width="120">
+
+<a href="EditSalonServlet?id=<%= s.getId() %>">
+    <i class="bi bi-pencil"></i>
+</a>
+
+<a href="DeleteSalonServlet?id=<%= s.getId() %>"
+onclick="return confirm('Delete this salon?')">
+    <i class="bi bi-trash"></i>
+</a>
+
+</td>
+
+</tr>
+</table>
+
+<% } %>
 
 </div>
 
-=======
+
 <div class="sidebar">
     <h2><i class="fa fa-gem"></i> SalonEase Admin</h2>
     <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
@@ -437,6 +412,5 @@ body {
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> Stashed changes
 </body>
 </html>
