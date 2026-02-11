@@ -5,7 +5,8 @@
     <title>Login | GoldenGlow</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+	<link rel="stylesheet" href="css/header.css">
+	<link rel="stylesheet" href="css/footer.css">
     <style>
         body{
     min-height:100vh;
@@ -18,49 +19,25 @@
     font-family: "Times New Roman", Times, serif;
     font-size:17px;   /* 👈 added */
     color:#e5c66d;
+    overflow: hidden; 
+    animation: fadeInPage 1s ease-in-out;
+}
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: scale(1.01);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.card:hover {
+    box-shadow: 0 0 40px rgba(229,198,109,0.45);
+    transform: translateY(-4px);
+    transition: all 0.4s ease;
 }
 
-
-
-        /* ===== NAVBAR ===== */
-        .navbar{
-            padding:18px 60px;
-            background:rgba(0,0,0,0.65);
-            backdrop-filter: blur(6px);
-        }
-        .navbar-brand{
-            font-size:24px;
-            font-weight:600;
-            color:#e5c66d;
-            letter-spacing:1px;
-        }
-        .navbar-brand span{
-            color:#f0d14a;
-        }
-        .nav-link{
-            color:#d6c17c !important;
-            margin:0 10px;
-        }
-        .nav-link:hover{
-            color:#f0d14a !important;
-        }
-
-        .login-btn,.register-btn{
-            padding:8px 18px;
-            border-radius:20px;
-            text-decoration:none;
-            margin-left:10px;
-            font-weight:500;
-            color:#000
-        }
-        .login-btn{
-            border:1px solid #e5c66d;
-            color:#e5c66d;
-        }
-        .register-btn{
-            background:linear-gradient(135deg,#f0d14a,#c9a227);
-            box-shadow:0 0 15px rgba(229,198,109,0.7);
-        }
 
         /* ===== LOGIN CARD ===== */
         .card{
@@ -68,10 +45,21 @@
             margin:90px auto;
             background:rgba(20,20,20,0.85);
             border-radius:18px;
-            padding:35px;
+            padding:50px;
             box-shadow:0 0 25px rgba(229,198,109,0.25);
             border:1px solid rgba(229,198,109,0.25);
+            animation: slideUp 0.9s ease-out;
         }
+        @keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
        .card h3{
     text-align:center;
@@ -95,6 +83,11 @@
     border-radius:12px;
     padding:14px;     /* 👈 more space */
     font-size:16px;   /* 👈 increased */
+     transition: all 0.3s ease;
+}
+.form-control:hover {
+    border-color: rgba(229,198,109,0.6);
+    box-shadow: 0 0 8px rgba(229,198,109,0.25);
 }
 
         .form-control::placeholder{
@@ -118,6 +111,31 @@
     letter-spacing:1px;
     font-size:17px;   /* 👈 increased */
     transition:0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn-primary:hover::after {
+    left: 100%;
+}
+
+.btn-primary:active {
+    transform: scale(0.96);
 }
 
         .btn-primary:hover{
@@ -134,23 +152,79 @@
     border-top:1px solid rgba(201,162,39,.3);
     font-size:13px;
 }
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f0d14a, #c9a227);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
     </style>
 </head>
 
 <body>
 
-<nav class="navbar d-flex justify-content-between">
-    <div class="navbar-brand">
-        <span>GoldenGlow</span>
-    </div>
+<!-- HEADER -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-lg glass-nav">
+    <div class="container">
 
-    <div>
-        <a class="nav-link d-inline" href="index.jsp">Home</a>
-        <a class="nav-link d-inline" href="about.jsp">About</a>
-        <a class="nav-link d-inline" href="contact.jsp">Contact</a>
+        <a class="navbar-brand fw-bold gold brand-glow brand-premium"
+           href="${pageContext.request.contextPath}/index.jsp">
 
-        <a href="login.jsp" class="login-btn">Login</a>
-        <a href="register.jsp" class="register-btn">Register</a>
+            <span class="brand-icon gold-icon">
+                <!-- ICON UNCHANGED -->
+                <svg class="scissor-lg" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M9 12l-5 5a3 3 0 1 1-1.4-1.4l5-5-5-5A3 3 0 1 1 4 4l5 5 6-3-3 6 3 6-6-3z"
+                          fill="#FFD700"/>
+                </svg>
+            </span>
+
+            <span class="brand-text">
+                Golden<span class="brand-accent">Glow</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav ms-auto gap-3 align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link nav-underline"
+                       href="${pageContext.request.contextPath}/index.jsp">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-underline"
+                       href="${pageContext.request.contextPath}/about.jsp">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-underline"
+                       href="${pageContext.request.contextPath}/contact.jsp">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light btn-sm rounded-pill px-3 glow-hover"
+                       href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-gold btn-sm rounded-pill px-3 glow-btn"
+                       href="${pageContext.request.contextPath}/register.jsp">Register</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -179,9 +253,8 @@
     </form>
 </div>
 
-<div class="footer">
-© 2026 GoldenGlow Salon | All Rights Reserved
-</div>
-
+<div class="footer-bottom">
+        © 2026 GoldenGlow Salon Management System | Designed for Luxury <span>❤</span>
+    </div>
 </body>
 </html>
