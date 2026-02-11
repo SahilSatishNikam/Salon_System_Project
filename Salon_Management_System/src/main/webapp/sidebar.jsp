@@ -7,44 +7,15 @@
     <img class="logo-img"
          src="https://cdn-icons-png.flaticon.com/512/1040/1040230.png" />
 
-    <span class="s1">Admin</span>
-    <span class="s2">Dashbord</span>
-</div>
-
-<!-- ===== MENU ===== -->
-
-<a href="dashboard.jsp">
-    <i class="bi bi-grid"></i> Dashboard
-</a>
-
-<!-- ===== ACTIVE ON MANAGE SALONS ===== -->
-<a class="active" href="manage-salons.jsp">
-    <i class="bi bi-shop"></i> Manage Salons
-</a>
-
-<a href="AdminClientViewServlet">
-    <i class="bi bi-people"></i> Clients
-</a>
-
-<a href="AdminTherapistServlet">
-    <i class="bi bi-scissors"></i> Manage Therapists
-</a>
-
-<a href="AdminAppointmentServlet">
-    <i class="bi bi-calendar"></i> Appointments
-</a>
-
-<a href="feedback.jsp">
-    <i class="bi bi-chat"></i> Feedback
-</a>
-
-<a href="reports.jsp">
-    <i class="bi bi-bar-chart"></i> Reports
-</a>
-
-<a class="logout" href="logout.jsp">
-    <i class="bi bi-box-arrow-right"></i> Logout
-</a>
+    <!-- MENU LINKS -->
+    <a class="active" href="dashboard.jsp"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="manage-salons.jsp"><i class="bi bi-shop"></i> Manage Salons</a>
+    <a href="VisitedClientServlet"><i class="bi bi-shield-check"></i> Clients</a>
+    <a href="AdminTherapistServlet"><i class="bi bi-person-badge"></i> Manage Therapists</a>
+    <a href="AdminAppointmentServlet"><i class="bi bi-calendar-check"></i> Appointments</a>
+    <a href="feedback.jsp"><i class="bi bi-chat-left-text"></i> Feedback</a>
+    <a href="reports.jsp"><i class="bi bi-bar-chart"></i> Reports</a>
+    <a href="logout.jsp"><i class="bi bi-box-arrow-right"></i> Logout</a>
 
 </div>
 

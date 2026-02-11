@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +8,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/footer.css">
+
 <style>
 /* ===== PAGE BACKGROUND ===== */
 html, body{

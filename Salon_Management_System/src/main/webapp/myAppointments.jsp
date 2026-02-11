@@ -21,138 +21,159 @@
 <meta charset="UTF-8">
 <title>My Appointments</title>
 
-<!-- Bootstrap & FontAwesome -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-/* ================= GLOBAL ================= */
+/* ===== GLOBAL ===== */
 body{
     margin:0;
     font-family:'Segoe UI',sans-serif;
     background:#000;
     color:#fff;
 }
+.container-fluid{ display:flex; padding:0; }
 
-/* ================= CONTAINER ================= */
-.container-fluid{
-    display:flex;
-    padding:0;
-}
-
-/* ================= SIDEBAR (SAME AS DASHBOARD) ================= */
+/* ===== SIDEBAR — SAME STYLE ===== */
 .sidebar{
-    width:260px;
+    width:250px;
+    background:#000;
     min-height:100vh;
-    background:linear-gradient(180deg,#0f0f0f,#1a1a1a);
-    border-right:2px solid #ffd700;
-    padding:25px 20px;
+    position:fixed;
+    border-right:2px solid #F5A927;
+    padding-top:15px;
 }
-
+.sidebar h2{
+    text-align:center;
+    color:#F5A927;
+    font-weight:600;
+    border-bottom:1px solid #222;
+    font-size:1.3rem;
+    padding-bottom:10px;
+      padding:20px 0px;
+}
 .sidebar-profile{
     text-align:center;
-    border-bottom:1px solid #444;
-    padding-bottom:15px;
-    margin-bottom:20px;
+    margin:20px 0;
 }
-
-.profile-img{
+.sidebar-profile img{
     width:70px;
     height:70px;
     border-radius:50%;
-    border:2px solid #ffd700;
+    border:2px solid #F5A927;
+    box-shadow:0 0 8px #F5A927;
 }
+.sidebar-profile h5{ color:#F5A927; margin-top:10px; }
+.sidebar-profile p{ color:#fff; font-size:0.9rem; }
 
-.sidebar-profile h5{color:#ffd700;margin-top:10px;}
-.sidebar-profile p{font-size:0.9rem;color:#fff;}
-
-.sidebar-menu a{
+.sidebar a{
     display:flex;
     align-items:center;
-    padding:12px 15px;
-    margin:6px 0;
     color:#fff;
+    padding:14px 22px;
     text-decoration:none;
-    border-radius:12px;
+    border-bottom:1px solid #111;
     font-weight:500;
-}
-
-.sidebar-menu a i{
-    margin-right:12px;
     font-size:18px;
+    transition:.3s;
 }
-
-.sidebar-menu a:hover,
-.sidebar-menu a.active{
-    background:#ffd700;
+.sidebar a i{ margin-right:12px; }
+.sidebar a:hover,
+.sidebar a.active{
+    background:#F5A927;
     color:#000;
-    box-shadow:0 0 12px rgba(255,215,0,0.6);
+    padding-left:28px;
+    box-shadow:0 0 8px #F5A927;
 }
 
-/* ================= MAIN ================= */
+/* ===== MAIN ===== */
 .main{
     flex:1;
-    padding:25px;
+    margin-left:250px;
+    padding:35px;
+    background:radial-gradient(circle at top,#111,#000);
 }
 
-/* ================= TABLE ================= */
+/* ===== TITLE ===== */
 h2{
-    color:#ffd700;
+    color:#F5A927;
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:25px;
+    text-shadow:0 0 6px #F5A927;
 }
 
+/* ===== TABLE ===== */
 .table-custom{
     width:100%;
-    background:#111;
-    border-radius:12px;
+    background:#0f0f0f;
+    border-radius:14px;
     overflow:hidden;
-    border:1px solid #d4af37;
+    border:1px solid #F5A927;
+    box-shadow:0 0 18px rgba(245,169,39,.25);
 }
-
 .table-custom th{
     background:#000;
-    color:#ffd700;
-    padding:12px;
-    border-bottom:2px solid #d4af37;
+    color:#F5A927;
+    padding:14px;
+    border-bottom:2px solid #F5A927;
 }
-
 .table-custom td{
-    padding:12px;
+    padding:14px;
     color:#fff;
-    border-bottom:1px solid #333;
+    border-bottom:1px solid #222;
 }
-
 .table-custom tr:hover{
-    background:#1a1a1a;
+    background:#161616;
 }
 
-/* ================= MESSAGES ================= */
+/* ===== MESSAGES ===== */
 .msg{
-    margin-bottom:12px;
-    padding:10px;
-    border-radius:8px;
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:10px;
+    font-weight:600;
+}
+.ok{
+    background:#102d1f;
+    color:#4cffb0;
+    border:1px solid #1f6b4a;
+}
+.err{
+    background:#2d1010;
+    color:#ff8080;
+    border:1px solid #6b1f1f;
 }
 
-.ok{background:#003d2b;color:#3cffb5;}
-.err{background:#3d0000;color:#ff7b7b;}
-
-/* ================= BUTTONS ================= */
+/* ===== BUTTONS ===== */
 .btn-action{
     padding:6px 14px;
-    border-radius:20px;
+    border-radius:22px;
     font-weight:600;
     border:none;
+    margin:2px;
 }
 
 .cancel{
-    background:#900;
+    background:#5c0000;
     color:#fff;
+}
+.cancel:hover{
+    background:#a00000;
 }
 
 .reschedule{
-    background:#ffd700;
+    background:linear-gradient(135deg,#F5A927,#FFD166);
     color:#000;
+    box-shadow:0 0 6px #F5A927;
+}
+.reschedule:hover{
+    filter:brightness(1.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .sidebar{ position:relative; width:100%; }
+    .main{ margin-left:0; }
 }
 </style>
 </head>
@@ -161,93 +182,79 @@ h2{
 
 <div class="container-fluid">
 
-    <!-- ===== SIDEBAR ===== -->
-    <div class="sidebar">
-        
-        <div class="sidebar-menu">
-            <a href="dashboard.jsp">
-                <i class="fa fa-chart-line"></i> Dashboard
-            </a>
-            <a href="search-salons.jsp">
-                <i class="fa fa-magnifying-glass"></i> Search Salons
-            </a>
-            <a href="myAppointments.jsp" class="active">
-                <i class="fa fa-calendar"></i> My Appointments
-            </a>
-            <a href="user-feedback.jsp">
-                <i class="fa fa-star"></i> Feedback
-            </a>
-            <a href="profile.jsp">
-                <i class="fa fa-user"></i> Profile
-            </a>
-            <a href="LogoutServlet">
-                <i class="fa fa-sign-out-alt"></i> Logout
-            </a>
-        </div>
-    </div>
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+    <h2>User Panel</h2>
 
-    <!-- ===== MAIN ===== -->
-    <div class="main">
+    <a href="user-dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
+    <a href="myAppointments.jsp" class="active"><i class="fa fa-calendar"></i> My Appointments</a>
+    <a href="user-feedback.jsp"><i class="fa fa-star"></i> Feedback</a>
+    <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
+    <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
 
-        <h2>My Appointments</h2>
+<!-- ===== MAIN ===== -->
+<div class="main">
 
-        <% if(success != null){ %>
-            <div class="msg ok"><%= success %></div>
-        <% } %>
+<h2><i class="fa fa-calendar-check"></i> My Appointments</h2>
 
-        <% if(error != null){ %>
-            <div class="msg err"><%= error %></div>
-        <% } %>
+<% if(success != null){ %>
+<div class="msg ok"><%= success %></div>
+<% } %>
 
-        <table class="table-custom">
-            <tr>
-                <th>Salon</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
+<% if(error != null){ %>
+<div class="msg err"><%= error %></div>
+<% } %>
 
-            <%
-            if(appointments.isEmpty()){
-            %>
-            <tr>
-                <td colspan="6" class="text-center">No appointments booked yet.</td>
-            </tr>
-            <%
-            } else {
-                for(Appointment ap : appointments){
-            %>
-            <tr>
-                <td><%= ap.getSalonId() %></td>
-                <td><%= ap.getServiceName() %></td>
-                <td><%= ap.getAppointmentDate() %></td>
-                <td><%= ap.getAppointmentTime() %></td>
-                <td><%= ap.getStatus() %></td>
-                <td>
-                <% if(!"Cancelled".equals(ap.getStatus())) { %>
-                    <form action="CancelAppointmentServlet" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="<%= ap.getId() %>">
-                        <button type="submit" class="btn-action cancel">Cancel</button>
-                    </form>
+<table class="table-custom">
+<tr>
+    <th>Salon</th>
+    <th>Service</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Status</th>
+    <th>Actions</th>
+</tr>
 
-                    <form action="reschedule.jsp" method="get" style="display:inline;">
-                        <input type="hidden" name="id" value="<%= ap.getId() %>">
-                        <button type="submit" class="btn-action reschedule">Reschedule</button>
-                    </form>
-                <% } else { %>
-                    -
-                <% } %>
-                </td>
-            </tr>
-            <%
-                }
-            }
-            %>
-        </table>
+<%
+if(appointments.isEmpty()){
+%>
+<tr>
+<td colspan="6" class="text-center">No appointments booked yet.</td>
+</tr>
+<%
+} else {
+for(Appointment ap : appointments){
+%>
+<tr>
+<td><%= ap.getSalonId() %></td>
+<td><%= ap.getServiceName() %></td>
+<td><%= ap.getAppointmentDate() %></td>
+<td><%= ap.getAppointmentTime() %></td>
+<td><%= ap.getStatus() %></td>
+<td>
+<% if(!"Cancelled".equals(ap.getStatus())) { %>
 
-    </div>
+<form action="CancelAppointmentServlet" method="post" style="display:inline;">
+<input type="hidden" name="id" value="<%= ap.getId() %>">
+<button class="btn-action cancel">Cancel</button>
+</form>
+
+<form action="reschedule.jsp" method="get" style="display:inline;">
+<input type="hidden" name="id" value="<%= ap.getId() %>">
+<button class="btn-action reschedule">Reschedule</button>
+</form>
+
+<% } else { %> - <% } %>
+</td>
+</tr>
+<%
+}}
+%>
+</table>
+
+</div>
 </div>
 
 </body>

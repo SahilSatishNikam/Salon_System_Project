@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page import="jakarta.servlet.http.*" %>
+<%
+    // Get the current session, if exists
+   
+    if(session != null){
+        // Invalidate the session to log out the user
+        session.invalidate();
+    }
 
-</body>
-</html>
+    // Redirect the admin to the login page
+    response.sendRedirect("login.jsp");
+%>

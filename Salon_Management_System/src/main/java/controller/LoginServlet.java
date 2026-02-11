@@ -1,6 +1,6 @@
 package controller;
 
-import jakarta.servlet.*;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -21,79 +21,75 @@ public class LoginServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        try {
-            HttpSession session = req.getSession();
+        HttpSession session = req.getSession();
 
-            // ===== Admin Login =====
-         // ===== SINGLE ADMIN LOGIN =====
-            AdminDAO adminDAO = new AdminDAO();
-            Admin admin = adminDAO.login(email, password);
+        try {
+
+            // ===== ADMIN LOGIN =====
+            Admin admin = new AdminDAO().login(email, password);
 
             if (admin != null) {
 
-                // Only allow ACTIVE admin (extra safety)
-                if (admin.getStatus() != null && 
-                    !admin.getStatus().equalsIgnoreCase("Active")) {
+                if (admin.getStatus() != null &&
+                        !admin.getStatus().equalsIgnoreCase("Active")) {
 
-                    resp.sendRedirect("login.jsp?error=Admin+is+inactive");
+                    resp.sendRedirect(req.getContextPath()
+                            + "/login.jsp?error=Admin+is+inactive");
                     return;
                 }
-
-                System.out.println("Admin login successful: " + admin.getName());
 
                 session.setAttribute("role", "admin");
                 session.setAttribute("admin", admin);
 
-                // redirect to admin dashboard
-                resp.sendRedirect("dashboard.jsp");
+                resp.sendRedirect(req.getContextPath() + "/dashboard.jsp");
                 return;
             }
 
-
-            // ===== Therapist Login =====
+            // ===== THERAPIST LOGIN =====
             Therapist therapist = new TherapistDAO().login(email, password);
-            System.out.println("Therapist login attempt: " + email + ", therapist object: " + therapist);
 
             if (therapist != null) {
 
-                // Extra safety check
                 if (!"Active".equalsIgnoreCase(therapist.getStatus())) {
-                    System.out.println("Therapist inactive: " + therapist.getName());
-                    resp.sendRedirect("login.jsp?error=Therapist+is+inactive");
+                    resp.sendRedirect(req.getContextPath()
+                            + "/login.jsp?error=Therapist+is+inactive");
                     return;
                 }
 
                 if (therapist.getApproved() != 1) {
-                    System.out.println("Therapist not approved: " + therapist.getName());
-                    resp.sendRedirect("login.jsp?error=Therapist+not+approved");
+                    resp.sendRedirect(req.getContextPath()
+                            + "/login.jsp?error=Therapist+not+approved");
                     return;
                 }
 
                 session.setAttribute("role", "therapist");
                 session.setAttribute("therapist", therapist);
-                System.out.println("Therapist login successful: " + therapist.getName());
 
-                resp.sendRedirect("TherapistDashboardServlet");
+                resp.sendRedirect(req.getContextPath()
+                        + "/TherapistDashboardServlet");
                 return;
             }
 
-            // ===== User Login =====
+            // ===== USER LOGIN =====
             User user = new UserDAO().login(email, password);
+
             if (user != null) {
-                System.out.println("User login successful: " + user.getName());
                 session.setAttribute("role", "user");
                 session.setAttribute("user", user);
-                resp.sendRedirect("user-dashboard.jsp");
+
+                resp.sendRedirect(req.getContextPath()
+                        + "/user-dashboard.jsp");
                 return;
             }
 
-            // ===== Invalid Login =====
-            System.out.println("Login failed for email: " + email);
-            resp.sendRedirect("login.jsp?error=Invalid+Email+or+Password");
+            // ===== INVALID LOGIN =====
+            resp.sendRedirect(req.getContextPath()
+                    + "/login.jsp?error=Invalid+Email+or+Password");
 
         } catch (Exception e) {
             e.printStackTrace();
-            resp.sendRedirect("login.jsp?error=Server+Error");
+            resp.sendRedirect(req.getContextPath()
+                    + "/login.jsp?error=Server+Error");
         }
     }
 }
