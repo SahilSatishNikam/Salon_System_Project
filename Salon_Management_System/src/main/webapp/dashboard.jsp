@@ -548,7 +548,7 @@ body{
         </div>
         <div class="quick">
             <a href="manage-salons.jsp">Verify Salons</a>
-            <a href="manageVerifyAdmins.jsp">Verify Admins</a>
+            <a href="admin-therapists.jsp">Verify Therapist</a>
             <a href="reports.jsp">Reports</a>
         </div>
     </div>

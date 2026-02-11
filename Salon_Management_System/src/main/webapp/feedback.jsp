@@ -33,6 +33,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<<<<<<< Updated upstream
 <title>Feedback | SalonEase</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,6 +54,20 @@
     box-sizing:border-box;
 }
 
+=======
+<title>User Feedback | Admin Panel</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+>>>>>>> Stashed changes
 body{
     margin:0;
     font-family:"Times New Roman", Times, serif;
@@ -62,6 +77,7 @@ body{
     background-size:cover;
     background-attachment:fixed;
     color:#fff;
+<<<<<<< Updated upstream
 }
 
 /* Layout */
@@ -76,6 +92,15 @@ body{
 .sidebar{
     width:260px;
     height:100vh;
+=======
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    background:#000;
+    min-height:100vh;
+>>>>>>> Stashed changes
     position:fixed;
     top:0;
     left:0;
@@ -83,6 +108,7 @@ body{
     border-right:1px solid #1a1a1a;
     backdrop-filter:blur(6px);
     padding-top:10px;
+<<<<<<< Updated upstream
     overflow:hidden;
 
     display:flex;
@@ -327,6 +353,94 @@ body{
 
 .page-title i{
     margin-right:10px;
+=======
+}
+.sidebar h2{
+    text-align:center;
+    padding:20px;
+    color:#FFD700;
+    font-weight:600;
+    border-bottom:1px solid #222;
+}
+.sidebar a{
+    display:flex;
+    align-items:center;
+    color:#fff;
+    padding:15px 22px;
+    text-decoration:none;
+    border-bottom:1px solid #111;
+    font-size:17px;
+}
+.sidebar a i{ margin-right:12px; }
+.sidebar a:hover,
+.sidebar a.active{
+    background:#FFD700;
+    color:#000;
+    padding-left:28px;
+}
+
+/* MAIN */
+.main-content{
+    margin-left:250px;
+    padding:30px 40px;
+}
+
+.page-title{
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    color:#FFD700;
+    margin-bottom:30px;
+}
+
+/* FEEDBACK CARD */
+.feedback-card{
+    display:flex;
+    background:rgba(30,30,30,0.7);
+    border-radius:15px;
+    border:1.5px solid #FFD700;
+    padding:15px 20px;
+    margin-bottom:15px;
+    backdrop-filter: blur(6px);
+    box-shadow:0 5px 15px rgba(255,215,0,0.15);
+    transition:0.3s;
+}
+.feedback-card:hover{
+    transform:scale(1.02);
+    box-shadow:0 12px 25px rgba(255,215,0,0.4);
+}
+
+.feedback-avatar{
+    font-size:2rem;
+    color:#FFD700;
+    margin-right:15px;
+}
+
+.feedback-user{
+    font-weight:700;
+    color:#FFD700;
+}
+
+.feedback-stars{
+    color:#ffea00;
+    font-size:18px;
+}
+
+.feedback-message{
+    margin-top:5px;
+}
+
+.feedback-date{
+    font-size:12px;
+    color:#ccc;
+}
+
+.empty{
+    text-align:center;
+    margin-top:50px;
+    color:#aaa;
+    font-size:18px;
+>>>>>>> Stashed changes
 }
 
 /* Labels */
@@ -447,11 +561,17 @@ function setRating(r){
 
  <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
+<<<<<<< Updated upstream
     <h2><i class="fa fa-gem"></i>User Dashboard</h2>
     <a class="active" href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+=======
+    <h2><i class="fa fa-gem"></i> SalonEase Admin</h2>
+
+    <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+>>>>>>> Stashed changes
     <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
-    <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
-    <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
+    <a href="AdminClientViewServlet"><i class="fa fa-users"></i> Clients</a>
+    <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Therapists</a>
     <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
     <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
     <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
@@ -459,6 +579,7 @@ function setRating(r){
 </div>
 
 <!-- MAIN -->
+<<<<<<< Updated upstream
 <div class="main">
 
 <div class="feedback-card">
@@ -508,6 +629,50 @@ Submit Feedback
 
 </div>
 </div>
+=======
+<div class="main-content">
+
+    <div class="page-title">
+        <i class="fa fa-comment"></i> User Feedback
+    </div>
+
+    <% if(feedbackList.isEmpty()) { %>
+        <div class="empty">
+            <i class="fa fa-face-frown"></i> No feedback submitted yet.
+        </div>
+    <% } else {
+        for(Feedback f : feedbackList) {
+    %>
+
+    <div class="feedback-card">
+        <div class="feedback-avatar">
+            <i class="fa fa-user-circle"></i>
+        </div>
+
+        <div>
+            <div class="d-flex justify-content-between">
+                <div class="feedback-user"><%= f.getUser() %></div>
+                <div class="feedback-stars">
+                    <% for(int i=1;i<=f.getRating();i++){ %>★<% } %>
+                    <% for(int i=f.getRating()+1;i<=5;i++){ %>☆<% } %>
+                </div>
+            </div>
+
+            <div class="feedback-message">
+                <i class="fa fa-quote-left"></i>
+                <%= f.getMessage() %>
+            </div>
+
+            <div class="feedback-date">
+                <i class="fa fa-calendar"></i>
+                <%= f.getCreatedAt() %>
+            </div>
+        </div>
+    </div>
+
+    <% } } %>
+
+>>>>>>> Stashed changes
 </div>
 
 </body>
