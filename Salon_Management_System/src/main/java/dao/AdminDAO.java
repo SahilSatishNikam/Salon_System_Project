@@ -43,7 +43,7 @@ public class AdminDAO {
     // ===============================
     public List<Admin> getAllAdmins() {
         List<Admin> list = new ArrayList<>();
-        String sql = "SELECT * FROM admins ORDER BY id DESC";
+        String sql = "SELECT * FROM admin ORDER BY id DESC";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -70,7 +70,7 @@ public class AdminDAO {
     // DELETE ADMIN
     // ===============================
     public boolean delete(int id) {
-        String sql = "DELETE FROM admins WHERE id=?";
+        String sql = "DELETE FROM admin WHERE id=?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -87,7 +87,7 @@ public class AdminDAO {
     // UPDATE ADMIN STATUS
     // ===============================
     public boolean updateStatus(int id, String status) {
-        String sql = "UPDATE admins SET status=? WHERE id=?";
+        String sql = "UPDATE admin SET status=? WHERE id=?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
