@@ -8,41 +8,52 @@ import java.util.List;
 
 import model.Therapist;
 import model.TherapistAvailability;
+import dao.AppointmentDAO;
 import dao.TherapistAvailabilityDAO;
 
 @WebServlet("/TherapistDashboardServlet")
 public class TherapistDashboardServlet extends HttpServlet {
 
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // ✅ Check session
         HttpSession session = req.getSession(false);
+
         if (session == null) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        // ✅ Get logged therapist
-        Therapist therapist = (Therapist) session.getAttribute("therapist");
+        Therapist therapist =
+                (Therapist) session.getAttribute("therapist");
+
         if (therapist == null) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        // ✅ Basic therapist info
-        req.setAttribute("therapistName", therapist.getName());
-        req.setAttribute("therapistId", therapist.getId());
+        // ✅ put therapist in request for JSP
+        req.setAttribute("therapist", therapist);
 
-        // ✅ Load upcoming availability
-        TherapistAvailabilityDAO availDAO = new TherapistAvailabilityDAO();
-        List<TherapistAvailability> avails =
-                availDAO.getUpcomingAvailability(therapist.getId());
+        // ✅ appointment counts
+        AppointmentDAO apptDAO = new AppointmentDAO();
 
-        req.setAttribute("avails", avails);
+        req.setAttribute("todayCount",
+                apptDAO.getTodayAppointmentsByTherapist(therapist.getId()));
 
-        // ✅ Forward to dashboard JSP
+        req.setAttribute("completedCount",
+                apptDAO.getCompletedAppointmentsByTherapist(therapist.getId()));
+
+        req.setAttribute("pendingCount",
+                apptDAO.getPendingAppointmentsByTherapist(therapist.getId()));
+
+        // ✅ availability
+        TherapistAvailabilityDAO availDAO =
+                new TherapistAvailabilityDAO();
+
+        req.setAttribute("avails",
+                availDAO.getUpcomingAvailability(therapist.getId()));
+
         req.getRequestDispatcher("therapistDashboard.jsp")
            .forward(req, resp);
     }

@@ -2,7 +2,7 @@
 <%@ page import="model.Therapist, model.TherapistAvailability, java.util.*" %>
 
 <%
-Therapist t = (Therapist) request.getAttribute("therapist");
+Therapist t = (Therapist) session.getAttribute("therapist");
 if (t == null) {
     response.sendRedirect("login.jsp");
     return;
@@ -109,7 +109,7 @@ font-weight:bold;
         <i class="fa fa-clock"></i> Set Availability
     </a>
 
-    <a href="${pageContext.request.contextPath}/slots?therapistId=<%=t.getId()%>">
+    <a href=""<%=request.getContextPath()%>/slots?therapistId=<%=t.getId()%>"">
         View Slots
     </a>
 

@@ -12,23 +12,32 @@ import util.DBConnection;
 public class TherapistDAO {
 
     // Therapist login
-    public Therapist login(String email, String password) throws Exception {
-        String sql = "SELECT * FROM therapists WHERE email=? AND password=? AND status='Active' AND approved=1";
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+	// Therapist login
+	public Therapist login(String email, String password) throws Exception {
 
-            ps.setString(1, email);
-            ps.setString(2, password);
+	    String sql = "SELECT * FROM therapists WHERE email=? AND password=?";
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToTherapist(rs);
-                }
-            }
-        }
-        return null;
-    }
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setString(1, email);
+	        ps.setString(2, password);
+
+	        try (ResultSet rs = ps.executeQuery()) {
+
+	            if (rs.next()) {
+	                Therapist t = mapResultSetToTherapist(rs);
+
+	                System.out.println("LOGIN FOUND therapist = " + t.getEmail());
+	                return t;
+	            }
+	        }
+	    }
+
+	    System.out.println("LOGIN FAILED — no therapist row matched");
+	    return null;
+	}
 
     // Add therapist
     public boolean addTherapist(Therapist t) {
