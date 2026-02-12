@@ -47,8 +47,10 @@
 
     <style>
         /* =========================================
-   GLOBAL SETTINGS
+   PREMIUM LUXURY ADMIN PANEL
+   GOLD + BLACK EDITION
 ========================================= */
+
 *{
     margin:0;
     padding:0;
@@ -57,7 +59,10 @@
 
 body{
     font-family:"Times New Roman", serif;
-    background:#0b0b0b;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,215,0,0.05), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,215,0,0.05), transparent 40%),
+        #050505;
     color:#e6d8a8;
     overflow-x:hidden;
 }
@@ -104,6 +109,23 @@ body{
     flex-direction:column;
 }
 
+/* Logo */
+.logo{
+    padding:26px 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-img{
+    width:30px;
+    filter:drop-shadow(0 0 6px #c9a227);
+    transition:0.4s;
+}
+
+.logo:hover .logo-img{
+    transform:rotate(10deg) scale(1.1);
+}
 
 .s1{
     color:#ffffff;
@@ -141,7 +163,7 @@ body{
     top:0;
     height:100%;
     width:0;
-    background:linear-gradient(to right,#c9a227,#F5A927);
+    background:linear-gradient(to right,#c9a227,#ffd700);
     opacity:0.15;
     transition:0.4s ease;
 }
@@ -153,18 +175,18 @@ body{
 /* Icon */
 .sidebar a i{
     margin-right:14px;
-    color:#F5A927;
+    color:#ffffff;
     transition:0.4s ease;
 }
 
 /* Hover Effect */
 .sidebar a:hover{
-    color:#F5A927;
+    color:#ffd700;
     transform:translateX(8px);
 }
 
 .sidebar a:hover i{
-    color:#F5A927;
+    color:#ffd700;
     transform:scale(1.2);
 }
 
@@ -174,7 +196,7 @@ body{
 .sidebar a.active{
     color:#ffd700;
     background:rgba(201,162,39,0.15);
-    border-right:4px solid ##F5A927;
+    border-right:4px solid #ffd700;
 
     box-shadow:
         0 0 12px rgba(201,162,39,0.4),
@@ -255,142 +277,134 @@ body{
         inset 0 0 12px rgba(255,215,0,0.4);
     }
 }
-
-
-
 /* =========================================
-   MAIN CONTENT
+   MAIN AREA
 ========================================= */
+
 .main{
-    margin-left:260px;   /* IMPORTANT for sidebar */
-    padding:30px;
-    animation:fadeIn 1s ease-in-out;
+    margin-left:270px;
+    padding:40px;
+    animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
 /* =========================================
    HEADER
 ========================================= */
-.header{
-    font-size:28px;
-    font-weight:bold;
-    margin-bottom:25px;
-    color:#d4af37;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    letter-spacing:1px;
-    animation:slideDown 0.8s ease-in-out;
-}
 
-.header i{
-    color:#F5A927;
+.header{
+    font-size:30px;
+    font-weight:bold;
+    color:#ffd700;
+    margin-bottom:30px;
+    letter-spacing:1px;
 }
 
 /* =========================================
-   WELCOME SECTION
+   WELCOME PANEL – GLASS CARD
 ========================================= */
+
 .welcome{
-    background:linear-gradient(145deg,#111,#1a1a1a);
-    border:1px solid #d4af37;
-    padding:25px;
-    border-radius:15px;
+    background:rgba(20,20,20,0.8);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(212,175,55,0.4);
+    padding:30px;
+    border-radius:18px;
+    margin-bottom:35px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
-    box-shadow:0 0 20px rgba(212,175,55,0.2);
-    transition:0.4s ease;
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.7),
+        inset 0 0 25px rgba(212,175,55,0.05);
+    transition:0.4s;
 }
 
 .welcome:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 30px rgba(212,175,55,0.4);
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.9),
+        inset 0 0 40px rgba(255,215,0,0.1);
 }
 
 .welcome h3{
-    font-size:22px;
     color:#ffd700;
+    font-size:22px;
 }
 
-.welcome p{
-    margin-top:5px;
-    color:#ccc;
-}
-
-/* Quick Links */
 .quick a{
-    text-decoration:none;
-    background:#d4af37;
-    color:#000;
-    padding:8px 16px;
-    margin-left:10px;
+    background:linear-gradient(135deg,#d4af37,#ffd700);
+    color:black;
+    padding:10px 20px;
     border-radius:30px;
+    text-decoration:none;
     font-weight:bold;
+    margin-left:12px;
     transition:0.3s;
+    box-shadow:0 0 15px rgba(255,215,0,0.4);
 }
 
 .quick a:hover{
-    background:#ffffff;
-    transform:scale(1.05);
+    transform:translateY(-4px);
+    box-shadow:0 0 25px rgba(255,215,0,0.8);
 }
 
 /* =========================================
-   DASHBOARD CARDS
+   STAT CARDS – PREMIUM DEPTH
 ========================================= */
-/* ===== NEW CIRCLE CARDS UI ===== */
 
 .cards{
-     display:flex;
-    gap:20px;
-    flex-wrap:nowrap;     /* forces single row */
-    justify-content:space-between;
+    display:flex;
+    gap:25px;
+    margin-bottom:40px;
 }
 
 .card{
-    background:#111;
-    border-radius:18px;
-    padding:25px;
+    flex:1;
+    background:rgba(15,15,15,0.9);
+    border-radius:20px;
+    padding:30px;
     border:1px solid rgba(212,175,55,0.25);
     position:relative;
     overflow:hidden;
     transition:0.4s;
-      flex:1;               /* all cards equal width */
-    min-width:220px;
+    box-shadow:0 8px 35px rgba(0,0,0,0.8);
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle,rgba(255,215,0,0.08),transparent 60%);
+    transform:rotate(25deg);
 }
 
 .card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 0 30px rgba(212,175,55,0.45);
-    border-color:##F5A927;
-}
-
-.card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.card-left i{
-    font-size:26px;
-    color:#F5A927;
+    transform:translateY(-10px);
+    border-color:#ffd700;
+    box-shadow:0 0 40px rgba(255,215,0,0.4);
 }
 
 .card-left h3{
     margin-top:8px;
-    font-size:18px;
 }
 
 .num{
-    font-size:28px;
+    font-size:30px;
     font-weight:bold;
     color:#ffd700;
-    margin-top:5px;
 }
 
-/* ==== circle ==== */
+/* Circle */
 .circle{
-    width:70px;
-    height:70px;
+    width:75px;
+    height:75px;
     border-radius:50%;
     background:conic-gradient(#ffd700 var(--percent), #2a2a2a var(--percent));
     display:flex;
@@ -402,38 +416,35 @@ body{
 .circle::after{
     content:"";
     position:absolute;
-    width:52px;
-    height:52px;
-    background:#0b0b0b;
+    width:55px;
+    height:55px;
+    background:#050505;
     border-radius:50%;
 }
 
 .circle span{
     position:relative;
-    font-size:12px;
+    font-size:13px;
     font-weight:bold;
-    color:#F5A927;
+    color:#ffd700;
 }
 
-/* ==== Recent Appointments ==== */
-
-.dashboard-bottom{
-    display:flex;
-    gap:25px;
-    margin-top:30px;
-}
+/* =========================================
+   TABLE – EXECUTIVE STYLE
+========================================= */
 
 .box{
     flex:1;
-    background:#111;
-    padding:20px;
-    border-radius:15px;
-    color:white;
+    background:rgba(20,20,20,0.9);
+    padding:25px;
+    border-radius:18px;
+    border:1px solid rgba(212,175,55,0.3);
+    box-shadow:0 10px 40px rgba(0,0,0,0.7);
 }
 
 .box h2{
-    margin-bottom:15px;
-    color:#F5A927;
+    color:#ffd700;
+    margin-bottom:18px;
 }
 
 table{
@@ -441,94 +452,137 @@ table{
     border-collapse:collapse;
 }
 
-table th, table td{
-    padding:10px;
-    border-bottom:1px solid #333;
-    font-size:14px;
+table th{
+    text-align:left;
+    padding:12px;
+    color:#ffd700;
+    border-bottom:1px solid rgba(255,215,0,0.4);
+}
+
+table td{
+    padding:12px;
+    border-bottom:1px solid #222;
+    color:#ccc;
+}
+
+table tr:hover{
+    background:rgba(255,215,0,0.05);
 }
 
 .status{
-    color:#F5A927;
+    color:#ffd700;
     font-weight:bold;
 }
 
-.actions{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
+/* =========================================
+   ACTION BUTTONS
+========================================= */
 
 .actions a{
-    background:#F5A927;
+    display:block;
+    background:linear-gradient(135deg,#d4af37,#ffd700);
     color:black;
-    padding:10px;
-    border-radius:8px;
+    padding:12px;
+    border-radius:10px;
     text-decoration:none;
-    font-weight:600;
+    font-weight:bold;
+    margin-bottom:12px;
     text-align:center;
     transition:0.3s;
+    box-shadow:0 0 15px rgba(255,215,0,0.4);
 }
 
 .actions a:hover{
-    background:#F5A927;
+    transform:translateY(-4px);
+    box-shadow:0 0 30px rgba(255,215,0,0.9);
 }
 
-/* =========================================
-   RECENT ACTIVITY
-========================================= */
-.activity{
-    background:#111;
-    padding:20px;
-    border-radius:15px;
-    border:1px solid rgba(212,175,55,0.3);
-    transition:0.4s;
+/* Stagger Animation */
+.cards .card{
+    animation:cardEntry 0.8s ease forwards;
+    opacity:0;
+    transform:translateY(40px);
 }
 
-.activity:hover{
-    box-shadow:0 0 20px rgba(212,175,55,0.5);
+.cards .card:nth-child(1){ animation-delay:0.1s; }
+.cards .card:nth-child(2){ animation-delay:0.25s; }
+.cards .card:nth-child(3){ animation-delay:0.4s; }
+.cards .card:nth-child(4){ animation-delay:0.55s; }
+
+@keyframes cardEntry{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+.card::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:60%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,215,0,0.25),
+        transparent
+    );
+    transform:skewX(-25deg);
 }
 
-.activity h3{
-    color:#F5A927;
-    margin-bottom:15px;
+.card:hover::after{
+    animation:shimmer 1s ease;
 }
 
-.activity ul{
-    list-style:none;
+@keyframes shimmer{
+    100%{
+        left:150%;
+    }
+}
+.card{
+    perspective:1000px;
 }
 
-.activity li{
-    padding:10px;
-    border-bottom:1px solid #333;
-    transition:0.3s;
+.card:hover{
+    transform:
+        translateY(-12px)
+        scale(1.03)
+        rotateX(4deg)
+        rotateY(-4deg);
+    border-color:#ffd700;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.9),
+        0 0 35px rgba(255,215,0,0.5);
+}
+.num{
+    position:relative;
+    animation:goldPulse 3s infinite ease-in-out;
 }
 
-.activity li:hover{
-    background:#1a1a1a;
-    padding-left:15px;
-    color:#F5A927;
+@keyframes goldPulse{
+    0%,100%{
+        text-shadow:0 0 10px rgba(255,215,0,0.4);
+    }
+    50%{
+        text-shadow:0 0 25px rgba(255,215,0,0.9);
+    }
+}
+.circle{
+    transition:0.6s ease;
 }
 
-/* =========================================
-   ANIMATIONS
-========================================= */
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
+.card:hover .circle{
+    transform:rotate(15deg) scale(1.1);
+}
+.card-left i{
+    transition:0.4s ease;
 }
 
-@keyframes slideDown{
-    from{transform:translateY(-30px); opacity:0;}
-    to{transform:translateY(0); opacity:1;}
-}
-
-@keyframes fadeUp{
-    from{transform:translateY(40px); opacity:0;}
-    to{transform:translateY(0); opacity:1;}
-}
-
-@keyframes growBar{
-    from{width:0;}
+.card:hover .card-left i{
+    transform:translateY(-6px) scale(1.2);
+    color:#ffd700;
+    text-shadow:0 0 15px rgba(255,215,0,0.8);
 }
 
 
