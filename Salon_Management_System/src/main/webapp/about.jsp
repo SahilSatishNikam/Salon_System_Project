@@ -5,10 +5,64 @@
 <meta charset="UTF-8">
 <title>About Us - Salon</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="css/header.css">
-<link rel="stylesheet" href="css/footer.css">
+
+
 
 <style>
+/* FORCE SAME THEME AS INDEX */
+body{
+   background:#0b0905 !important;
+   color:#ffffff !important;
+}
+
+.title{
+   color:#ffffff !important;
+}
+.timeline,
+.text p,
+.text h3{
+   color:#ffffff !important;
+}
+/* ===== FORCE INDEX PAGE BUTTON STYLE ===== */
+
+.btn-gold{
+   background:linear-gradient(45deg,#d4af37,#f5e6b0) !important;
+   color:#000 !important;
+   font-weight:bold !important;
+   padding:12px 34px !important;
+   border-radius:30px !important;
+   border:none !important;
+   box-shadow:0 0 18px rgba(212,175,55,0.8) !important;
+}
+
+.btn-gold:hover{
+   box-shadow:0 0 25px rgba(212,175,55,1) !important;
+   transform:scale(1.05);
+}
+
+/* login button */
+.btn-outline-light{
+   border:1px solid white !important;
+   color:white !important;
+}
+
+.btn-outline-light:hover{
+   background:white !important;
+   color:black !important;
+}
+
+
+/*NAVBAR BUTTON*/
+.btn-gold{
+    background:linear-gradient(45deg,#d4af37,#f5e6b0);
+    color:#000;
+    font-weight:bold;
+    padding:12px 34px;
+    border-radius:30px;
+    border:none;
+    box-shadow:0 0 18px rgba(212,175,55,0.8);
+    cursor:pointer;
+}
 /* ===== STATS SECTION ANIMATED ===== */
 .stats{
  display:flex;
@@ -102,251 +156,8 @@
 }
 
 /* ===== GLOBAL ===== */
-body{
- margin:0;
- font-family: "Times New Roman", Times, serif !important;
- background:#0b0905;
- color:#fff;
-}
-
-/* ===== EXACT NAVBAR SECTION START STYLE ===== */
-.navbar {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  background:#0a0a0a;
-  border-bottom:1px solid rgba(255,215,0,0.2);
-
-  padding:20px 80px;
-
-  position:fixed;
-  width:100%;
-  top:0;
-  left:0;
-
-  z-index:9999;
-
-  /* 🔥 IMPORTANT FIX */
-  box-sizing:border-box;
-}
-
-/* LOGO SIDE */
-.brand{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  text-decoration:none;
-}
-
-.brand img{
-  width:34px;
-}
-
-.brand-text{
-  font-size:22px;
-  font-weight:700;
-  color:#fff;
-}
-
-.brand-text span{
-  color:#ffd700;
-}
-
-/* NAV LINKS */
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:30px;
-}
-
-.nav-links a{
-  color:#fff;
-  text-decoration:none;
-  font-size:20px;
-  position:relative;
-}
-
-/* underline */
-.nav-links a.active{
-  color:#ffd700;
-}
-
-.nav-links a.active::after{
-  content:'';
-  position:absolute;
-  left:0;
-  bottom:-4px;
-  width:100%;
-  height:2px;
-  background:#ffd700;
-}
-
-/* BUTTONS */
-.login-btn{
-  border:1px solid #fff;
-  color:#fff;
-  padding:6px 16px;
-  border-radius:20px;
-  text-decoration:none;
-}
-
-.register-btn{
-  background:#ffd700;
-  color:#000;
-  padding:6px 16px;
-  border-radius:20px;
-  text-decoration:none;
-}
-
-.brand-text{
-  font-size:23px;
-  font-weight:700;
-  font-family:"Times New Roman", serif;
-  color:#ffffff;
-}
-
-/* MAIN GLOW PART */
-.brand-text span{
-  color:#ffd700;
-
-  /* THIS MATCHES YOUR PHOTO HALO */
-  text-shadow:
-    0 0 12px rgba(255,215,0,0.85),
-    0 0 22px rgba(255,215,0,0.55),
-    0 0 32px rgba(255,215,0,0.35),
-    0 0 42px rgba(255,215,0,0.15);
-
-  animation: photoGlow 4s ease-in-out infinite;
-}
-
-/* ===== PHOTO STYLE ANIMATION ===== */
-@keyframes photoGlow{
-  0%{
-    opacity:.9;
-    text-shadow:0 0 12px rgba(255,215,0,.6);
-  }
-
-  40%{
-    opacity:1;
-    text-shadow:
-      0 0 18px rgba(255,215,0,1),
-      0 0 30px rgba(255,215,0,.6),
-      0 0 46px rgba(255,215,0,.3);
-  }
-
-  100%{
-    opacity:.9;
-    text-shadow:0 0 12px rgba(255,215,0,.6);
-  }
-}
-/* whole brand animation on load */
-
-.brand{
-  opacity:0;
-  transform:translateY(-10px);
-  animation: brandEntry 1.2s ease forwards;
-}
-
-@keyframes brandEntry{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-.brand-text span{
-  color:#ffd700;
-
-  text-shadow:
-    0 0 12px rgba(255,215,0,0.8),
-    0 0 22px rgba(255,215,0,0.5),
-    0 0 32px rgba(255,215,0,0.3);
-
-  animation: textIntro 2s ease forwards;
-}
-
-@keyframes textIntro{
-
-  0%{
-    opacity:0;
-    text-shadow:none;
-  }
-
-  40%{
-    opacity:1;
-    text-shadow:
-      0 0 16px rgba(255,215,0,1),
-      0 0 28px rgba(255,215,0,.7),
-      0 0 40px rgba(255,215,0,.4);
-  }
-
-  100%{
-    text-shadow:
-      0 0 10px rgba(255,215,0,.6),
-      0 0 18px rgba(255,215,0,.35),
-      0 0 26px rgba(255,215,0,.2);
-  }
-}
-/* ===== LOGO ANNIMATION ===== */
-.brand img{
-  width:34px;
-
-  animation: logoSpin 1.4s ease forwards;
-}
-
-@keyframes logoSpin{
-  0%{
-    transform:rotate(-60deg) scale(.8);
-    opacity:0;
-  }
-
-  60%{
-    transform:rotate(10deg) scale(1.05);
-    opacity:1;
-  }
-
-  100%{
-    transform:rotate(0) scale(1);
-  }
-}
-/*GOLDENGLOW TEXT SHINE ON LOAD*/
-
-.brand-text span{
-  color:#ffd700;
-
-  text-shadow:
-    0 0 12px rgba(255,215,0,0.8),
-    0 0 22px rgba(255,215,0,0.5),
-    0 0 32px rgba(255,215,0,0.3);
-
-  animation: textIntro 2s ease forwards;
-}
-
-@keyframes textIntro{
-
-  0%{
-    opacity:0;
-    text-shadow:none;
-  }
-
-  40%{
-    opacity:1;
-    text-shadow:
-      0 0 16px rgba(255,215,0,1),
-      0 0 28px rgba(255,215,0,.7),
-      0 0 40px rgba(255,215,0,.4);
-  }
-
-  100%{
-    text-shadow:
-      0 0 10px rgba(255,215,0,.6),
-      0 0 18px rgba(255,215,0,.35),
-      0 0 26px rgba(255,215,0,.2);
-  }
-}
 
 
-/* ===== EXACT NAVBAR SECTION  END STYLE ===== */
 /* ===== HERO ===== */
 /* ===== HERO PREMIUM ANIMATION ===== */
 
@@ -1248,155 +1059,20 @@ font-size: 16px !important;
 
 }
 
-/* ===== FOOTER ===== */
-
-.footer{
- background:#0e0c05;
- padding:80px 40px 20px;
- margin-top:80px;
-
- opacity:0;
- transform:translateY(80px);
- transition:1s ease;
-}
-
-/* show on scroll */
-.footer.show{
- opacity:1;
- transform:translateY(0);
-}
-
-
-.f-container{
- display:grid;
- grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
- gap:30px;
-}
-
-
-.f-box h3{
- color:#ffd700;
- margin-bottom:10px;
-}
-
-.f-box h4{
- color:#c9a227;
- margin-bottom:12px;
-}
-
-
-/* links */
-.f-box a{
- display:block;
- color:#aaa;
- text-decoration:none;
- margin:6px 0;
-
- transition:.3s;
-}
-
-.f-box a:hover{
- color:#fff;
- letter-spacing:1px;
-}
-
-
-/* text */
-.f-box p{
- color:#aaa;
- font-size:14px;
- line-height:22px;
-}
-.f-box h3{
- font-size:22px;
- font-weight:700;
-}
-
-/* Golden part */
-.f-box h3 span{
- color:#ffd700;        /* same gold as your header */
-}
-
-/* White part */
-.f-box h3{
- color:#ffffff;
-}
-.f-box h3 span{
- color:#ffd700;
-
- text-shadow:
-   0 0 6px rgba(255,215,0,.6),
-   0 0 12px rgba(255,215,0,.3);
-}
-
-
-
-/* social */
-.social span{
- display:inline-block;
- margin-right:10px;
-
- color:#aaa;
- cursor:pointer;
-
- transition:.3s;
-}
-
-.social span:hover{
- color:#ffd700;
- transform:translateY(-3px);
-}
-
-
-/* bottom line */
-.copy{
- text-align:center;
- margin-top:40px;
-
- color:#666;
- font-size:13px;
-
- border-top:1px solid #1e1b10;
- padding-top:16px;
-}
-
 
 </style>
 </head>
 
 <body>
+<%@ include file="header.jsp" %>
+
 
 
 <!-- ===== HEADER ===== -->
-<div class="navbar">
 
-<!-- LOGO -->
-<a href="index.jsp" class="brand">
-   <img src="images/scissor.png">
-   <div class="brand-text">
-    Golden<span>Glow</span>
-   </div>
-</a>
-
-
-<!-- RIGHT SIDE -->
-<div class="nav-links">
-
-  <a href="index.jsp">Home</a>
-
-  <a href="about.jsp" class="active">About</a>
-
-  <a href="contact.jsp">Contact</a>
-
-  <a href="login.jsp" class="login-btn">Login</a>
-
-  <a href="register.jsp" class="register-btn">Register</a>
-
-</div>
-
-</div>
 
 <!-- ===== HERO ===== -->
+
 <div class="hero">
 
  <small>PREMIUM SALON EXPERIENCE</small>
@@ -1729,7 +1405,7 @@ font-size: 16px !important;
        <p>
         My bridal makeup was stunning.  
         I received compliments whole day.  
-        Highly professional team.
+        professional team.
        </p>
 
        <h4>Sneha Patil</h4>
@@ -1742,7 +1418,7 @@ font-size: 16px !important;
      <!-- ===== ITEM 3 ===== -->
      <div class="u-card">
 
-       <img src="images/men.jpg" class="client">
+       <img src="images/c4.jpg" class="client">
 
        <div class="stars">
          ★★★★★
@@ -1774,7 +1450,7 @@ font-size: 16px !important;
        <p>
         My haircut looked perfect for weeks.
         The staff is skilled
-        and uses genuine products.”
+        and uses genuine products.
        </p>
 
        <h4>Arti Khurana</h4>
@@ -1785,7 +1461,7 @@ font-size: 16px !important;
        <!-- ===== ITEM 3 ===== -->
      <div class="u-card">
 
-       <img src="images/men.jpg" class="client">
+       <img src="images/c5.jpg" class="client">
 
        <div class="stars">
          ★★★★★
@@ -1804,18 +1480,17 @@ font-size: 16px !important;
        <!-- ===== ITEM 3 ===== -->
      <div class="u-card">
 
-       <img src="images/c3.jpeg" class="client">
+       <img src="images/c6.jpeg" class="client">
 
        <div class="stars">
          ★★★★★
        </div>
 
        <p>
-       My haircut looked perfect for weeks.
-The staff is skilled, professional, and uses genuine products.
+       My haircut looked perfect for weeks., professional, and uses genuine products.
        </p>
 
-       <h4>Arti Khurana</h4>
+       <h4>Nisha shirke</h4>
        <small>haircuts</small>
 
      </div>
@@ -1826,63 +1501,7 @@ The staff is skilled, professional, and uses genuine products.
  </div>
 
 </div>
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
 
-  <div class="f-container">
-
-    <!-- COL 1 -->
-    <div class="f-box">
-    <h3>Golden<span>Glow</span></h3>
-
-
-      <p>
-        Premium salon experience with  
-        expert stylists and luxury care.
-      </p>
-    </div>
-
-
-    <!-- COL 2 -->
-    <div class="f-box">
-      <h4>Quick Links</h4>
-
-      <a href="index.jsp">Home</a>
-      <a href="about.jsp">About</a>
-      <a href="contact.jsp">Contact</a>
-      <a href="login.jsp">Login</a>
-    </div>
-
-
-    <!-- COL 3 -->
-    <div class="f-box">
-      <h4>Contact</h4>
-
-      <p>📍 Mumbai, India</p>
-      <p>📞 +91 98765 43210</p>
-      <p>✉ salon@gmail.com</p>
-    </div>
-
-
-    <!-- COL 4 -->
-    <div class="f-box">
-      <h4>Follow Us</h4>
-
-      <div class="social">
-        <span>Instagram</span>
-        <span>Facebook</span>
-        <span>Twitter</span>
-      </div>
-    </div>
-
-  </div>
-
-
-  <div class="copy">
-     © 2025 GoldenGlow. All Rights Reserved.
-  </div>
-
-</footer>
 
 
 <script>
@@ -2046,7 +1665,7 @@ footObs.observe(footer);
 
 
 </script>
-
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>
