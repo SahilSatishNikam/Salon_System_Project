@@ -6,7 +6,13 @@
 <title>About Us - Salon</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Font Awesome (ICONS – UNCHANGED) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/header.css">
 
 <style>
 /* FORCE SAME THEME AS INDEX */
@@ -23,22 +29,7 @@ body{
 .text h3{
    color:#ffffff !important;
 }
-/* ===== FORCE INDEX PAGE BUTTON STYLE ===== */
 
-.btn-gold{
-   background:linear-gradient(45deg,#d4af37,#f5e6b0) !important;
-   color:#000 !important;
-   font-weight:bold !important;
-   padding:12px 34px !important;
-   border-radius:30px !important;
-   border:none !important;
-   box-shadow:0 0 18px rgba(212,175,55,0.8) !important;
-}
-
-.btn-gold:hover{
-   box-shadow:0 0 25px rgba(212,175,55,1) !important;
-   transform:scale(1.05);
-}
 
 /* login button */
 .btn-outline-light{
@@ -1058,6 +1049,10 @@ font-size: 16px !important;
  }
 
 }
+
+
+
+
 
 
 </style>

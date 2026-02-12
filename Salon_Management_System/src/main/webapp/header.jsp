@@ -10,7 +10,23 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
     <link rel="stylesheet" href="css/header.css">
+    
+<style>
+ /* ===== REGISTER BUTTON GOLDEN ===== */
+.btn-gold{
+    background: linear-gradient(135deg, #d4af37, #f5e6b0);
+    color: #000;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;   /* rounded */
+    padding: 6px 18px;
+}
 
+.btn-gold:hover{
+    background: linear-gradient(135deg, #f5e6b0, #d4af37);
+    color: #000;
+}
+</style>
 </head>
 
 <body>
