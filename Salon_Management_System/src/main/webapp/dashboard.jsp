@@ -8,7 +8,7 @@
     UserDAO userDAO = new UserDAO();
     FeedbackDAO feedbackDAO = new FeedbackDAO();
     AdminDAO adminDAO = new AdminDAO();
-
+    
     // Metrics
     int totalSalons = 0, totalAppointments = 0, totalUsers = 0, totalFeedback = 0;
     int pendingSalons = 0, approvedSalons = 0, rejectedSalons = 0;
@@ -101,23 +101,6 @@ body{
     flex-direction:column;
 }
 
-/* Logo */
-.logo{
-    padding:26px 22px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.logo-img{
-    width:30px;
-    filter:drop-shadow(0 0 6px #c9a227);
-    transition:0.4s;
-}
-
-.logo:hover .logo-img{
-    transform:rotate(10deg) scale(1.1);
-}
 
 .s1{
     color:#ffffff;
@@ -155,7 +138,7 @@ body{
     top:0;
     height:100%;
     width:0;
-    background:linear-gradient(to right,#c9a227,#ffd700);
+    background:linear-gradient(to right,#c9a227,#F5A927);
     opacity:0.15;
     transition:0.4s ease;
 }
@@ -167,18 +150,18 @@ body{
 /* Icon */
 .sidebar a i{
     margin-right:14px;
-    color:#ffffff;
+    color:#F5A927;
     transition:0.4s ease;
 }
 
 /* Hover Effect */
 .sidebar a:hover{
-    color:#ffd700;
+    color:#F5A927;
     transform:translateX(8px);
 }
 
 .sidebar a:hover i{
-    color:#ffd700;
+    color:#F5A927;
     transform:scale(1.2);
 }
 
@@ -188,7 +171,7 @@ body{
 .sidebar a.active{
     color:#ffd700;
     background:rgba(201,162,39,0.15);
-    border-right:4px solid #ffd700;
+    border-right:4px solid ##F5A927;
 
     box-shadow:
         0 0 12px rgba(201,162,39,0.4),
@@ -297,7 +280,7 @@ body{
 }
 
 .header i{
-    color:#ffd700;
+    color:#F5A927;
 }
 
 /* =========================================
@@ -351,109 +334,140 @@ body{
 /* =========================================
    DASHBOARD CARDS
 ========================================= */
+/* ===== NEW CIRCLE CARDS UI ===== */
+
 .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+     display:flex;
     gap:20px;
-    margin-bottom:40px;
+    flex-wrap:nowrap;     /* forces single row */
+    justify-content:space-between;
 }
 
 .card{
     background:#111;
-    border-radius:15px;
+    border-radius:18px;
     padding:25px;
-    text-align:center;
-    border:1px solid rgba(212,175,55,0.3);
+    border:1px solid rgba(212,175,55,0.25);
+    position:relative;
+    overflow:hidden;
     transition:0.4s;
-    animation:fadeUp 1s ease forwards;
+      flex:1;               /* all cards equal width */
+    min-width:220px;
 }
 
 .card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 0 25px rgba(212,175,55,0.6);
-    border-color:#ffd700;
+    transform:translateY(-8px);
+    box-shadow:0 0 30px rgba(212,175,55,0.45);
+    border-color:##F5A927;
 }
 
-.card i{
-    font-size:28px;
-    margin-bottom:10px;
-    color:#d4af37;
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.card h3{
-    margin:10px 0;
+.card-left i{
+    font-size:26px;
+    color:#F5A927;
+}
+
+.card-left h3{
+    margin-top:8px;
     font-size:18px;
 }
 
 .num{
-    font-size:30px;
+    font-size:28px;
     font-weight:bold;
     color:#ffd700;
+    margin-top:5px;
 }
 
-/* =========================================
-   STATUS SECTION
-========================================= */
-.status-wrapper{
+/* ==== circle ==== */
+.circle{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:conic-gradient(#ffd700 var(--percent), #2a2a2a var(--percent));
     display:flex;
-    flex-wrap:wrap;
-    gap:20px;
-    margin-bottom:40px;
+    align-items:center;
+    justify-content:center;
+    position:relative;
 }
 
-.status-card{
-    flex:1;
-    min-width:280px;
-    background:#111;
-    border-radius:15px;
-    padding:20px;
-    border:1px solid rgba(212,175,55,0.3);
-    transition:0.4s;
+.circle::after{
+    content:"";
+    position:absolute;
+    width:52px;
+    height:52px;
+    background:#0b0b0b;
+    border-radius:50%;
 }
 
-.status-card:hover{
-    transform:scale(1.02);
-    box-shadow:0 0 20px rgba(212,175,55,0.5);
-}
-
-.status-card h3{
-    margin-bottom:20px;
-    color:#ffd700;
-}
-
-/* Status Row */
-.status-row{
-    display:flex;
-    justify-content:space-between;
-    margin:8px 0;
-}
-
-/* Badges */
-.badge{
-    padding:4px 10px;
-    border-radius:20px;
+.circle span{
+    position:relative;
     font-size:12px;
     font-weight:bold;
+    color:#F5A927;
 }
 
-.pending{ background:#ff9800; color:#000; }
-.approved{ background:#4caf50; color:#000; }
-.rejected{ background:#f44336; color:#fff; }
+/* ==== Recent Appointments ==== */
 
-/* Progress Bar */
-.progress{
-    background:#222;
-    border-radius:20px;
-    height:8px;
-    margin-bottom:10px;
-    overflow:hidden;
+.dashboard-bottom{
+    display:flex;
+    gap:25px;
+    margin-top:30px;
 }
 
-.progress div{
-    height:100%;
-    background:linear-gradient(to right,#d4af37,#ffd700);
-    border-radius:20px;
-    animation:growBar 1.5s ease-in-out;
+.box{
+    flex:1;
+    background:#111;
+    padding:20px;
+    border-radius:15px;
+    color:white;
+}
+
+.box h2{
+    margin-bottom:15px;
+    color:#F5A927;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th, table td{
+    padding:10px;
+    border-bottom:1px solid #333;
+    font-size:14px;
+}
+
+.status{
+    color:#F5A927;
+    font-weight:bold;
+}
+
+.actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.actions a{
+    background:#F5A927;
+    color:black;
+    padding:10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    text-align:center;
+    transition:0.3s;
+}
+
+.actions a:hover{
+    background:#F5A927;
 }
 
 /* =========================================
@@ -472,7 +486,7 @@ body{
 }
 
 .activity h3{
-    color:#ffd700;
+    color:#F5A927;
     margin-bottom:15px;
 }
 
@@ -489,7 +503,7 @@ body{
 .activity li:hover{
     background:#1a1a1a;
     padding-left:15px;
-    color:#ffd700;
+    color:#F5A927;
 }
 
 /* =========================================
@@ -522,7 +536,7 @@ body{
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <h2><i class="fa fa-gem"></i> SalonEase Admin</h2>
+    <h2 style="font-size:25px;color:#F5A927"><i class="fa fa-gem"></i> SalonEase Admin</h2>
     <a class="active" href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
     <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
     <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
@@ -554,41 +568,131 @@ body{
     </div>
 
     <!-- ===== CARDS ===== -->
+    <%
+   
+    /* MAX values for percentage */
+    int maxSalons = 100;
+    int maxAppointments = 500;
+    int maxUsers = 300;
+    int maxFeedback = 200;
+
+    int salonPercent = Math.min(100,(totalSalons * 100)/maxSalons);
+    int appointPercent = Math.min(100,(totalAppointments * 100)/maxAppointments);
+    int userPercent = Math.min(100,(totalUsers * 100)/maxUsers);
+    int feedbackPercent = Math.min(100,(totalFeedback * 100)/maxFeedback);
+    %>
+
     <div class="cards">
-        <div class="card"><i class="fa fa-store"></i><h3>Salons</h3><div class="num"><%= totalSalons %></div></div>
-        <div class="card"><i class="fa fa-calendar-check"></i><h3>Appointments</h3><div class="num"><%= totalAppointments %></div></div>
-        <div class="card"><i class="fa fa-users"></i><h3>Users</h3><div class="num"><%= totalUsers %></div></div>
-        <div class="card"><i class="fa fa-star"></i><h3>Feedback</h3><div class="num"><%= totalFeedback %></div></div>
-    </div>
 
-    <!-- ===== STATUS CARDS ===== -->
-    <div class="status-wrapper">
+    <!-- SALONS -->
+    <div class="card">
+        <div class="card-top">
+            <div class="card-left">
+                <i class="fa fa-store"></i>
+                <h3>Salons</h3>
+                <div class="num"><%= totalSalons %></div>
+            </div>
 
-        <!-- Salon Status -->
-        <div class="status-card">
-            <h3><i class="fa fa-store"></i> Salon Status</h3>
-            <div class="status-row"><span>Pending</span><span class="badge pending"><%= pendingSalons %></span></div>
-            <div class="progress"><div style="width:<%= totalSalons==0?0:(pendingSalons*100/totalSalons) %>%"></div></div>
-            <div class="status-row"><span>Approved</span><span class="badge approved"><%= approvedSalons %></span></div>
-            <div class="progress"><div style="width:<%= totalSalons==0?0:(approvedSalons*100/totalSalons) %>%"></div></div>
-            <div class="status-row"><span>Rejected</span><span class="badge rejected"><%= rejectedSalons %></span></div>
-            <div class="progress"><div style="width:<%= totalSalons==0?0:(rejectedSalons*100/totalSalons) %>%"></div></div>
+            <div class="circle" style="--percent:<%= salonPercent %>%">
+                <span><%= salonPercent %>%</span>
+            </div>
         </div>
-
-
     </div>
 
-    <!-- Recent Activity -->
-    <div class="activity">
-        <h3>Recent Activity</h3>
-        <ul>
-            <li>New salon registrations today</li>
-            <li>Appointments booked recently</li>
-            <li>Admins awaiting verification</li>
-            <li>New feedback submitted</li>
-        </ul>
+    <!-- APPOINTMENTS -->
+    <div class="card">
+        <div class="card-top">
+            <div class="card-left">
+                <i class="fa fa-calendar-check"></i>
+                <h3>Appointments</h3>
+                <div class="num"><%= totalAppointments %></div>
+            </div>
+
+            <div class="circle" style="--percent:<%= appointPercent %>%">
+                <span><%= appointPercent %>%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="card">
+        <div class="card-top">
+            <div class="card-left">
+                <i class="fa fa-users"></i>
+                <h3>Users</h3>
+                <div class="num"><%= totalUsers %></div>
+            </div>
+
+            <div class="circle" style="--percent:<%= userPercent %>%">
+                <span><%= userPercent %>%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="card">
+        <div class="card-top">
+            <div class="card-left">
+                <i class="fa fa-star"></i>
+                <h3>Feedback</h3>
+                <div class="num"><%= totalFeedback %></div>
+            </div>
+
+            <div class="circle" style="--percent:<%= feedbackPercent %>%">
+                <span><%= feedbackPercent %>%</span>
+            </div>
+        </div>
     </div>
 
 </div>
+
+
+    <!-- ===== STATUS CARDS ===== -->
+   <div class="dashboard-bottom">
+
+    <!-- RECENT APPOINTMENTS -->
+    <div class="box">
+        <h2>Recent Appointments</h2>
+
+        <table>
+            <tr>
+                <th>User</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+
+            <%
+            List<Appointment> recent = appointmentDAO.getRecentAppointments();
+            for(Appointment a : recent){
+            %>
+            <tr>
+                <td><%= a.getCustomerName() %></td>
+                <td><%= a.getServiceName() %></td>
+                <td><%= a.getDate() %></td>
+                <td class="status"><%= a.getStatus() %></td>
+            </tr>
+            <% } %>
+        </table>
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="box">
+        <h2>Quick Actions</h2>
+
+        <div class="actions">
+            <a href="manage-salons.jsp">+ Add Salon</a>
+            <a href="adminAppointments.jsp">View Appointments</a>
+            <a href="admin-therapists.jsp">Manage Therapist</a>
+            <a href="feedback.jsp">View Feedback</a>
+        </div>
+    </div>
+
+</div>
+
+
+
+</div>
 </body>
-</html>
+</html> 

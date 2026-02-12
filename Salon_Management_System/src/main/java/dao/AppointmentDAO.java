@@ -466,4 +466,36 @@ public class AppointmentDAO {
         }
     }
 
+    public List<Appointment> getRecentAppointments() {
+
+        List<Appointment> list = new ArrayList<>();
+
+        try{
+            Connection con = DBConnection.getConnection();
+
+            String sql = "SELECT id, customerName, serviceName, date, status " +
+                         "FROM appointment ORDER BY id DESC LIMIT 5";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                Appointment a = new Appointment();
+
+                a.setId(rs.getInt("id"));
+                a.setCustomerName(rs.getString("customerName"));
+                a.setServiceName(rs.getString("serviceName"));
+                a.setDate(rs.getString("date"));
+                a.setStatus(rs.getString("status"));
+
+                list.add(a);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }
