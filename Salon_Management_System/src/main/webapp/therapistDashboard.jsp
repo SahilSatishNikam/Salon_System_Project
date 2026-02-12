@@ -30,6 +30,7 @@ if (avails == null) avails = new ArrayList<>();
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
+<<<<<<< Updated upstream
 body{background:#121212;font-family:Poppins;color:#E0E0E0;}
 /* =========================================
    SIDEBAR CONTAINER
@@ -251,6 +252,12 @@ padding:15px 20px;
 border-radius:0 0 10px 10px;
 display:flex;
 justify-content:space-between;
+=======
+body{
+background:#000;
+color:#FFD700;
+font-family:Poppins;
+>>>>>>> Stashed changes
 }
 
 /* SIDEBAR */
