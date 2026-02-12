@@ -815,6 +815,22 @@ body{
     background:linear-gradient(180deg,#111,#000);
     box-shadow:0 0 45px rgba(212,175,55,.8);
 }
+
+/* ===== REGISTER BUTTON GOLDEN ===== */
+.btn-gold{
+    background: linear-gradient(135deg, #d4af37, #f5e6b0);
+    color: #000;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;   /* rounded */
+    padding: 6px 18px;
+}
+
+.btn-gold:hover{
+    background: linear-gradient(135deg, #f5e6b0, #d4af37);
+    color: #000;
+}
+
     
 
 </style>
