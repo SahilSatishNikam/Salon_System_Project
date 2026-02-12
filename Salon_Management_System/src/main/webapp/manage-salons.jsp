@@ -13,7 +13,7 @@
 <style>
 
 /* =====================================================
-   GLOBAL
+   YOUR ORIGINAL CSS (UNCHANGED)
 ===================================================== */
 
 *{
@@ -470,7 +470,6 @@ body{
     transform:scale(1.15);
 }
 
-
 </style>
 </head>
 <body>
@@ -510,7 +509,6 @@ body{
             <div class="upload-content">
                 <i class="bi bi-cloud-arrow-up-fill"></i>
                 <p>Click to upload salon thumbnail</p>
-                <span>SVG, PNG, JPG (MAX. 800x400 px)</span>
             </div>
         </label>
 
@@ -535,7 +533,7 @@ s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 <div class="col-lg-4 col-md-6">
     <div class="card bg-dark text-white h-100">
         <% if(s.getImage()!=null){ %>
-        <img src="SalonImageServlet?id=<%=s.getId()%>" class="card-img-top">
+        <img src="SalonImageServlet?id=<%=s.getId()%>" class="card-img-top" style="height:220px;object-fit:cover;">
         <% } %>
         <div class="card-body d-flex flex-column">
             <h5 class="card-title"><%=s.getName()%></h5>
@@ -543,12 +541,59 @@ s.setServices(serviceDAO.getServicesBySalon(s.getId()));
             <p><i class="bi bi-telephone"></i> <%=s.getPhone()%></p>
             <p><i class="bi bi-geo-alt"></i> <%=s.getAddress()%></p>
 
+            <!-- ICON ACTIONS (Edit | Add Service | Delete) -->
             <div class="mt-auto d-flex justify-content-between actions">
-                <a href="EditSalonServlet?id=<%=s.getId()%>"><i class="bi bi-pencil-square"></i></a>
-                <a href="DeleteSalonServlet?id=<%=s.getId()%>" onclick="return confirm('Delete this salon?')">
+
+                <a href="EditSalonServlet?id=<%=s.getId()%>" title="Edit">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+
+                <a href="#"
+                   data-bs-toggle="modal"
+                   data-bs-target="#serviceModal-<%=s.getId()%>"
+                   title="Add Service">
+                    <i class="bi bi-plus-circle"></i>
+                </a>
+
+                <a href="DeleteSalonServlet?id=<%=s.getId()%>"
+                   onclick="return confirm('Delete this salon?')"
+                   title="Delete">
                     <i class="bi bi-trash"></i>
                 </a>
+
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD SERVICE MODAL -->
+<div class="modal fade" id="serviceModal-<%=s.getId()%>" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white border-warning p-4">
+            <h5 class="text-warning mb-3">
+                Add Service - <%=s.getName()%>
+            </h5>
+
+            <form method="post" action="AddServiceServlet">
+                <input type="hidden" name="salonId" value="<%=s.getId()%>">
+
+                <input type="text" name="name" placeholder="Service Name"
+                       class="form-control mb-3" required>
+
+                <input type="text" name="description" placeholder="Description"
+                       class="form-control mb-3">
+
+                <input type="number" name="price" placeholder="Price"
+                       step="0.01" class="form-control mb-3">
+
+                <input type="number" name="durationMinutes"
+                       placeholder="Duration (Minutes)"
+                       class="form-control mb-3">
+
+                <button type="submit" class="btn btn-warning w-100">
+                    <i class="bi bi-plus"></i> Add Service
+                </button>
+            </form>
         </div>
     </div>
 </div>

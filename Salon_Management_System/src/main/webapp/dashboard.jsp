@@ -733,23 +733,6 @@ table tr:hover{
         </table>
     </div>
 
-
-    <!-- QUICK ACTIONS -->
-    <div class="box">
-        <h2>Quick Actions</h2>
-
-        <div class="actions">
-            <a href="manage-salons.jsp">+ Add Salon</a>
-            <a href="adminAppointments.jsp">View Appointments</a>
-            <a href="admin-therapists.jsp">Manage Therapist</a>
-            <a href="feedback.jsp">View Feedback</a>
-        </div>
-    </div>
-
-</div>
-
-
-
 </div>
 </body>
 </html>
