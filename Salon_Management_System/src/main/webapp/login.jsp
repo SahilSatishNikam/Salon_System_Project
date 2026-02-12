@@ -26,11 +26,11 @@
 @keyframes fadeInPage {
     from {
         opacity: 0;
-        transform: scale(1.01);
+        
     }
     to {
         opacity: 1;
-        transform: scale(1);
+        
     }
 }
 .card:hover {
@@ -101,21 +101,22 @@
             box-shadow:0 0 10px rgba(229,198,109,0.5);
         }
 
-        /* ===== BUTTON ===== */
-        .btn-primary{
-    background:linear-gradient(135deg,#f0d14a,#c9a227);
-    border:none;
-    color:#000;
-    font-weight:600;
-    padding:14px;
-    border-radius:25px;
-    letter-spacing:1px;
-    font-size:17px;   /* 👈 increased */
-    transition:0.3s;
+       /* ===== GOLDEN BUTTON WITH SIDE LIGHT EFFECT ===== */
+.btn-primary{
+    background: linear-gradient(135deg, #d4af37, #f5e6b0);
+    border: none;
+    color: #000;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 30px;
+    letter-spacing: 1px;
+    font-size: 17px;
     position: relative;
     overflow: hidden;
 }
-.btn-primary::after {
+
+/* lighting layer */
+.btn-primary::after{
     content: "";
     position: absolute;
     top: 0;
@@ -125,24 +126,24 @@
     background: linear-gradient(
         120deg,
         transparent,
-        rgba(255,255,255,0.4),
+        rgba(255,255,255,0.6),
         transparent
     );
-    transition: 0.5s;
+    transition: 0.6s;
 }
 
-.btn-primary:hover::after {
+/* hover lighting move */
+.btn-primary:hover::after{
     left: 100%;
 }
 
-.btn-primary:active {
-    transform: scale(0.96);
+/* color stays golden */
+.btn-primary:hover{
+    background: linear-gradient(135deg, #f5e6b0, #d4af37);
+    color: #000;
 }
 
-        .btn-primary:hover{
-            background:linear-gradient(135deg,#ffd84d,#e5c66d);
-            box-shadow:0 0 15px rgba(229,198,109,0.7);
-        }
+
 
         /* ===== FOOTER ===== */
         .footer{
@@ -171,6 +172,22 @@
 .nav-link:hover::after {
     width: 100%;
 }
+
+/* ===== REGISTER BUTTON GOLDEN ===== */
+.btn-gold{
+    background: linear-gradient(135deg, #d4af37, #f5e6b0);
+    color: #000;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;   /* rounded */
+    padding: 6px 18px;
+}
+
+.btn-gold:hover{
+    background: linear-gradient(135deg, #f5e6b0, #d4af37);
+    color: #000;
+}
+
 
     </style>
 </head>
