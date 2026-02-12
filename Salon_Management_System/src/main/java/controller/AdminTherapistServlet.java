@@ -1,88 +1,104 @@
 package controller;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
 import dao.TherapistDAO;
 import dao.SalonDAO;
-import model.Therapist;
 import model.Salon;
+import model.Therapist;
 
 @WebServlet("/AdminTherapistServlet")
 public class AdminTherapistServlet extends HttpServlet {
+    
+    private TherapistDAO therapistDao = new TherapistDAO();
+    private SalonDAO salonDao = new SalonDAO();
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        loadPage(req, resp);
-    }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
-        String action = req.getParameter("action");
+        String action = request.getParameter("action");
+        String idParam = request.getParameter("id");
 
         try {
-            TherapistDAO therapistDAO = new TherapistDAO();
+            if (action != null && idParam != null) {
+                int id = Integer.parseInt(idParam);
 
-            if ("add".equalsIgnoreCase(action)) {
-                // Add therapist
-                int salonId = Integer.parseInt(req.getParameter("salonId"));
-                String name = req.getParameter("name");
-                String phone = req.getParameter("phone");
-                String email = req.getParameter("email");
-                String specialty = req.getParameter("specialty");
-                String password = req.getParameter("password");
+                switch (action) {
+                    case "edit":
+                        Therapist editTherapist = therapistDao.getTherapistById(id);
+                        request.setAttribute("editTherapist", editTherapist);
+                        break;
 
-                Therapist t = new Therapist();
-                t.setSalonId(salonId);
-                t.setName(name);
-                t.setPhone(phone);
-                t.setEmail(email);
-                t.setSpecialty(specialty);
-                t.setPassword(password);
-                t.setStatus("Active");   // default
-                t.setApproved(0);        // default not approved
+                    case "delete":
+                        therapistDao.deleteTherapist(id);
+                        break;
 
-                therapistDAO.addTherapist(t);
+                    case "approve":
+                        therapistDao.approveTherapist(id);
+                        break;
 
-            } else if ("status".equalsIgnoreCase(action)) {
-                // Change status Active/Inactive
-                int therapistId = Integer.parseInt(req.getParameter("therapistId"));
-                String status = req.getParameter("status");
-                therapistDAO.updateStatus(therapistId, status);
+                    case "reject":
+                        therapistDao.rejectTherapist(id);
+                        break;
+                }
             }
 
-            // After action, reload page
-            loadPage(req, resp);
+            // Load all therapists and salons
+            List<Therapist> therapists = therapistDao.getAllTherapists();
+            request.setAttribute("therapists", therapists);
+
+            List<Salon> salons = salonDao.getAllSalons();
+            request.setAttribute("salons", salons);
+
+            // Forward to JSP once at the end
+            request.getRequestDispatcher("admin-therapists.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
-            req.setAttribute("error", "Server error: " + e.getMessage());
-            loadPage(req, resp);
+            response.sendRedirect("error.jsp?msg=Server+Error");
         }
     }
 
-    // Load therapists and salons and forward to JSP
-    private void loadPage(HttpServletRequest req, HttpServletResponse resp)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+        String action = request.getParameter("action");
+
         try {
-            TherapistDAO therapistDAO = new TherapistDAO();
-            SalonDAO salonDAO = new SalonDAO();
+            if ("add".equals(action) || "update".equals(action)) {
+                int id = 0;
+                if ("update".equals(action)) {
+                    id = Integer.parseInt(request.getParameter("id"));
+                }
 
-            List<Therapist> therapists = therapistDAO.getAllTherapists();
-            List<Salon> salons = salonDAO.getAllSalons();
+                Therapist t = new Therapist();
+                t.setName(request.getParameter("name"));
+                t.setPhone(request.getParameter("phone"));
+                t.setEmail(request.getParameter("email"));
+                t.setSpecialty(request.getParameter("specialty"));
+                t.setSalonId(Integer.parseInt(request.getParameter("salonId")));
+                t.setPassword(request.getParameter("password"));
 
-            req.setAttribute("therapists", therapists);
-            req.setAttribute("salons", salons);
+                if ("add".equals(action)) {
+                    therapistDao.addTherapist(t);
+                } else {
+                    t.setId(id);
+                    therapistDao.updateTherapist(t);
+                }
+            }
 
-            req.getRequestDispatcher("admin-therapists.jsp").forward(req, resp);
+            response.sendRedirect("AdminTherapistServlet");
 
         } catch (Exception e) {
             e.printStackTrace();
-            resp.sendRedirect("admin-therapists.jsp?error=Server+Error");
+            response.sendRedirect("error.jsp?msg=Server+Error");
         }
     }
 }
