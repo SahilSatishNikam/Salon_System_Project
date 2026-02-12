@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import model.TherapistAvailability;
 import util.DBConnection;
 
@@ -52,4 +55,85 @@ public class TherapistAvailabilityDAO {
 
         return null;
     }
+    
+    public List<TherapistAvailability> getAllFutureByTherapist(int therapistId) {
+
+        List<TherapistAvailability> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM therapist_availability " +
+                     "WHERE therapist_id=? AND available_date >= CURDATE() " +
+                     "ORDER BY available_date, start_time";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                TherapistAvailability a = new TherapistAvailability();
+                a.setId(rs.getInt("id"));
+                a.setTherapistId(rs.getInt("therapist_id"));
+                a.setAvailableDate(rs.getDate("available_date"));
+                a.setStartTime(rs.getTime("start_time"));
+                a.setEndTime(rs.getTime("end_time"));
+                a.setSlotDuration(rs.getInt("slot_duration"));
+
+                list.add(a);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    private TherapistAvailability mapRow(ResultSet rs) throws SQLException {
+
+        TherapistAvailability a = new TherapistAvailability();
+        a.setId(rs.getInt("id"));
+        a.setTherapistId(rs.getInt("therapist_id"));
+        a.setAvailableDate(rs.getDate("available_date"));
+        a.setStartTime(rs.getTime("start_time"));
+        a.setEndTime(rs.getTime("end_time"));
+        a.setSlotDuration(rs.getInt("slot_duration"));
+
+        return a;
+    }
+    
+    public List<TherapistAvailability> getUpcomingAvailability(int therapistId) {
+
+        List<TherapistAvailability> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM therapist_availability " +
+                     "WHERE therapist_id=? AND available_date >= CURDATE() " +
+                     "ORDER BY available_date, start_time";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                TherapistAvailability a = new TherapistAvailability();
+                a.setId(rs.getInt("id"));
+                a.setTherapistId(rs.getInt("therapist_id"));
+                a.setAvailableDate(rs.getDate("available_date"));
+                a.setStartTime(rs.getTime("start_time"));
+                a.setEndTime(rs.getTime("end_time"));
+
+                list.add(a);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
 }

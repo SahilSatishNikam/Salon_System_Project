@@ -555,6 +555,7 @@ s.setServices(serviceDAO.getServicesBySalon(s.getId()));
 
 <% } %>
 
+
 </div>
 </div>
 
