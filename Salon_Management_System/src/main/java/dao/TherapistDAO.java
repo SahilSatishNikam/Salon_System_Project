@@ -11,24 +11,42 @@ import util.DBConnection;
 
 public class TherapistDAO {
 
-    // Therapist login
-    public Therapist login(String email, String password) throws Exception {
-        String sql = "SELECT * FROM therapists WHERE email=? AND password=? AND status='Active' AND approved=1";
+  
+	public Therapist login(String email, String password) throws Exception {
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+	    String sql = "SELECT * FROM therapists WHERE email=? AND password=?";
 
-            ps.setString(1, email);
-            ps.setString(2, password);
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToTherapist(rs);
-                }
-            }
-        }
-        return null;
-    }
+	        ps.setString(1, email);
+	        ps.setString(2, password);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            Therapist t = new Therapist();
+	            t.setId(rs.getInt("id"));
+	            t.setSalonId(rs.getInt("salon_id"));
+	            t.setName(rs.getString("name"));
+	            t.setPhone(rs.getString("phone"));
+	            t.setEmail(rs.getString("email"));
+	            t.setSpecialty(rs.getString("specialty"));
+	            t.setPassword(rs.getString("password"));
+	            t.setStatus(rs.getString("status"));
+	            t.setTherapistDecision(rs.getString("therapist_decision"));
+	            t.setApproved(rs.getInt("approved"));
+
+	            System.out.println("LOGIN FOUND therapist = " + t.getEmail());
+	            return t;
+	        }
+	    }
+
+	    System.out.println("LOGIN FAILED — no therapist row matched");
+	    return null;
+	}
+
+
 
     // Add therapist
     public boolean addTherapist(Therapist t) {
