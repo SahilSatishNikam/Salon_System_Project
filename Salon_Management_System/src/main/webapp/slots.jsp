@@ -96,13 +96,35 @@ if (slots == null) slots = new ArrayList<>();
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <h2>Therapist Panel</h2>
-    <a href="therapistDashboard.jsp"> <i class="fa fa-chart-line"></i> Dashboard </a>
-    <a href="therapistAvailability.jsp"> <i class="fa fa-clock"></i> Set Availability </a>
-    <a href="slots.jsp" class="active"> <i class="fa fa-calendar"></i> View Slots </a>
-    <a href="TherapistAppointmentServlet"> <i class="fa fa-list"></i> Appointments </a>
-    <a href="LogoutServlet"> <i class="fa fa-sign-out-alt"></i> Logout </a>
+<h2>Therapist Panel</h2>
+
+<a href="TherapistDashboardServlet" class="active">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
+
+<a href="therapistAvailability.jsp">
+<i class="fa fa-clock"></i> Set Availability
+</a>
+
+<!-- ✅ FIXED LINK -->
+<a href="<%=request.getContextPath()%>/slots?therapistId=<%=t.getId()%>">
+<i class="fa fa-calendar"></i> View Slots
+</a>
+
+<a href="therapist-services?salonId=<%=t.getSalonId()%>">
+<i class="fa fa-spa"></i> Services
+</a>
+
+<a href="TherapistAppointmentServlet">
+<i class="fa fa-calendar-check"></i> Appointments
+</a>
+
+
+<a href="LogoutServlet">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
 </div>
+
 
 <!-- Main Content -->
 <div class="main">
