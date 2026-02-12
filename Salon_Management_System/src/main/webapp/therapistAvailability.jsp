@@ -15,189 +15,432 @@ if(t == null){ response.sendRedirect("login.jsp"); return; }
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
-/* ===== General ===== */
-body {
-    background: #121212;
-    font-family: 'Poppins', sans-serif;
-    color: #E0E0E0;
-    overflow-x: hidden;
+/* =====================================
+   GLOBAL SETTINGS
+===================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Times New Roman", Times, serif;
 }
 
-/* ===== Sidebar ===== */
-/* ===== Sidebar ===== */
-.sidebar {
-    height: 100vh;
-    background: #1B1B1B;
-    border-right: 2px solid #FFD700;
-    padding-top: 30px;
-    position: fixed;
-    width: 220px;
-    transition: all 0.3s ease;
+body{
+    background:#000;
+    color:#fff;
 }
-.sidebar h3 {
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 40px;
-    font-weight: 800;
+
+/* =========================================
+   SIDEBAR CONTAINER
+========================================= */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    backdrop-filter:blur(6px);
+    padding-top:10px;
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    animation:sidebarSlide 0.8s ease;
 }
-.sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #E0E0E0;
-    padding: 12px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+
+/* Golden vertical glow line */
+.sidebar::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+    background:linear-gradient(to bottom,#d4af37,#ffd700,#d4af37);
+    box-shadow:0 0 15px #d4af37;
+}
+
+/* =========================================
+   TOP SECTION (LOGO + MENU)
+========================================= */
+.sidebar-top{
+    display:flex;
+    flex-direction:column;
+}
+
+/* Logo */
+.logo{
+    padding:26px 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-img{
+    width:30px;
+    filter:drop-shadow(0 0 6px #c9a227);
+    transition:0.4s;
+}
+
+.logo:hover .logo-img{
+    transform:rotate(10deg) scale(1.1);
+}
+
+.s1{
+    color:#ffffff;
+    font-weight:bold;
+    font-size:19px;
+}
+
+.s2{
+    color:#c9a227;
+    font-size:19px;
+}
+
+/* =========================================
+   MENU LINKS
+========================================= */
+.sidebar a{
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:16px 26px;
+    margin:6px 10px;
+    border-radius:14px;
+    font-size:17px;
+    color:#ffffff;
+    text-decoration:none;
+    transition:all 0.4s ease;
+    overflow:hidden;
+}
+
+/* Hover golden background animation */
+.sidebar a::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:0;
+    background:linear-gradient(to right,#c9a227,#ffd700);
+    opacity:0.15;
+    transition:0.4s ease;
+}
+
+.sidebar a:hover::before{
+    width:100%;
+}
+
+/* Icon */
+.sidebar a i{
+    margin-right:14px;
+    color:#ffffff;
+    transition:0.4s ease;
+}
+
+/* Hover Effect */
+.sidebar a:hover{
+    color:#ffd700;
+    transform:translateX(8px);
+}
+
+.sidebar a:hover i{
+    color:#ffd700;
+    transform:scale(1.2);
+}
+
+/* =========================================
+   ACTIVE MENU ITEM
+========================================= */
+.sidebar a.active{
+    color:#ffd700;
+    background:rgba(201,162,39,0.15);
+    border-right:4px solid #ffd700;
+
+    box-shadow:
+        0 0 12px rgba(201,162,39,0.4),
+        inset 0 0 10px rgba(201,162,39,0.3);
+
+    animation:activePulse 2s infinite;
+}
+
+/* =========================================
+   LOGOUT BUTTON (BOTTOM)
+========================================= */
+.logout{
+    margin:20px 10px;
+    padding:16px;
+    border-radius:14px;
+    font-size:17px;
+    font-weight:bold;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(145deg,#2a0000,#110000);
+    border:1px solid rgba(255,80,80,0.4);
+    color:#ffdddd;
+
+    transition:all 0.4s ease;
     text-decoration:none;
 }
-.sidebar a:hover, .sidebar a.active {
-    background: #FFD700;
-    color: #1B1B1B;
-    transform: translateX(5px);
-    width:200px;
-    
-}
-.sidebar a i {
-    transition: 0.3s ease;
+
+.logout i{
+    margin-right:12px;
+    color:#ff6b6b;
+    transition:0.4s;
 }
 
-/* ===== Main Content ===== */
-.main-content {
-    margin-left: 220px;
-    padding: 40px 50px;
+.logout:hover{
+    background:linear-gradient(145deg,#5a0000,#2a0000);
+    color:#ffffff;
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 0 20px rgba(255,80,80,0.6),
+        inset 0 0 10px rgba(255,100,100,0.3);
 }
 
-/* ===== Header ===== */
-.main-content h1 {
-    color: #FFF;
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 5px;
+.logout:hover i{
+    color:#ffffff;
+    transform:rotate(-10deg) scale(1.2);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+/* Sidebar Slide */
+@keyframes sidebarSlide{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* Active Glow Pulse */
+@keyframes activePulse{
+    0%,100%{
+        box-shadow:
+        0 0 10px rgba(201,162,39,0.3),
+        inset 0 0 8px rgba(201,162,39,0.2);
+    }
+    50%{
+        box-shadow:
+        0 0 20px rgba(255,215,0,0.6),
+        inset 0 0 12px rgba(255,215,0,0.4);
+    }
+}
+
+/* =====================================
+   MAIN CONTENT (CENTERED)
+===================================== */
+.main-content{
+    margin-left:260px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;   /* vertical center */
+    align-items:center;       /* horizontal center */
+    background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+    padding:40px;
     text-align:center;
-}
-.main-content p {
-    color: #BBB;
-    font-size: 0.95rem;
-    margin-bottom: 30px;
-    text-align:center;
+    animation:fadeIn 0.5s ease;
 }
 
-/* ===== Form Card ===== */
-.form-card {
-    background: #1E1E1E;
-    padding: 30px 35px;
-    border-radius: 12px;
-    max-width: 600px;
-    margin: 0 auto;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
-.form-card h2 {
-    color: #FFD700;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-.form-card label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-}
-.form-card input {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    background: #1B1B1B;
-    color: #E0E0E0;
-    transition: all 0.3s ease;
-}
-.form-card input:focus {
-    border-color: #FFD700;
-    box-shadow: 0 0 10px rgba(255,215,0,0.3);
-    outline: none;
+/* Limit content width */
+.main-content > *{
+    width:100%;
+    max-width:700px;
 }
 
-/* ===== Save Button ===== */
-.form-card button {
-    width: 100%;
-    padding: 15px;
-    background: #FFD700;
-    color: #1B1B1B;
-    font-weight: 700;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    text-transform: uppercase;
-    transition: 0.3s ease;
-}
-.form-card button:hover {
-    background: #FFC107;
-    transform: scale(1.05);
+/* Heading */
+.main-content h1{
+    color:#d4af37;
+    margin-bottom:10px;
+    font-weight:bold;
 }
 
-/* ===== Toggle Switches ===== */
-.toggle-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-.toggle-group label {
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-}
-.toggle-switch input { display: none; }
-.slider {
-    position: absolute;
-    cursor: pointer;
-    background-color: #555;
-    border-radius: 20px;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    transition: .4s;
-}
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2px;
-    background-color: #FFF;
-    transition: .4s;
-    border-radius: 50%;
-}
-input:checked + .slider {
-    background-color: #FFD700;
-}
-input:checked + .slider:before {
-    transform: translateX(20px);
+/* Paragraph */
+.main-content p{
+    color:#ccc;
+    margin-bottom:30px;
 }
 
-/* ===== Info Box ===== */
-.info-box {
-    margin-top: 20px;
-    padding: 12px 15px;
-    background: #1B1B1B;
-    border-left: 4px solid #00A6FF;
-    color: #BBB;
-    border-radius: 6px;
-    font-size: 0.9rem;
+/* =====================================
+   FORM CARD
+===================================== */
+.form-card{
+    background:#111;
+    padding:35px;
+    border-radius:15px;
+    border:1px solid rgba(212,175,55,0.3);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    text-align:left;
+    transition:0.3s ease;
 }
 
-/* ===== Responsive ===== */
+.form-card:hover{
+    box-shadow:0 15px 40px rgba(212,175,55,0.25);
+}
+
+.form-card h2{
+    color:#ffd700;
+    margin-bottom:25px;
+}
+
+/* =====================================
+   FORM ELEMENTS
+===================================== */
+form label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:6px;
+    font-weight:bold;
+    color:#d4af37;
+}
+
+form input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:6px;
+    border:1px solid #333;
+    background:#0f0f0f;
+    color:#fff;
+    font-size:15px;
+    transition:0.3s ease;
+}
+
+form input:focus{
+    outline:none;
+    border:1px solid #d4af37;
+    box-shadow:0 0 8px rgba(212,175,55,0.5);
+}
+
+/* =====================================
+   TOGGLE SWITCH
+===================================== */
+.toggle-group{
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.toggle-switch{
+    position:relative;
+    width:48px;
+    height:24px;
+}
+
+.toggle-switch input{
+    opacity:0;
+    width:0;
+    height:0;
+}
+
+.slider{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#444;
+    border-radius:34px;
+    transition:0.3s;
+}
+
+.slider:before{
+    position:absolute;
+    content:"";
+    height:18px;
+    width:18px;
+    left:3px;
+    bottom:3px;
+    background:white;
+    border-radius:50%;
+    transition:0.3s;
+}
+
+.toggle-switch input:checked + .slider{
+    background:#d4af37;
+}
+
+.toggle-switch input:checked + .slider:before{
+    transform:translateX(24px);
+}
+
+/* =====================================
+   BUTTON
+===================================== */
+form button{
+    margin-top:25px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#d4af37;
+    color:#000;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s ease;
+}
+
+form button:hover{
+    background:#ffd700;
+}
+
+/* =====================================
+   INFO BOX
+===================================== */
+.info-box{
+    margin-top:20px;
+    padding:15px;
+    border-radius:8px;
+    background:rgba(212,175,55,0.1);
+    border-left:4px solid #d4af37;
+    color:#ddd;
+    font-size:14px;
+}
+
+/* =====================================
+   ANIMATION
+===================================== */
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
 @media(max-width:768px){
-    .main-content{ margin-left:0; padding:20px; }
-    .sidebar{ position: relative; width:100%; height:auto; border-right:none;}
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main-content{
+        margin-left:0;
+        min-height:auto;
+        padding:30px;
+    }
 }
+
+
 </style>
 </head>
 <body>
