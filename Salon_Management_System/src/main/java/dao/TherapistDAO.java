@@ -273,66 +273,7 @@ public class TherapistDAO {
         return list;
     }
 
-    public List<LocalTime> getAvailableSlots(int therapistId, Date date) {
-        List<LocalTime> freeSlots = new ArrayList<>();
-
-        try (Connection con = DBConnection.getConnection()) {
-
-            // 1️⃣ Get therapist availability
-            String availSql = "SELECT * FROM therapist_availability " +
-                              "WHERE therapist_id = ? AND available_date = ?";
-            PreparedStatement psAvail = con.prepareStatement(availSql);
-            psAvail.setInt(1, therapistId);
-            psAvail.setDate(2, date);
-            ResultSet rsAvail = psAvail.executeQuery();
-
-            if (!rsAvail.next()) return freeSlots; // no availability
-
-            Time start = rsAvail.getTime("start_time");
-            Time end = rsAvail.getTime("end_time");
-            int duration = rsAvail.getInt("slot_duration"); // in minutes
-
-            // 2️⃣ Get booked appointments
-            String bookedSql = "SELECT time FROM appointments " +
-                               "WHERE therapist_id = ? AND date = ? AND status IN ('Booked','Confirmed')";
-            PreparedStatement psBooked = con.prepareStatement(bookedSql);
-            psBooked.setInt(1, therapistId);
-            psBooked.setDate(2, date);
-            ResultSet rsBooked = psBooked.executeQuery();
-
-            List<Time> bookedTimes = new ArrayList<>();
-            while (rsBooked.next()) {
-                bookedTimes.add(rsBooked.getTime("time"));
-            }
-
-            // 3️⃣ Generate slots
-            long currentMillis = start.getTime();
-            long endMillis = end.getTime();
-
-            while (currentMillis + duration * 60000 <= endMillis) {
-                Time slotTime = new Time(currentMillis);
-                boolean isBooked = false;
-
-                for (Time booked : bookedTimes) {
-                    if (booked.equals(slotTime)) {
-                        isBooked = true;
-                        break;
-                    }
-                }
-
-                if (!isBooked) {
-                    freeSlots.add(slotTime.toLocalTime());
-                }
-
-                currentMillis += duration * 60000;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return freeSlots;
-    }
+    
   
  // Approve Therapist
     public boolean approveTherapist(int id) {
@@ -437,6 +378,40 @@ public class TherapistDAO {
 
         return success;
     }
+    
+    public List<String> getAvailableSlots(int therapistId, java.sql.Date date) {
+
+        List<String> slots = new ArrayList<>();
+
+        String sql = """
+            SELECT start_time
+            FROM therapist_availability
+            WHERE therapist_id=? 
+            AND available_date=?
+            ORDER BY start_time
+        """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            ps.setDate(2, date);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                slots.add(rs.getTime("start_time")
+                            .toLocalTime()
+                            .toString());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return slots;
+    }
+
 }
     
 

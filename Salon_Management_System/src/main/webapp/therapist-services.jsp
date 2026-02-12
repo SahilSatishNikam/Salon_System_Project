@@ -453,7 +453,7 @@ body{
 <div class="sidebar">
     <h2>Therapist Panel</h2>
 
-    <a href="therapistDashboard.jsp">
+    <a href="TherapistDashboardServlet">
         <i class="fa fa-chart-line"></i> Dashboard
     </a>
 
@@ -469,10 +469,7 @@ body{
         <i class="fa fa-calendar"></i> Appointments
     </a>
 
-    <a href="editTherapistProfile.jsp">
-        <i class="fa fa-user"></i> Profile
-    </a>
-
+    
     <a href="LogoutServlet">
         <i class="fa fa-sign-out-alt"></i> Logout
     </a>

@@ -1,11 +1,11 @@
 <%@ page import="java.util.*, model.*" %>
 <%@ page session="true" %>
 <%
-    Therapist therapist = (Therapist) session.getAttribute("therapist");
-    if(therapist == null){
-        response.sendRedirect("login.jsp");
-        return;
-    }
+Therapist t = (Therapist) session.getAttribute("therapist");
+if (t == null) {
+    response.sendRedirect("login.jsp");
+    return;
+}
 
     List<Appointment> appointments = (List<Appointment>) request.getAttribute("appointments");
     if(appointments == null) appointments = new ArrayList<>();
@@ -458,20 +458,34 @@ body{
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <h3><i class="fa-solid fa-hand-sparkles"></i> Therapist</h3>
+<h2>Therapist Panel</h2>
 
-    <div class="profile">
-        <b><%= therapist.getName() %></b><br>
-        <small>Therapist</small>
-    </div>
+<a href="TherapistDashboardServlet" class="active">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
 
-    <a href="therapistDashboard.jsp"><i class="fa-solid fa-house"></i> Dashboard</a>
-    <a href="therapistAvailability.jsp"><i class="fa-solid fa-clock"></i> Set Availability</a>
-    <a href="TherapistAppointmentServlet" class="active"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
-    <a href="ClientLedgerServlet"><i class="fa-solid fa-user"></i> Client Ledger</a>
-    <a href="TherapistInsightsServlet"><i class="fa-solid fa-chart-simple"></i> Insights</a>
-    <a href="logoutServlet"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+<a href="therapistAvailability.jsp">
+<i class="fa fa-clock"></i> Set Availability
+</a>
+
+<!-- ✅ FIXED LINK -->
+<a href="<%=request.getContextPath()%>/slots?therapistId=<%=t.getId()%>">
+<i class="fa fa-calendar"></i> View Slots
+</a>
+
+<a href="therapist-services?salonId=<%=t.getSalonId()%>">
+<i class="fa fa-spa"></i> Services
+</a>
+
+<a href="TherapistAppointmentServlet" class="active">
+<i class="fa fa-calendar-check"></i> Appointments
+</a>
+
+<a href="LogoutServlet">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
 </div>
+
 
 <!-- ===== MAIN ===== -->
 <div class="main">
