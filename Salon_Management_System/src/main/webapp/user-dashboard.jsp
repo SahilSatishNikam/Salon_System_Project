@@ -560,17 +560,15 @@ body{
 
  <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <h2><i class="fa fa-gem"></i>User Dashboard</h2>
-    <a class="active" href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
-    <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
-    <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
-    <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
-    <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
-    <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
-    <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
-</div>
+    <h2>User Dashboard</h2>
 
+    <a href="user-dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
+    <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
+    <a href="user-feedback.jsp" class="active"><i class="fa fa-star"></i> Feedback</a>
+    <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
+    <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
     <!-- MAIN CONTENT -->
     <div class="main">
         <h2>Welcome, <span style="color:#f5e6b0"><%=user.getName()%></span></h2>
