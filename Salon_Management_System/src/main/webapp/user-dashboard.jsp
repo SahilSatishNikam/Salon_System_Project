@@ -549,6 +549,20 @@ body{
     to{opacity:1;}
 }
 
+.dashboard-title {
+    display: flex;
+    align-items: center;
+    font-size: 28px; /* heading size */
+    color: #ffd700; /* golden text */
+    font-weight: bold;
+}
+
+.dashboard-icon {
+    font-size: 40px; /* thoda motha icon */
+    color: #ffd700; /* gold color */
+    margin-right: 12px; /* text la thoda gap */
+}
+
 
 
 </style>
@@ -560,7 +574,10 @@ body{
 
  <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <h2>User Dashboard</h2>
+   <h2 class="dashboard-title">
+    <i class="fa-solid fa-gem dashboard-icon"></i>
+    User Dashboard
+</h2>
 
     <a href="user-dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
     <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
