@@ -1,4 +1,7 @@
-<%@ page import="java.util.*, model.*, dao.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="dao.*" %>
+<%@ page import="model.*" %>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <%
@@ -695,4 +698,4 @@ table th, table td{
 
 </div>
 </body>
-</html> 
+</html>
