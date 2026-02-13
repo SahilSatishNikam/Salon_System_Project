@@ -305,180 +305,328 @@ body{
 }
 
 
-/* =====================================================
-   PERFECT CENTER SCREEN MAIN AREA
-   ===================================================== */
+/* MAIN AREA */
 .main{
-    position:fixed;
-    top:0;
-    left:260px; /* sidebar width */
-    right:0;
-    bottom:0;
+    margin-left:260px;
+    min-height:100vh;
+    padding:40px 60px;
+    background:linear-gradient(90deg,#0a0a0a,#111);
+}
 
+/* WRAPPER */
+.profile-wrapper{
+    max-width:1200px;
+    margin:auto;
+}
+
+/* HEADER */
+.profile-header{
     display:flex;
-    justify-content:center;
     align-items:center;
-
-    overflow:hidden;
-
-    background:
-        radial-gradient(circle at 25% 25%, rgba(255,215,0,0.06), transparent 40%),
-        radial-gradient(circle at 75% 75%, rgba(255,215,0,0.05), transparent 40%),
-        #000;
+    gap:20px;
+    margin-bottom:35px;
 }
 
-/* =====================================================
-   PROFILE CARD
-   ===================================================== */
-.info-box{
-    width:520px;
-    max-width:92vw;
-    max-height:90vh;
-
-    padding:22px 24px;
-    border-radius:18px;
-
-    background:linear-gradient(145deg,#0a0a0a,#000);
-    border:1px solid rgba(255,215,0,0.35);
-
-    box-shadow:
-        0 0 18px rgba(255,215,0,0.15),
-        inset 0 0 8px rgba(255,215,0,0.08);
-
-    overflow:hidden;
-    transition:0.3s;
-
-    animation:fadeUp 0.6s ease;
+/* Avatar circle */
+.avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#d4af37,#ffd700);
+    color:#000;
+    font-size:38px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 20px rgba(255,215,0,0.5);
 }
 
-.info-box:hover{
-    transform:translateY(-4px);
-    box-shadow:
-        0 0 30px rgba(255,215,0,0.30),
-        inset 0 0 12px rgba(255,215,0,0.18);
+.user-titles h1{
+    margin:0;
+    font-size:32px;
+    color:#fff;
 }
 
-/* =====================================================
-   HEADER TEXT
-   ===================================================== */
-.info-box h2{
-    text-align:center;
-    font-size:22px;
-    color:#FFD700;
-    margin-bottom:2px;
-}
-
-.email{
-    text-align:center;
-    font-size:13px;
+.user-titles span{
     color:#d4af37;
-    margin-bottom:14px;
+    font-size:13px;
+    letter-spacing:1px;
 }
 
-/* =====================================================
-   FORM GRID (COMPACT 2 COLUMN)
-   ===================================================== */
+/* BODY GRID */
+.profile-body{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:40px;
+}
+
+/* LEFT PANEL */
+.left-panel{
+    background:#0d0d0d;
+    padding:30px;
+    border-radius:18px;
+    border:1px solid rgba(255,215,0,0.25);
+}
+
+/* FORM SECTIONS */
+.left-panel h3{
+    color:#ffd700;
+    margin-bottom:20px;
+}
+
+/* FORM GRID */
 .profile-form{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px 14px;
+    gap:18px 22px;
 }
 
+/* FULL WIDTH FIELD */
+.profile-form textarea,
+.profile-form .full{
+    grid-column:1/-1;
+}
+
+/* LABELS */
 .profile-form label{
-    margin-top:4px;
-    font-size:13px;
-    color:#FFD700;
-    font-weight:600;
+    font-size:12px;
+    color:#c9a227;
+    letter-spacing:1px;
 }
 
-/* =====================================================
-   INPUT FIELDS
-   ===================================================== */
+/* INPUTS */
 .profile-form input{
-    padding:8px 9px;
-    font-size:14px;
-    border-radius:9px;
-    border:1px solid rgba(255,215,0,0.45);
-    background:#050505;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #2a2a2a;
+    background:#0a0a0a;
     color:#fff;
-    transition:0.25s;
-}
-
-.profile-form input:hover{
-    border-color:#FFD700;
-    transform:translateY(-1px);
-    box-shadow:0 0 6px rgba(255,215,0,0.25);
+    transition:0.3s;
 }
 
 .profile-form input:focus{
     outline:none;
-    border-color:#FFD700;
-    box-shadow:
-        0 0 12px rgba(255,215,0,0.55),
-        inset 0 0 5px rgba(255,215,0,0.25);
-    background:#0a0a0a;
+    border-color:#ffd700;
+    box-shadow:0 0 10px rgba(255,215,0,0.4);
 }
 
-.profile-form input:disabled{
-    background:#111;
-    color:#aaa;
-}
-
-/* FULL WIDTH FIELD (password) */
-.full{
-    grid-column:1 / -1;
-}
-
-/* =====================================================
-   BUTTON
-   ===================================================== */
+/* BUTTON */
 .update-btn{
-    grid-column:1 / -1;
+    grid-column:1/-1;
     margin-top:10px;
-    padding:10px;
-    font-size:14px;
+    padding:14px;
     border:none;
-    border-radius:25px;
-
-    background:linear-gradient(135deg,#FFD700,#f3b300);
+    border-radius:30px;
+    background:linear-gradient(90deg,#ffd700,#f1b000);
     color:#000;
     font-weight:bold;
     letter-spacing:1px;
-
     transition:0.3s;
 }
 
 .update-btn:hover{
-    transform:translateY(-3px);
+    transform:translateY(-2px);
     box-shadow:0 0 18px rgba(255,215,0,0.7);
 }
 
-/* =====================================================
-   ANIMATION
-   ===================================================== */
-@keyframes fadeUp{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+/* RIGHT PANEL */
+.right-panel{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
 }
 
-/* =====================================================
-   MOBILE RESPONSIVE
-   ===================================================== */
-@media(max-width:768px){
+/* SECURITY CARD */
+.security-card{
+    background:#0d0d0d;
+    padding:25px;
+    border-radius:18px;
+    border:1px solid rgba(255,215,0,0.25);
+}
 
-    .main{
-        left:0;
-        padding:12px;
-    }
+.security-card h3{
+    color:#ffd700;
+    margin-bottom:18px;
+}
 
-    .info-box{
-        width:100%;
-        max-height:none;
-    }
+.reset-btn{
+    width:100%;
+    padding:12px;
+    border-radius:25px;
+    border:1px solid #ffd700;
+    background:transparent;
+    color:#ffd700;
+    transition:0.3s;
+}
 
-    .profile-form{
+.reset-btn:hover{
+    background:#ffd700;
+    color:#000;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .profile-body{
         grid-template-columns:1fr;
     }
+
+    .main{
+        padding:20px;
+    }
+}
+/* ================= PAGE LOAD ANIMATION ================= */
+.profile-header,
+.left-panel,
+.right-panel{
+    opacity:0;
+    transform:translateY(25px);
+    animation:fadeSlide 0.7s ease forwards;
+}
+
+.left-panel{ animation-delay:.15s; }
+.right-panel{ animation-delay:.3s; }
+
+@keyframes fadeSlide{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+/* ================= AVATAR GLOW RING ================= */
+.avatar{
+    position:relative;
+    overflow:hidden;
+    transition:.4s;
+}
+
+.avatar::after{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:2px solid transparent;
+    background:linear-gradient(45deg,#ffd700,#ffb700,#ffd700);
+    opacity:0;
+    filter:blur(6px);
+    transition:.4s;
+}
+
+.avatar:hover::after{
+    opacity:.9;
+    animation:rotateRing 3s linear infinite;
+}
+
+@keyframes rotateRing{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.avatar:hover{
+    transform:scale(1.07);
+    box-shadow:0 0 25px rgba(255,215,0,.7);
+}
+
+
+/* ================= CARD HOVER FLOAT ================= */
+.left-panel,
+.security-card{
+    transition:.35s cubic-bezier(.22,.61,.36,1);
+}
+
+.left-panel:hover,
+.security-card:hover{
+    transform:translateY(-6px);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.7),
+        0 0 20px rgba(255,215,0,.25);
+}
+
+
+/* ================= INPUT INTERACTION ================= */
+.profile-form input{
+    position:relative;
+}
+
+.profile-form input:focus{
+    transform:scale(1.02);
+}
+
+.profile-form input:hover{
+    border-color:#caa83a;
+}
+
+
+/* ================= BUTTON SHINE EFFECT ================= */
+.update-btn{
+    position:relative;
+    overflow:hidden;
+}
+
+.update-btn::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:60%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.6),
+        transparent
+    );
+    transform:skewX(-25deg);
+}
+
+.update-btn:hover::after{
+    animation:shine 0.9s ease forwards;
+}
+
+@keyframes shine{
+    to{ left:130%; }
+}
+
+.update-btn:active{
+    transform:scale(.97);
+}
+
+
+/* ================= SECURITY BUTTON EFFECT ================= */
+.reset-btn{
+    position:relative;
+    overflow:hidden;
+}
+
+.reset-btn:hover{
+    box-shadow:0 0 15px rgba(255,215,0,.5);
+    letter-spacing:.5px;
+}
+
+
+/* ================= SECTION TITLE ICON BOUNCE ================= */
+.left-panel h3 i,
+.security-card h3 i{
+    transition:.3s;
+}
+
+.left-panel h3:hover i,
+.security-card h3:hover i{
+    transform:translateY(-3px) scale(1.15);
+    color:#ffd700;
+}
+
+
+/* ================= SMOOTH PAGE TRANSITION ================= */
+.main{
+    animation:bgFade 1s ease;
+}
+
+@keyframes bgFade{
+    from{opacity:.3;}
+    to{opacity:1;}
 }
 
 </style>
@@ -502,35 +650,93 @@ body{
 
 <!-- ===== MAIN ===== -->
 <div class="main">
-    <!-- RIGHT INFO -->
-    <div class="info-box">
-        <h2><%= user.getName() %></h2>
-        <p class="email"><i class="fa fa-envelope"></i> <%= user.getEmail() %></p>
 
-        <form action="UserServlet" method="post" class="profile-form">
-            <input type="hidden" name="action" value="update">
+    <div class="profile-wrapper">
 
-            <label>Full Name</label>
-            <input type="text" name="name" value="<%= user.getName() %>" required>
+        <!-- HEADER -->
+        <div class="profile-header">
+            <div class="avatar">
+                <%= user.getName().substring(0,1).toUpperCase() %>
+            </div>
 
-            <label>Email</label>
-            <input type="email" value="<%= user.getEmail() %>" disabled>
+            <div class="user-titles">
+                <h1><%= user.getName() %></h1>
+                <span>USER PROFILE SETTINGS</span>
+            </div>
+        </div>
 
-            <label>New Password</label>
-            <input type="password" name="password" placeholder="Enter new password">
 
-            <label>Phone</label>
-            <input type="text" name="phone" value="<%= user.getPhone() %>">
+        <!-- BODY -->
+        <div class="profile-body">
 
-            <button class="update-btn">
-                <i class="fa fa-save"></i> Update Profile
-            </button>
-        </form>
+            <!-- LEFT PANEL (FORM) -->
+            <div class="left-panel">
+
+                <h3><i class="fa fa-user"></i> Account Information</h3>
+
+                <form action="UserServlet" method="post" class="profile-form">
+                    <input type="hidden" name="action" value="update">
+
+                    <label>Full Name</label>
+                    <input type="text" name="name" value="<%= user.getName() %>" required>
+
+                    <label>Email Address</label>
+                    <input type="email" value="<%= user.getEmail() %>" disabled class="full">
+
+                    <label>New Password</label>
+                    <input type="password" name="password" placeholder="Enter new password" class="full">
+
+                    <label>Phone Number</label>
+                    <input type="text" name="phone" value="<%= user.getPhone() %>">
+
+                    <div></div>
+
+                    <button class="update-btn">
+                        <i class="fa fa-save"></i> Save Changes
+                    </button>
+                </form>
+
+            </div>
+
+
+            <!-- RIGHT PANEL -->
+            <div class="right-panel">
+
+                <!-- SECURITY CARD -->
+                <div class="security-card">
+                    <h3><i class="fa fa-shield"></i> Security & Privacy</h3>
+
+                    <p style="color:#aaa;font-size:14px;margin-bottom:15px;">
+                        Protect your account by updating password regularly.
+                    </p>
+
+                    <button class="reset-btn">
+                        <i class="fa fa-key"></i> Reset Password
+                    </button>
+                </div>
+
+                <!-- SESSION CARD -->
+                <div class="security-card">
+                    <h3><i class="fa fa-clock"></i> Active Session</h3>
+
+                    <p style="color:#aaa;font-size:14px;">
+                        Logged in now from this device
+                    </p>
+
+                    <button class="reset-btn" style="border-color:#ff4d4d;color:#ff4d4d;">
+                        Logout Other Devices
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
-</div>
-</div>
+
+
 
 </body>
 </html>

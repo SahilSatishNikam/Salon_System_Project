@@ -41,32 +41,30 @@ for(Appointment a : completed){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-/* ===============================
-   GLOBAL
-================================ */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* =========================
+   GLOBAL LUXURY THEME
+========================= */
+:root{
+    --gold:#d4af37;
+    --gold-light:#ffd700;
+    --card:#0f1115;
+    --card-2:#15181e;
+    --border:#23262d;
+    --text:#e6e6e6;
+    --muted:#9aa0a6;
 }
+
+*{box-sizing:border-box;margin:0;padding:0;}
 
 body{
-    font-family:'Times New Roman', serif;
-    background:#000;
-    color:#d4af37;
-    overflow-x:hidden;
-    animation:fadePage 0.8s ease;
+    font-family:Times new roman,Segoe UI,Roboto;
+    background:#07090c;
+    color:var(--text);
 }
 
-@keyframes fadePage{
-    from{opacity:0;}
-    to{opacity:1;}
-}
+/* layout */
+.container-fluid{display:flex}
 
-.container-fluid{
-    display:flex;
-    padding:0;
-}
 /* =====================================
    SIDEBAR
 ===================================== */
@@ -337,318 +335,191 @@ body{
         inset 0 0 12px rgba(255,215,0,0.4);
     }
 }
-/* ===============================
-   MAIN CONTENT (CENTERED)
-================================ */
+
+
+/* =========================
+   MAIN AREA
+========================= */
 .main{
     margin-left:260px;
+    padding:40px 50px;
     width:100%;
-    min-height:100vh;
-    padding:40px;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
 }
 
+/* heading */
 .main h2{
-    font-size:28px;
-    margin-bottom:30px;
-    color:#ffd700;
-    text-align:center;
+	color:#ffd700;
+    font-size:34px;
+    font-weight:600;
+    margin-bottom:35px;
 }
+.main h2 span{color:var(--gold)}
 
-/* ===============================
-   ADVANCED CARD ANIMATIONS
-================================ */
-
+/* =========================
+   STATS CARDS
+========================= */
 .cards{
-    display: flex;
-    flex-wrap: nowrap;   /* keeps all cards in one line */
-    gap: 25px;
-    width:100%;
-    max-width:1100px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+    margin-bottom:40px;
 }
 
-/* Base Card */
 .card-box{
-    background:#111;
-    border:1px solid #d4af37;
-    border-radius:14px;
-    padding:25px;
-    text-align:center;
-    width:220px;
+    background:linear-gradient(145deg,var(--card),var(--card-2));
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:24px;
     position:relative;
-    overflow:hidden;
-    transition:all 0.5s ease;
-    transform-style:preserve-3d;
-    animation:cardFadeUp 0.8s ease forwards;
-    opacity:0;
+    transition:.3s;
 }
 
-/* Stagger Animation */
-.card-box:nth-child(1){ animation-delay:0.2s; }
-.card-box:nth-child(2){ animation-delay:0.4s; }
-.card-box:nth-child(3){ animation-delay:0.6s; }
-.card-box:nth-child(4){ animation-delay:0.8s; }
-
-@keyframes cardFadeUp{
-    from{
-        transform:translateY(40px);
-        opacity:0;
-    }
-    to{
-        transform:translateY(0);
-        opacity:1;
-    }
-}
-
-/* Shine Sweep Effect */
-.card-box::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-75%;
-    width:50%;
-    height:100%;
-    background:linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,215,0,0.25),
-        transparent
-    );
-    transform:skewX(-25deg);
-}
-
-.card-box:hover::before{
-    animation:shineMove 0.8s ease forwards;
-}
-
-@keyframes shineMove{
-    100%{ left:125%; }
-}
-
-/* Hover Lift + Glow */
 .card-box:hover{
-    transform:translateY(-12px) scale(1.05);
-    box-shadow:
-        0 0 25px rgba(212,175,55,0.7),
-        0 10px 25px rgba(0,0,0,0.6);
+    transform:translateY(-6px);
+    border-color:var(--gold);
+    box-shadow:0 10px 25px rgba(0,0,0,.6);
 }
 
-/* Soft Pulse Glow (continuous) */
-.card-box{
-    animation:cardFadeUp 0.8s ease forwards, pulseGlow 3s ease-in-out infinite;
-}
-
-@keyframes pulseGlow{
-    0%,100%{
-        box-shadow:0 0 10px rgba(212,175,55,0.2);
-    }
-    50%{
-        box-shadow:0 0 18px rgba(212,175,55,0.5);
-    }
-}
-
-/* Icon Animation */
 .card-box i{
-    font-size:28px;
-    margin-bottom:10px;
-    color:#ffd700;
-    transition:all 0.4s ease;
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#1a1e24;
+    color:var(--gold);
+    margin-bottom:12px;
 }
 
-.card-box:hover i{
-    transform:rotate(10deg) scale(1.3);
-    color:#fff;
-}
-
-/* Text */
 .card-box p{
-    color:#ccc;
-    margin:5px 0;
+    color:var(--muted);
+    font-size:14px;
 }
 
 .card-box b{
-    font-size:24px;
-    color:#fff;
-    transition:0.3s ease;
+    font-size:28px;
+    font-weight:600;
 }
 
-.card-box:hover b{
-    color:#ffd700;
-    letter-spacing:1px;
-}
-
-/* ===============================
-   TABLE SECTION
-================================ */
-h4{
-    color:#ffd700;
-    margin-top:40px;
-    text-align:center;
-}
-
-.table-custom{
-    background:#111;
-    border:1px solid #d4af37;
-    border-radius:10px;
-    overflow:hidden;
-    width:100%;
-    max-width:1100px;
-    margin-top:15px;
-}
-
-.table-custom th{
-    background:#000;
-    color:#ffd700;
-    text-align:center;
-}
-
-.table-custom td{
-    color:#fff;
-    text-align:center;
-}
-
-.table-custom tbody tr{
-    transition:0.3s ease;
-}
-
-.table-custom tbody tr:hover{
-    background:rgba(212,175,55,0.15);
-}
-
-/* ===============================
-   RESPONSIVE
-================================ */
-@media(max-width:768px){
-    .sidebar{
-        width:200px;
-    }
-
-    .main{
-        margin-left:200px;
-        padding:20px;
-    }
-
-    .card-box{
-        width:100%;
-        max-width:300px;
-    }
-}
-/* =====================================
-   EXTRA PREMIUM ANIMATIONS
-===================================== */
-
-/* 1️⃣ Animated Golden Heading Gradient */
-.main h2{
-    background:linear-gradient(90deg,#d4af37,#ffd700,#d4af37);
-    background-size:200% auto;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:goldFlow 4s linear infinite;
-}
-
-@keyframes goldFlow{
-    0%{background-position:0% center;}
-    100%{background-position:200% center;}
-}
-
-/* 2️⃣ Stagger Card Animation */
-.card-box:nth-child(1){ animation-delay:0.2s; }
-.card-box:nth-child(2){ animation-delay:0.4s; }
-.card-box:nth-child(3){ animation-delay:0.6s; }
-.card-box:nth-child(4){ animation-delay:0.8s; }
-
-.card-box{
-    opacity:0;
-    animation:fadeUp 0.8s ease forwards;
-}
-
-/* 3️⃣ Icon Floating Animation */
-.card-box i{
-    animation:iconFloat 3s ease-in-out infinite;
-}
-
-@keyframes iconFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-6px); }
-}
-
-/* 4️⃣ Sidebar Link Shine Sweep */
-.sidebar a::after{
-    content:"";
+/* growth tag */
+.card-box::after{
+    content:"+8%";
     position:absolute;
-    top:0;
-    left:-75%;
-    width:50%;
-    height:100%;
-    background:linear-gradient(120deg,transparent,rgba(255,215,0,0.3),transparent);
-    transform:skewX(-25deg);
+    right:18px;
+    top:18px;
+    color:#27d17f;
+    font-size:13px;
 }
 
-.sidebar a:hover::after{
-    animation:shineSweep 0.8s ease;
-}
-
-@keyframes shineSweep{
-    100%{ left:125%; }
-}
-
-/* 5️⃣ Table Smooth Reveal */
-.table-custom tbody tr{
-    opacity:0;
-    animation:tableFade 0.6s ease forwards;
-}
-
-.table-custom tbody tr:nth-child(1){ animation-delay:0.2s; }
-.table-custom tbody tr:nth-child(2){ animation-delay:0.4s; }
-.table-custom tbody tr:nth-child(3){ animation-delay:0.6s; }
-.table-custom tbody tr:nth-child(4){ animation-delay:0.8s; }
-.table-custom tbody tr:nth-child(5){ animation-delay:1s; }
-
-@keyframes tableFade{
-    from{
-        opacity:0;
-        transform:translateX(-20px);
-    }
-    to{
-        opacity:1;
-        transform:translateX(0);
-    }
-}
-
-.table-custom td {
-    color: #000;
-}
-/* 6️⃣ Subtle Floating Golden Background Glow */
-body::before{
+/* =========================
+   CHART PANEL (STATIC)
+========================= */
+.main::after{
     content:"";
-    position:fixed;
-    top:-200px;
-    right:-200px;
-    width:400px;
-    height:400px;
-    background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);
-    animation:glowMove 8s ease-in-out infinite alternate;
-    z-index:-1;
+    display:block;
+    height:260px;
+    margin:40px 0;
+    border-radius:18px;
+    background:
+    linear-gradient(180deg,rgba(255,215,0,.12),transparent),
+    repeating-linear-gradient(
+        to right,
+        transparent 0 80px,
+        rgba(255,255,255,.03) 80px 81px
+    ),
+    linear-gradient(#0f1115,#0f1115);
+    border:1px solid var(--border);
 }
 
-@keyframes glowMove{
-    from{ transform:translateY(0); }
-    to{ transform:translateY(60px); }
+/* ===============================
+   GOLDEN TABLE CONTAINER
+================================ */
+.table-custom{
+    background:linear-gradient(180deg,#0a0a0a,#121212);
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(212,175,55,.35);
+    box-shadow:
+        inset 0 0 35px rgba(255,215,0,.05),
+        0 8px 25px rgba(0,0,0,.8);
 }
 
-/* 7️⃣ Smooth Page Fade-In */
-body{
-    animation:pageFade 1s ease;
+/* ===============================
+   HEADER
+================================ */
+.table-custom thead th{
+    background:#0b0b0b;
+    color:#e6d395;
+    font-family:"Times New Roman", serif;
+    letter-spacing:.7px;
+    font-weight:bold;
+    border-bottom:1px solid rgba(212,175,55,.45);
 }
 
-@keyframes pageFade{
-    from{opacity:0;}
-    to{opacity:1;}
+/* golden divider line */
+.table-custom thead{
+    box-shadow:0 2px 12px rgba(212,175,55,.25);
 }
 
+/* ===============================
+   BODY ROWS
+================================ */
+.table-custom td{
+    color:#f3e7b5;
+    border-top:1px solid rgba(212,175,55,.12);
+    font-family:"Times New Roman", serif;
+}
+
+/* alternating luxury rows */
+.table-custom tbody tr:nth-child(odd){
+    background:rgba(255,215,0,.02);
+}
+.table-custom tbody tr:nth-child(even){
+    background:rgba(255,255,255,.01);
+}
+
+/* hover glow */
+.table-custom tbody tr{
+    transition:.35s ease;
+}
+.table-custom tbody tr:hover{
+    background:rgba(255,215,0,.08);
+    box-shadow:
+        inset 0 0 25px rgba(255,215,0,.15);
+    transform:scale(1.01);
+}
+
+/* ===============================
+   STATUS COLUMN HIGHLIGHT
+================================ */
+.table-custom td:last-child{
+    color:#ffd700;
+    font-weight:bold;
+    text-shadow:0 0 8px rgba(255,215,0,.6);
+}
+
+/* ===============================
+   EMPTY MESSAGE ROW
+================================ */
+.table-custom tbody tr td[colspan]{
+    color:#cbbd83;
+    font-style:italic;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:1200px){
+    .cards{grid-template-columns:repeat(2,1fr);}
+}
+
+@media(max-width:700px){
+    .sidebar{width:200px}
+    .main{margin-left:200px;padding:25px}
+    .cards{grid-template-columns:1fr}
+}
 
 
 </style>
