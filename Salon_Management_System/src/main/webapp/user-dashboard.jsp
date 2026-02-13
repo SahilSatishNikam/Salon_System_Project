@@ -55,13 +55,78 @@ body{
     background:#000;
     color:#d4af37;
     overflow-x:hidden;
+    animation:fadePage 0.8s ease;
+}
+
+@keyframes fadePage{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
 .container-fluid{
     display:flex;
     padding:0;
 }
+/* =====================================
+   SIDEBAR
+===================================== */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    padding-top:25px;
+    display:flex;
+    flex-direction:column;
+}
 
+.sidebar h2{
+    text-align:center;
+    color:#d4af37;
+    margin-bottom:25px;
+    font-weight:bold;
+}
+
+.sidebar a{
+    padding:14px 22px;
+    margin:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s ease;
+    display:flex;
+    align-items:center;
+}
+
+.sidebar a i{
+    margin-right:12px;
+}
+
+.sidebar a:hover{
+    background:rgba(212,175,55,0.15);
+    color:#ffd700;
+    transform:translateX(6px);
+}
+
+.sidebar a.active{
+    background:rgba(212,175,55,0.2);
+    border-right:4px solid #ffd700;
+    color:#ffd700;
+}
+
+.sidebar a:last-child{
+    margin-top:auto;
+    margin-bottom:20px;
+    background:#2a0000;
+}
+
+.sidebar a:last-child:hover{
+    background:#5a0000;
+}
 /* =========================================
    SIDEBAR CONTAINER
 ========================================= */
@@ -272,92 +337,147 @@ body{
         inset 0 0 12px rgba(255,215,0,0.4);
     }
 }
-
 /* ===============================
-   MAIN
+   MAIN CONTENT (CENTERED)
 ================================ */
 .main{
     margin-left:260px;
-    padding:40px;
     width:100%;
-    animation:fadeIn 0.6s ease;
+    min-height:100vh;
+    padding:40px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 .main h2{
     font-size:28px;
-    margin-bottom:20px;
+    margin-bottom:30px;
     color:#ffd700;
-}
-
-.main h2 span{
-    color:#f5e6b0;
-    text-shadow:0 0 8px rgba(212,175,55,0.6);
+    text-align:center;
 }
 
 /* ===============================
-   CARDS (SIDE BY SIDE)
+   ADVANCED CARD ANIMATIONS
 ================================ */
+
 .cards{
-    display:flex;
-    gap:25px;
-    margin:30px 0;
+    display: flex;
+    flex-wrap: nowrap;   /* keeps all cards in one line */
+    gap: 25px;
+    width:100%;
+    max-width:1100px;
 }
 
+/* Base Card */
 .card-box{
-    flex:1;
-    background:linear-gradient(145deg,#0f0f0f,#141414);
+    background:#111;
     border:1px solid #d4af37;
-    border-radius:18px;
+    border-radius:14px;
     padding:25px;
     text-align:center;
-    transition:0.4s ease;
+    width:220px;
     position:relative;
     overflow:hidden;
-    animation:fadeUp 0.6s ease;
+    transition:all 0.5s ease;
+    transform-style:preserve-3d;
+    animation:cardFadeUp 0.8s ease forwards;
+    opacity:0;
 }
 
-.card-box:hover{
-    transform:translateY(-8px);
-    box-shadow:0 0 25px rgba(212,175,55,0.6);
+/* Stagger Animation */
+.card-box:nth-child(1){ animation-delay:0.2s; }
+.card-box:nth-child(2){ animation-delay:0.4s; }
+.card-box:nth-child(3){ animation-delay:0.6s; }
+.card-box:nth-child(4){ animation-delay:0.8s; }
+
+@keyframes cardFadeUp{
+    from{
+        transform:translateY(40px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
 }
 
-/* Shine Effect */
+/* Shine Sweep Effect */
 .card-box::before{
     content:"";
     position:absolute;
     top:0;
-    left:-100%;
-    width:100%;
+    left:-75%;
+    width:50%;
     height:100%;
-    background:linear-gradient(120deg,transparent,rgba(255,215,0,0.2),transparent);
-    transition:0.6s;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,215,0,0.25),
+        transparent
+    );
+    transform:skewX(-25deg);
 }
 
 .card-box:hover::before{
-    left:100%;
+    animation:shineMove 0.8s ease forwards;
 }
 
-/* Icon */
+@keyframes shineMove{
+    100%{ left:125%; }
+}
+
+/* Hover Lift + Glow */
+.card-box:hover{
+    transform:translateY(-12px) scale(1.05);
+    box-shadow:
+        0 0 25px rgba(212,175,55,0.7),
+        0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* Soft Pulse Glow (continuous) */
+.card-box{
+    animation:cardFadeUp 0.8s ease forwards, pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow{
+    0%,100%{
+        box-shadow:0 0 10px rgba(212,175,55,0.2);
+    }
+    50%{
+        box-shadow:0 0 18px rgba(212,175,55,0.5);
+    }
+}
+
+/* Icon Animation */
 .card-box i{
-    font-size:30px;
+    font-size:28px;
     margin-bottom:10px;
     color:#ffd700;
-    transition:0.3s;
+    transition:all 0.4s ease;
 }
 
 .card-box:hover i{
-    transform:scale(1.2);
+    transform:rotate(10deg) scale(1.3);
+    color:#fff;
 }
 
 /* Text */
 .card-box p{
-    color:#bbb;
+    color:#ccc;
     margin:5px 0;
 }
 
 .card-box b{
-    font-size:26px;
-    color:#f5e6b0;
+    font-size:24px;
+    color:#fff;
+    transition:0.3s ease;
+}
+
+.card-box:hover b{
+    color:#ffd700;
+    letter-spacing:1px;
 }
 
 /* ===============================
@@ -365,67 +485,43 @@ body{
 ================================ */
 h4{
     color:#ffd700;
-    margin:40px 0 15px 0;
+    margin-top:40px;
+    text-align:center;
 }
 
 .table-custom{
     background:#111;
-    border-radius:15px;
-    overflow:hidden;
     border:1px solid #d4af37;
+    border-radius:10px;
+    overflow:hidden;
+    width:100%;
+    max-width:1100px;
+    margin-top:15px;
 }
 
 .table-custom th{
-    background:#0f0f0f;
+    background:#000;
     color:#ffd700;
-    border-bottom:1px solid #d4af37;
+    text-align:center;
 }
 
 .table-custom td{
-    color:#ddd;
+    color:#fff;
+    text-align:center;
 }
 
 .table-custom tbody tr{
-    transition:0.3s;
+    transition:0.3s ease;
 }
 
 .table-custom tbody tr:hover{
-    background:rgba(212,175,55,0.08);
-    transform:scale(1.01);
-}
-
-/* ===============================
-   ANIMATIONS
-================================ */
-@keyframes sidebarSlide{
-    from{transform:translateX(-100%);opacity:0;}
-    to{transform:translateX(0);opacity:1;}
-}
-
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
-
-@keyframes fadeUp{
-    from{transform:translateY(30px);opacity:0;}
-    to{transform:translateY(0);opacity:1;}
+    background:rgba(212,175,55,0.15);
 }
 
 /* ===============================
    RESPONSIVE
 ================================ */
-@media(max-width:992px){
-    .cards{
-        flex-wrap:wrap;
-    }
-
-    .card-box{
-        flex:1 1 45%;
-    }
-}
-
-@media(max-width:576px){
+@media(max-width:768px){
     .sidebar{
         width:200px;
     }
@@ -436,117 +532,9 @@ h4{
     }
 
     .card-box{
-        flex:1 1 100%;
+        width:100%;
+        max-width:300px;
     }
-}
-/* =====================================
-   EXTRA PREMIUM ANIMATIONS
-===================================== */
-
-/* 1️⃣ Animated Golden Heading Gradient */
-.main h2{
-    background:linear-gradient(90deg,#d4af37,#ffd700,#d4af37);
-    background-size:200% auto;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:goldFlow 4s linear infinite;
-}
-
-@keyframes goldFlow{
-    0%{background-position:0% center;}
-    100%{background-position:200% center;}
-}
-
-/* 2️⃣ Stagger Card Animation */
-.card-box:nth-child(1){ animation-delay:0.2s; }
-.card-box:nth-child(2){ animation-delay:0.4s; }
-.card-box:nth-child(3){ animation-delay:0.6s; }
-.card-box:nth-child(4){ animation-delay:0.8s; }
-
-.card-box{
-    opacity:0;
-    animation:fadeUp 0.8s ease forwards;
-}
-
-/* 3️⃣ Icon Floating Animation */
-.card-box i{
-    animation:iconFloat 3s ease-in-out infinite;
-}
-
-@keyframes iconFloat{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-6px); }
-}
-
-/* 4️⃣ Sidebar Link Shine Sweep */
-.sidebar a::after{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-75%;
-    width:50%;
-    height:100%;
-    background:linear-gradient(120deg,transparent,rgba(255,215,0,0.3),transparent);
-    transform:skewX(-25deg);
-}
-
-.sidebar a:hover::after{
-    animation:shineSweep 0.8s ease;
-}
-
-@keyframes shineSweep{
-    100%{ left:125%; }
-}
-
-/* 5️⃣ Table Smooth Reveal */
-.table-custom tbody tr{
-    opacity:0;
-    animation:tableFade 0.6s ease forwards;
-}
-
-.table-custom tbody tr:nth-child(1){ animation-delay:0.2s; }
-.table-custom tbody tr:nth-child(2){ animation-delay:0.4s; }
-.table-custom tbody tr:nth-child(3){ animation-delay:0.6s; }
-.table-custom tbody tr:nth-child(4){ animation-delay:0.8s; }
-.table-custom tbody tr:nth-child(5){ animation-delay:1s; }
-
-@keyframes tableFade{
-    from{
-        opacity:0;
-        transform:translateX(-20px);
-    }
-    to{
-        opacity:1;
-        transform:translateX(0);
-    }
-}
-
-/* 6️⃣ Subtle Floating Golden Background Glow */
-body::before{
-    content:"";
-    position:fixed;
-    top:-200px;
-    right:-200px;
-    width:400px;
-    height:400px;
-    background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);
-    animation:glowMove 8s ease-in-out infinite alternate;
-    z-index:-1;
-}
-
-@keyframes glowMove{
-    from{ transform:translateY(0); }
-    to{ transform:translateY(60px); }
-}
-
-/* 7️⃣ Smooth Page Fade-In */
-body{
-    animation:pageFade 1s ease;
-}
-
-@keyframes pageFade{
-    from{opacity:0;}
-    to{opacity:1;}
 }
 
 
@@ -562,10 +550,10 @@ body{
 <div class="sidebar">
     <h2>User Dashboard</h2>
 
-    <a href="user-dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="user-dashboard.jsp" class="active"><i class="fa fa-chart-line"></i> Dashboard</a>
     <a href="search-salons.jsp"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
     <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
-    <a href="user-feedback.jsp" class="active"><i class="fa fa-star"></i> Feedback</a>
+    <a href="user-feedback.jsp"><i class="fa fa-star"></i> Feedback</a>
     <a href="profile.jsp"><i class="fa fa-user"></i> Profile</a>
     <a href="LogoutServlet"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
