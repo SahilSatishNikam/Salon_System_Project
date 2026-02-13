@@ -10,31 +10,34 @@ import util.DBConnection;
 
 public class AppointmentDAO {
 
-    public boolean bookAppointment(Appointment appt) {
-        String sql = """
-            INSERT INTO appointments
-            (user_id, therapist_id, salon_id, service_name,
-             appointment_date, appointment_time, status, therapist_decision)
-            VALUES (?,?,?,?,?,?, 'BOOKED','PENDING')
-        """;
+	public boolean bookAppointment(Appointment appt) {
 
-        try(Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql)){
+	    String sql = """
+	        INSERT INTO appointments
+	        (user_id, therapist_id, salon_id, service_name,
+	         appointment_date, appointment_time, status, therapist_decision)
+	        VALUES (?,?,?,?,?,?,?,?)
+	    """;
 
-            ps.setInt(1, appt.getUserId());
-            ps.setInt(2, appt.getTherapistId());
-            ps.setInt(3, appt.getSalonId());
-            ps.setString(4, appt.getServiceName());
-            ps.setDate(5, appt.getAppointmentDate());
-            ps.setTime(6, appt.getAppointmentTime());
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
 
-            return ps.executeUpdate() > 0;
+	        ps.setInt(1, appt.getUserId());
+	        ps.setInt(2, appt.getTherapistId());
+	        ps.setInt(3, appt.getSalonId());
+	        ps.setString(4, appt.getServiceName());
+	        ps.setDate(5, appt.getAppointmentDate());
+	        ps.setTime(6, appt.getAppointmentTime());
+	        ps.setString(7, appt.getStatus());             // Pending
+	        ps.setString(8, appt.getTherapistDecision());  // Pending
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
+	        return ps.executeUpdate() > 0;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 
     public boolean updateStatus(int id, String status, String decision) {
         boolean success = false;
@@ -470,32 +473,51 @@ public class AppointmentDAO {
 
         List<Appointment> list = new ArrayList<>();
 
-        try{
-            Connection con = DBConnection.getConnection();
+        String sql = "SELECT id, customerName, service_name, appointment_date, status " +
+                     "FROM appointments ORDER BY id DESC LIMIT 5";
 
-            String sql = "SELECT id, customerName, serviceName, date, status " +
-                         "FROM appointment ORDER BY id DESC LIMIT 5";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
 
-            while(rs.next()){
                 Appointment a = new Appointment();
-
                 a.setId(rs.getInt("id"));
                 a.setCustomerName(rs.getString("customerName"));
-                a.setServiceName(rs.getString("serviceName"));
-                a.setDate(rs.getString("date"));
+                a.setServiceName(rs.getString("service_name"));
+                a.setAppointmentDate(rs.getDate("appointment_date"));
                 a.setStatus(rs.getString("status"));
 
                 list.add(a);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return list;
     }
 
+    public boolean updateDecision(int id, String decision) {
+        String sql = "UPDATE appointments " +
+                     "SET therapist_decision=?, status=? " +
+                     "WHERE id=?";
+
+        String status = decision.equalsIgnoreCase("Approved") ? "Approved" : "Rejected";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, decision);
+            ps.setString(2, status);
+            ps.setInt(3, id);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

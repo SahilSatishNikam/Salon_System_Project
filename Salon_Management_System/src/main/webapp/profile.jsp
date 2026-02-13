@@ -20,10 +20,10 @@ if(user == null){
 
 <style>
 
-/* ===== GLOBAL ===== */
+/* ================= GLOBAL ================= */
 body{
     margin:0;
-    font-family:'Segoe UI',sans-serif;
+    font-family:'Times New Roman',serif;
     background:#000;
     color:#fff;
 }
@@ -33,146 +33,451 @@ body{
     padding:0;
 }
 
-/* ===== SIDEBAR ===== */
+/* =====================================
+   SIDEBAR
+===================================== */
 .sidebar{
-    width:250px;
-    background:#000;
-    min-height:100vh;
-    border-right:2px solid #F5A927;
-    padding-top:10px;
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    padding-top:25px;
+    display:flex;
+    flex-direction:column;
 }
 
 .sidebar h2{
     text-align:center;
-    color:#F5A927;
-    font-weight:600;
-    border-bottom:1px solid #222;
-    font-size:1.3rem;
-    padding:20px 0;
+    color:#d4af37;
+    margin-bottom:25px;
+    font-weight:bold;
 }
 
 .sidebar a{
+    padding:14px 22px;
+    margin:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s ease;
     display:flex;
     align-items:center;
-    color:#fff;
-    padding:14px 22px;
-    text-decoration:none;
-    border-bottom:1px solid #111;
-    font-size:18px;
 }
 
-.sidebar a i{ margin-right:12px; }
+.sidebar a i{
+    margin-right:12px;
+}
 
-.sidebar a:hover,
+.sidebar a:hover{
+    background:rgba(212,175,55,0.15);
+    color:#ffd700;
+    transform:translateX(6px);
+}
+
 .sidebar a.active{
-    background:#F5A927;
-    color:#000;
-    padding-left:28px;
+    background:rgba(212,175,55,0.2);
+    border-right:4px solid #ffd700;
+    color:#ffd700;
 }
 
-/* ===== MAIN CENTER ===== */
+.sidebar a:last-child{
+    margin-top:auto;
+    margin-bottom:20px;
+    background:#2a0000;
+}
+
+.sidebar a:last-child:hover{
+    background:#5a0000;
+}
+/* =========================================
+   SIDEBAR CONTAINER
+========================================= */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    backdrop-filter:blur(6px);
+    padding-top:10px;
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    animation:sidebarSlide 0.8s ease;
+}
+
+/* Golden vertical glow line */
+.sidebar::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+    background:linear-gradient(to bottom,#d4af37,#ffd700,#d4af37);
+    box-shadow:0 0 15px #d4af37;
+}
+
+/* =========================================
+   TOP SECTION (LOGO + MENU)
+========================================= */
+.sidebar-top{
+    display:flex;
+    flex-direction:column;
+}
+
+/* Logo */
+.logo{
+    padding:26px 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-img{
+    width:30px;
+    filter:drop-shadow(0 0 6px #c9a227);
+    transition:0.4s;
+}
+
+.logo:hover .logo-img{
+    transform:rotate(10deg) scale(1.1);
+}
+
+.s1{
+    color:#ffffff;
+    font-weight:bold;
+    font-size:19px;
+}
+
+.s2{
+    color:#c9a227;
+    font-size:19px;
+}
+
+/* =========================================
+   MENU LINKS
+========================================= */
+.sidebar a{
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:16px 26px;
+    margin:6px 10px;
+    border-radius:14px;
+    font-size:17px;
+    color:#ffffff;
+    text-decoration:none;
+    transition:all 0.4s ease;
+    overflow:hidden;
+}
+
+/* Hover golden background animation */
+.sidebar a::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:0;
+    background:linear-gradient(to right,#c9a227,#ffd700);
+    opacity:0.15;
+    transition:0.4s ease;
+}
+
+.sidebar a:hover::before{
+    width:100%;
+}
+
+/* Icon */
+.sidebar a i{
+    margin-right:14px;
+    color:#ffffff;
+    transition:0.4s ease;
+}
+
+/* Hover Effect */
+.sidebar a:hover{
+    color:#ffd700;
+    transform:translateX(8px);
+}
+
+.sidebar a:hover i{
+    color:#ffd700;
+    transform:scale(1.2);
+}
+
+/* =========================================
+   ACTIVE MENU ITEM
+========================================= */
+.sidebar a.active{
+    color:#ffd700;
+    background:rgba(201,162,39,0.15);
+    border-right:4px solid #ffd700;
+
+    box-shadow:
+        0 0 12px rgba(201,162,39,0.4),
+        inset 0 0 10px rgba(201,162,39,0.3);
+
+    animation:activePulse 2s infinite;
+}
+
+/* =========================================
+   LOGOUT BUTTON (BOTTOM)
+========================================= */
+.logout{
+    margin:20px 10px;
+    padding:16px;
+    border-radius:14px;
+    font-size:17px;
+    font-weight:bold;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(145deg,#2a0000,#110000);
+    border:1px solid rgba(255,80,80,0.4);
+    color:#ffdddd;
+
+    transition:all 0.4s ease;
+    text-decoration:none;
+}
+
+.logout i{
+    margin-right:12px;
+    color:#ff6b6b;
+    transition:0.4s;
+}
+
+.logout:hover{
+    background:linear-gradient(145deg,#5a0000,#2a0000);
+    color:#ffffff;
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 0 20px rgba(255,80,80,0.6),
+        inset 0 0 10px rgba(255,100,100,0.3);
+}
+
+.logout:hover i{
+    color:#ffffff;
+    transform:rotate(-10deg) scale(1.2);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+/* Sidebar Slide */
+@keyframes sidebarSlide{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* Active Glow Pulse */
+@keyframes activePulse{
+    0%,100%{
+        box-shadow:
+        0 0 10px rgba(201,162,39,0.3),
+        inset 0 0 8px rgba(201,162,39,0.2);
+    }
+    50%{
+        box-shadow:
+        0 0 20px rgba(255,215,0,0.6),
+        inset 0 0 12px rgba(255,215,0,0.4);
+    }
+}
+
+
+/* =====================================================
+   PERFECT CENTER SCREEN MAIN AREA
+   ===================================================== */
 .main{
-    flex:1;
+    position:fixed;
+    top:0;
+    left:260px; /* sidebar width */
+    right:0;
+    bottom:0;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-    padding:30px;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 25% 25%, rgba(255,215,0,0.06), transparent 40%),
+        radial-gradient(circle at 75% 75%, rgba(255,215,0,0.05), transparent 40%),
+        #000;
 }
 
-/* ===== PROFILE CARD ===== */
-.profile-card{
-    width:850px;
-    max-width:95%;
-    background:#0c0c0c;
-    border-radius:20px;
-    display:flex;
-    gap:30px;
-    padding:30px;
-    border:1px solid #F5A927;
-    box-shadow:0 0 40px rgba(255,215,0,.4);
-}
-
-/* LEFT */
-.avatar-box{
-    flex:1;
-    text-align:center;
-}
-
-.avatar{
-    width:170px;
-    height:170px;
-    border-radius:50%;
-    border:4px solid #F5A927;
-    object-fit:cover;
-}
-
-.upload-btn{
-    margin-top:15px;
-    display:inline-block;
-    padding:8px 18px;
-    border:1px solid #F5A927;
-    border-radius:30px;
-    color:#F5A927;
-    cursor:pointer;
-}
-
-.upload-btn:hover{
-    background:#F5A927;
-    color:#000;
-}
-
-.save-photo{
-    margin-top:10px;
-    padding:8px 22px;
-    border:none;
-    border-radius:30px;
-    background:#F5A927;
-    font-weight:600;
-}
-
-/* RIGHT */
+/* =====================================================
+   PROFILE CARD
+   ===================================================== */
 .info-box{
-    flex:2;
+    width:520px;
+    max-width:92vw;
+    max-height:90vh;
+
+    padding:22px 24px;
+    border-radius:18px;
+
+    background:linear-gradient(145deg,#0a0a0a,#000);
+    border:1px solid rgba(255,215,0,0.35);
+
+    box-shadow:
+        0 0 18px rgba(255,215,0,0.15),
+        inset 0 0 8px rgba(255,215,0,0.08);
+
+    overflow:hidden;
+    transition:0.3s;
+
+    animation:fadeUp 0.6s ease;
 }
 
+.info-box:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 0 30px rgba(255,215,0,0.30),
+        inset 0 0 12px rgba(255,215,0,0.18);
+}
+
+/* =====================================================
+   HEADER TEXT
+   ===================================================== */
 .info-box h2{
-    color:#F5A927;
+    text-align:center;
+    font-size:22px;
+    color:#FFD700;
+    margin-bottom:2px;
 }
 
 .email{
+    text-align:center;
+    font-size:13px;
     color:#d4af37;
-    margin-bottom:15px;
+    margin-bottom:14px;
+}
+
+/* =====================================================
+   FORM GRID (COMPACT 2 COLUMN)
+   ===================================================== */
+.profile-form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 14px;
 }
 
 .profile-form label{
-    margin-top:10px;
-    color:#F5A927;
+    margin-top:4px;
+    font-size:13px;
+    color:#FFD700;
+    font-weight:600;
 }
 
+/* =====================================================
+   INPUT FIELDS
+   ===================================================== */
 .profile-form input{
-    width:100%;
-    padding:10px;
-    border-radius:10px;
-    border:1px solid #F5A927;
-    background:#000;
+    padding:8px 9px;
+    font-size:14px;
+    border-radius:9px;
+    border:1px solid rgba(255,215,0,0.45);
+    background:#050505;
     color:#fff;
+    transition:0.25s;
 }
 
+.profile-form input:hover{
+    border-color:#FFD700;
+    transform:translateY(-1px);
+    box-shadow:0 0 6px rgba(255,215,0,0.25);
+}
+
+.profile-form input:focus{
+    outline:none;
+    border-color:#FFD700;
+    box-shadow:
+        0 0 12px rgba(255,215,0,0.55),
+        inset 0 0 5px rgba(255,215,0,0.25);
+    background:#0a0a0a;
+}
+
+.profile-form input:disabled{
+    background:#111;
+    color:#aaa;
+}
+
+/* FULL WIDTH FIELD (password) */
+.full{
+    grid-column:1 / -1;
+}
+
+/* =====================================================
+   BUTTON
+   ===================================================== */
 .update-btn{
-    margin-top:20px;
-    width:100%;
-    padding:12px;
+    grid-column:1 / -1;
+    margin-top:10px;
+    padding:10px;
+    font-size:14px;
     border:none;
-    border-radius:30px;
-    background:#F5A927;
-    font-weight:700;
+    border-radius:25px;
+
+    background:linear-gradient(135deg,#FFD700,#f3b300);
+    color:#000;
+    font-weight:bold;
+    letter-spacing:1px;
+
+    transition:0.3s;
 }
 
+.update-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 18px rgba(255,215,0,0.7);
+}
+
+/* =====================================================
+   ANIMATION
+   ===================================================== */
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* =====================================================
+   MOBILE RESPONSIVE
+   ===================================================== */
 @media(max-width:768px){
-    .profile-card{
-        flex-direction:column;
-        text-align:center;
+
+    .main{
+        left:0;
+        padding:12px;
+    }
+
+    .info-box{
+        width:100%;
+        max-height:none;
+    }
+
+    .profile-form{
+        grid-template-columns:1fr;
     }
 }
 
@@ -197,24 +502,6 @@ body{
 
 <!-- ===== MAIN ===== -->
 <div class="main">
-
-<div class="profile-card">
-
-    <!-- LEFT IMAGE -->
-    <div class="avatar-box">
-        <img src="ImageServlet?id=<%= user.getId() %>"
-             onerror="this.src='images/user-avatar.png'"
-             class="avatar">
-
-        <form action="UploadProfileImageServlet" method="post" enctype="multipart/form-data">
-            <label class="upload-btn">
-                <i class="fa fa-camera"></i> Change Photo
-                <input type="file" name="photo" hidden required>
-            </label><br>
-            <button class="save-photo">Upload</button>
-        </form>
-    </div>
-
     <!-- RIGHT INFO -->
     <div class="info-box">
         <h2><%= user.getName() %></h2>

@@ -123,25 +123,30 @@ body{
     margin-right:8px;
 }
 
-/* ===== MAP ===== */
-.map-box{
-    margin-top:25px;
-    border-radius:16px;
-    overflow:hidden;
-    border:1px solid rgba(212,175,55,0.6);
-    transition:0.4s;
+  /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #050505;
+            color: #bfa63a;
+            font-size: 14px;
+        }
+        
+        /* ===== REGISTER BUTTON GOLDEN ===== */
+.btn-gold{
+    background: linear-gradient(135deg, #d4af37, #f5e6b0);
+    color: #000;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;   /* rounded */
+    padding: 6px 18px;
 }
 
-.map-box:hover{
-    box-shadow:0 0 45px rgba(212,175,55,0.9);
+.btn-gold:hover{
+    background: linear-gradient(135deg, #f5e6b0, #d4af37);
+    color: #000;
 }
-
-.map-box iframe{
-    width:100%;
-    height:230px;
-    border:0;
-}
-
+        
 </style>
 
 <!-- CONTACT SECTION -->

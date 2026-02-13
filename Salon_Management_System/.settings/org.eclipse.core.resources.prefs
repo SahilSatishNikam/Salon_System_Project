@@ -1,10 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/main/webapp/appointmentHistory.jsp=UTF-8
 encoding//src/main/webapp/book-appointment.jsp=UTF-8
-encoding//src/main/webapp/clientLedger.jsp=UTF-8
 encoding//src/main/webapp/dashboard.jsp=UTF-8
 encoding//src/main/webapp/manage-salons.jsp=UTF-8
 encoding//src/main/webapp/myAppointments.jsp=UTF-8
+encoding//src/main/webapp/reports.jsp=UTF-8
 encoding//src/main/webapp/slots.jsp=UTF-8
 encoding//src/main/webapp/therapist-services.jsp=UTF-8
 encoding//src/main/webapp/therapistAppointments.jsp=UTF-8

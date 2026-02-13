@@ -34,66 +34,280 @@ body {
     padding:0;
 }
 
-/* ===== SIDEBAR ===== */
-.sidebar {
-    width:250px;
-    background:#000;
-    min-height:100vh;
+/* =====================================
+   SIDEBAR
+===================================== */
+.sidebar{
+    width:260px;
+    height:100vh;
     position:fixed;
-    border-right:2px solid #F5A927;
-    padding-top:15px;
-}
-.sidebar h2 {
-    text-align:center;
-    color:#F5A927;
-    font-weight:600;
-    border-bottom:1px solid #222;
-    font-size:1.3rem;
-    padding-bottom:10px;
-      padding:20px 0px;
-}
-.sidebar-profile {
-    text-align:center;
-    margin:20px 0;
-}
-.sidebar-profile img {
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border:2px solid #F5A927;
-    box-shadow:0 0 8px #F5A927;
-}
-.sidebar-profile h5 {
-    color:#F5A927;
-    margin-top:10px;
-}
-.sidebar-profile p {
-    color:#fff;
-    font-size:0.9rem;
-}
-.sidebar a {
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    padding-top:25px;
     display:flex;
-    align-items:center;
-    color:#fff;
-    padding:14px 22px;
-    text-decoration:none;
-    border-bottom:1px solid #111;
-    font-weight:500;
-    font-size:19px;
-    transition:0.3s;
-}
-.sidebar a i {
-    margin-right:12px;
-    font-size:1.1rem;
-}
-.sidebar a:hover,
-.sidebar a.active {
-    background:#F5A927;
-    color:#000;
-    padding-left:28px;
-    box-shadow:0 0 8px #F5A927;
+    flex-direction:column;
 }
 
+.sidebar h2{
+    text-align:center;
+    color:#d4af37;
+    margin-bottom:25px;
+    font-weight:bold;
+    
+}
+
+.sidebar a{
+    padding:14px 22px;
+    margin:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s ease;
+    display:flex;
+    align-items:center;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.sidebar a i{
+    margin-right:12px;
+}
+
+.sidebar a:hover{
+    background:rgba(212,175,55,0.15);
+    color:#ffd700;
+    transform:translateX(6px);
+}
+
+.sidebar a.active{
+    background:rgba(212,175,55,0.2);
+    border-right:4px solid #ffd700;
+    color:#ffd700;
+}
+
+.sidebar a:last-child{
+    margin-top:auto;
+    margin-bottom:20px;
+    background:#2a0000;
+}
+
+.sidebar a:last-child:hover{
+    background:#5a0000;
+}
+/* =========================================
+   SIDEBAR CONTAINER
+========================================= */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    backdrop-filter:blur(6px);
+    padding-top:10px;
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    animation:sidebarSlide 0.8s ease;
+}
+
+/* Golden vertical glow line */
+.sidebar::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+    background:linear-gradient(to bottom,#d4af37,#ffd700,#d4af37);
+    box-shadow:0 0 15px #d4af37;
+}
+
+/* =========================================
+   TOP SECTION (LOGO + MENU)
+========================================= */
+.sidebar-top{
+    display:flex;
+    flex-direction:column;
+}
+
+/* Logo */
+.logo{
+    padding:26px 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-img{
+    width:30px;
+    filter:drop-shadow(0 0 6px #c9a227);
+    transition:0.4s;
+}
+
+.logo:hover .logo-img{
+    transform:rotate(10deg) scale(1.1);
+}
+
+.s1{
+    color:#ffffff;
+    font-weight:bold;
+    font-size:19px;
+    
+}
+
+.s2{
+    color:#c9a227;
+    font-size:19px;
+}
+
+/* =========================================
+   MENU LINKS
+========================================= */
+.sidebar a{
+
+    position:relative;
+    display:flex;
+    align-items:center;
+    padding:16px 26px;
+    margin:6px 10px;
+    border-radius:14px;
+    font-size:17px;
+    color:#ffffff;
+    text-decoration:none;
+    transition:all 0.4s ease;
+    overflow:hidden;
+}
+
+/* Hover golden background animation */
+.sidebar a::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:0;
+    background:linear-gradient(to right,#c9a227,#ffd700);
+    opacity:0.15;
+    transition:0.4s ease;
+}
+
+.sidebar a:hover::before{
+    width:100%;
+}
+
+/* Icon */
+.sidebar a i{
+    margin-right:14px;
+    color:#ffffff;
+    transition:0.4s ease;
+}
+
+/* Hover Effect */
+.sidebar a:hover{
+    color:#ffd700;
+    transform:translateX(8px);
+}
+
+.sidebar a:hover i{
+    color:#ffd700;
+    transform:scale(1.2);
+}
+
+/* =========================================
+   ACTIVE MENU ITEM
+========================================= */
+.sidebar a.active{
+    color:#ffd700;
+    background:rgba(201,162,39,0.15);
+    border-right:4px solid #ffd700;
+
+    box-shadow:
+        0 0 12px rgba(201,162,39,0.4),
+        inset 0 0 10px rgba(201,162,39,0.3);
+
+    animation:activePulse 2s infinite;
+}
+
+/* =========================================
+   LOGOUT BUTTON (BOTTOM)
+========================================= */
+.logout{
+    margin:20px 10px;
+    padding:16px;
+    border-radius:14px;
+    font-size:17px;
+    font-weight:bold;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(145deg,#2a0000,#110000);
+    border:1px solid rgba(255,80,80,0.4);
+    color:#ffdddd;
+
+    transition:all 0.4s ease;
+    text-decoration:none;
+}
+
+.logout i{
+    margin-right:12px;
+    color:#ff6b6b;
+    transition:0.4s;
+}
+
+.logout:hover{
+    background:linear-gradient(145deg,#5a0000,#2a0000);
+    color:#ffffff;
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 0 20px rgba(255,80,80,0.6),
+        inset 0 0 10px rgba(255,100,100,0.3);
+}
+
+.logout:hover i{
+    color:#ffffff;
+    transform:rotate(-10deg) scale(1.2);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+/* Sidebar Slide */
+@keyframes sidebarSlide{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* Active Glow Pulse */
+@keyframes activePulse{
+    0%,100%{
+        box-shadow:
+        0 0 10px rgba(201,162,39,0.3),
+        inset 0 0 8px rgba(201,162,39,0.2);
+    }
+    50%{
+        box-shadow:
+        0 0 20px rgba(255,215,0,0.6),
+        inset 0 0 12px rgba(255,215,0,0.4);
+    }
+}
 /* ===== MAIN CONTENT ===== */
 .main {
     flex:1;
@@ -102,53 +316,92 @@ body {
     background:radial-gradient(circle at top,#111,#000);
 }
 
-/* Page Title */
 .page-title {
-    text-align:center;
-    color:#F5A927;
-    font-weight:700;
-    letter-spacing:1px;
-    margin-bottom:40px;
-    text-shadow:0 0 6px #F5A927;
+    text-align: center;
+    color: #FFD700; /* bright gold */
+    font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+    text-shadow: 0 0 6px #FFD700; /* glowing gold effect */
 }
 
-/* ===== SEARCH BOX ===== */
-.search-box {
-    background:#0c0c0c;
-    padding:35px 30px;
-    border-radius:28px;
-    border:1px solid #F5A927;
-    max-width:900px;
-    margin:0 auto 50px auto;
-    box-shadow:0 0 25px rgba(245,169,39,.35);
-    position:relative;
+
+.lux-search-wrapper{
+    margin:40px 20px;
+    padding:30px;
+    border-radius:18px;
+    background:linear-gradient(180deg,#111,#0a0a0a);
+    border:1px solid rgba(255,215,0,0.35);
+    box-shadow:0 0 40px rgba(255,215,0,0.25);
+    font-family: "Times New Roman", Times, serif;
 }
-.input-box { position:relative; }
-.input-box i {
-    position:absolute;
-    top:50%;
-    left:18px;
-    transform:translateY(-50%);
-    color:#F5A927;
+
+.lux-search-title{
+    color:#FFD700;
+    font-size:22px;
+    margin-bottom:20px;
+    letter-spacing:1px;
+    font-family: "Times New Roman", Times, serif;
 }
-.search-box input {
-    padding:12px 20px 12px 45px;
-    background:#000;
-    border:1px solid #F5A927;
-    border-radius:35px;
-    color:#fff;
+
+.lux-search-bar{
+    display:grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap:20px;
+    align-items:center;
+    font-family: "Times New Roman", Times, serif;
 }
-.search-box input:focus {
-    border-color:#F5A927;
-    box-shadow:0 0 15px rgba(245,169,39,.9);
+
+/* Input field */
+.lux-field{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 18px;
+    border-radius:14px;
+    background:#0b0b0b;
+    border:1px solid rgba(255,215,0,0.4);
 }
-.search-btn {
+
+.lux-field i{
+    color:#FFD700;
+    font-size:18px;
+}
+
+.lux-field input{
+    background:none;
     border:none;
-    border-radius:35px;
-    padding:12px;
-    font-weight:700;
-    background:linear-gradient(135deg,#F5A927,#FFD166);
+    outline:none;
+    color:#fff;
+    font-size:16px;
+    width:100%;
+}
+
+/* Button */
+.lux-btn{
+    padding:16px 30px;
+    border-radius:14px;
+    border:none;
+    background:linear-gradient(135deg,#FFD700,#FFC400);
     color:#000;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(255,215,0,0.6);
+    transition:0.3s;
+}
+
+.lux-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 30px rgba(255,215,0,0.9);
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .lux-search-bar{
+        grid-template-columns:1fr;
+    }
 }
 
 /* ===== SALON CARDS ===== */
@@ -158,42 +411,51 @@ body {
     gap:25px;
     margin-top:30px;
 }
+
 .card-salon {
-    background:#0b0b0b;
-    border:1px solid #F5A927;
+    background:#0b0b0b; /* dark background to highlight gold */
+    border:1px solid #FFD700; /* bright gold border */
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 0 25px rgba(245,169,39,.25);
+    box-shadow:0 0 25px rgba(255,215,0,0.25); /* gold shadow */
     transition: transform 0.3s, box-shadow 0.3s;
+    font-family: "Times New Roman", Times, serif;
 }
+
 .card-salon:hover {
     transform: scale(1.03);
-    box-shadow:0 0 35px rgba(245,169,39,.5);
+    box-shadow:0 0 35px rgba(255,215,0,0.5); /* brighter on hover */
 }
+
 .card-salon img {
     width:100%;
     height:180px;
     object-fit:cover;
 }
+
 .card-body {
     padding:15px 20px;
 }
+
 .card-body h5 {
-    color:#F5A927;
+    color:#FFD700; /* golden text */
     margin-bottom:10px;
     font-size:1.2rem;
-    text-shadow:0 0 4px #F5A927;
+    text-shadow:0 0 4px #FFD700; /* glowing gold */
 }
+
 .card-body p {
     font-size:0.9rem;
-    color:#fff;
+    color:#fff; /* keep paragraph readable */
     margin-bottom:5px;
 }
+
 .btn-group {
     margin-top:10px;
 }
+
 .btn-gold {
-    background:linear-gradient(135deg,#F5A927,#FFD166);
+    background:linear-gradient(135deg,#FFD700,#FFC700); /* golden gradient button */
     color:#000;
     border:none;
     border-radius:25px;
@@ -201,17 +463,25 @@ body {
     font-weight:600;
     margin-right:8px;
     text-decoration:none;
-    box-shadow:0 0 8px #F5A927;
+    box-shadow:0 0 8px #FFD700;
+    transition:0.3s;
 }
+
+.btn-gold:hover {
+    background:linear-gradient(135deg,#FFC700,#FFD700); /* hover effect */
+}
+
 .btn-outline {
-    border:1px solid #F5A927;
+    border:1px solid #FFD700;
     border-radius:25px;
     padding:6px 15px;
-    color:#F5A927;
+    color:#FFD700;
     text-decoration:none;
+    transition:0.3s;
 }
+
 .btn-outline:hover {
-    background:#F5A927;
+    background:#FFD700;
     color:#000;
 }
 
@@ -221,6 +491,17 @@ body {
     .sidebar { width:100%; min-height:auto; }
     .main { margin-left:0; padding:20px; }
 }
+
+.dashboard-title {
+    display: flex;
+    align-items: center;
+    font-size: 28px; /* heading size */
+    color: #ffd700; /* golden text */
+    font-weight: bold;
+    font-family: "Times New Roman", Times, serif; /* serif font added */
+}
+
+
 </style>
 </head>
 
@@ -229,7 +510,10 @@ body {
 
     <!-- SIDEBAR -->
     <div class="sidebar">
-        <h2>User Dashboard</h2>
+       <h1 class="dashboard-title">
+    
+    User Dashboard
+</h1>
         <a href="user-dashboard.jsp"><i class="fa fa-chart-line"></i> Dashboard</a>
         <a href="search-salons.jsp" class="active"><i class="fa fa-magnifying-glass"></i> Search Salons</a>
         <a href="myAppointments.jsp"><i class="fa fa-calendar"></i> My Appointments</a>
@@ -245,21 +529,40 @@ body {
         </h2>
 
         <!-- SEARCH BOX -->
-        <div class="search-box">
-            <form method="get" action="search-salons.jsp" class="row g-4 justify-content-center">
-                <div class="col-md-4 input-box">
-                    <i class="fa fa-store"></i>
-                    <input type="text" name="name" class="form-control" placeholder="Salon Name">
-                </div>
-                <div class="col-md-4 input-box">
-                    <i class="fa fa-location-dot"></i>
-                    <input type="text" name="location" class="form-control" placeholder="Location">
-                </div>
-                <div class="col-md-2">
-                    <button class="search-btn w-100"><i class="fa fa-magnifying-glass"></i> Search</button>
-                </div>
-            </form>
+        <form action="searchSalon.jsp" method="get">
+    <div class="lux-search-wrapper">
+
+        <!-- Search Heading (optional) -->
+        <div class="lux-search-title">
+            Search Salons
         </div>
+
+        <div class="lux-search-bar">
+
+            <!-- Salon Name -->
+            <div class="lux-field">
+                <i class="fa fa-store"></i>
+                <input type="text" name="salonName"
+                       placeholder="Search by salon name">
+            </div>
+
+            <!-- Location -->
+            <div class="lux-field">
+                <i class="fa fa-location-dot"></i>
+                <input type="text" name="location"
+                       placeholder="Search by location">
+            </div>
+
+            <!-- Button -->
+            <button class="lux-btn">
+                <i class="fa fa-search"></i>
+                Search
+            </button>
+
+        </div>
+    </div>
+</form>
+
 
         <!-- SALON CARDS -->
         <div class="card-container">
@@ -275,7 +578,7 @@ body {
                     <p><b>Location:</b> <%= s.getAddress() %></p>
                     <p><b>Phone:</b> <%= s.getPhone() %></p>
                     <div class="btn-group">
-                        <a href="BookAppointmentServlet?salonId=<%=s.getId()%>" class="btn-gold">Book Now</a>
+                        <a href="<%= request.getContextPath() %>/BookAppointmentServlet?salonId=<%= s.getId() %>" class="btn btn-warning"> Book Now</a>
                         <a href="salon-details.jsp?salonId=<%=s.getId()%>" class="btn-outline">Explore</a>
                     </div>
                 </div>

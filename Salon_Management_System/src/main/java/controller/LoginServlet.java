@@ -21,75 +21,84 @@ public class LoginServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        HttpSession session = req.getSession();
+        if (email == null || password == null ||
+            email.isBlank() || password.isBlank()) {
+
+            resp.sendRedirect("login.jsp?error=Enter+credentials");
+            return;
+        }
+
+        email = email.trim();
+        password = password.trim();
 
         try {
 
-            // ===== ADMIN LOGIN =====
+            System.out.println("LOGIN attempt for: " + email);
+
+            // 🔥 invalidate old session to avoid role conflicts
+            HttpSession oldSession = req.getSession(false);
+            if (oldSession != null) oldSession.invalidate();
+
+            HttpSession session = req.getSession(true);
+
+            // ================= ADMIN =================
             Admin admin = new AdminDAO().login(email, password);
 
             if (admin != null) {
 
-                if (admin.getStatus() != null &&
-                        !admin.getStatus().equalsIgnoreCase("Active")) {
-
-                    resp.sendRedirect(req.getContextPath()
-                            + "/login.jsp?error=Admin+is+inactive");
+                if (!"Active".equalsIgnoreCase(admin.getStatus())) {
+                    resp.sendRedirect("login.jsp?error=Admin+inactive");
                     return;
                 }
 
                 session.setAttribute("role", "admin");
                 session.setAttribute("admin", admin);
 
-                resp.sendRedirect(req.getContextPath() + "/dashboard.jsp");
+                resp.sendRedirect("dashboard.jsp");
                 return;
             }
 
-            // ===== THERAPIST LOGIN =====
+            // ================= THERAPIST =================
             Therapist therapist = new TherapistDAO().login(email, password);
 
             if (therapist != null) {
 
                 if (!"Active".equalsIgnoreCase(therapist.getStatus())) {
-                    resp.sendRedirect(req.getContextPath()
-                            + "/login.jsp?error=Therapist+is+inactive");
+                    resp.sendRedirect("login.jsp?error=Therapist+inactive");
                     return;
                 }
 
                 if (therapist.getApproved() != 1) {
-                    resp.sendRedirect(req.getContextPath()
-                            + "/login.jsp?error=Therapist+not+approved");
+                    resp.sendRedirect("login.jsp?error=Not+approved+yet");
                     return;
                 }
 
                 session.setAttribute("role", "therapist");
                 session.setAttribute("therapist", therapist);
 
-                resp.sendRedirect(req.getContextPath()
-                        + "/TherapistDashboardServlet");
+                resp.sendRedirect(req.getContextPath() + "/TherapistDashboardServlet");
+
                 return;
             }
 
-            // ===== USER LOGIN =====
+            // ================= USER =================
             User user = new UserDAO().login(email, password);
 
             if (user != null) {
                 session.setAttribute("role", "user");
                 session.setAttribute("user", user);
 
-                resp.sendRedirect(req.getContextPath()
-                        + "/user-dashboard.jsp");
+                resp.sendRedirect("user-dashboard.jsp");
                 return;
             }
 
-            // ===== INVALID LOGIN =====
-            resp.sendRedirect(req.getContextPath()
-                    + "/login.jsp?error=Invalid+Email+or+Password");
+            // ================= FAIL =================
+            System.out.println("LOGIN FAILED for: " + email);
+            resp.sendRedirect("login.jsp?error=Invalid+Email+or+Password");
 
         } catch (Exception e) {
             e.printStackTrace();
-            resp.sendRedirect(req.getContextPath()
-                    + "/login.jsp?error=Server+Error");
+            resp.sendRedirect("login.jsp?error=Server+Error");
         }
     }
 }

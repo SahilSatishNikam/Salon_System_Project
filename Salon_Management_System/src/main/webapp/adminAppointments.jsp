@@ -460,7 +460,7 @@ button:hover{
     <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"class="active"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="admin-feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
     <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
     <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
     </div>

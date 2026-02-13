@@ -1,28 +1,87 @@
-<%@ page import="java.util.*, dao.*, model.*" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="model.Admin, model.Feedback, java.util.*" %>
 
 <%
-AdminDAO adminDAO = new AdminDAO();
-List<Admin> admins = adminDAO.getAllAdmins();
-String msg = (String) session.getAttribute("msg");
-session.removeAttribute("msg");
+Admin admin = (Admin) session.getAttribute("admin");
+if(admin == null){
+    response.sendRedirect("login.jsp");
+    return;
+}
+
+List<Feedback> feedbackList =
+(List<Feedback>) request.getAttribute("feedbackList");
+if(feedbackList == null) feedbackList = new ArrayList<>();
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Manage & Verify Admins</title>
+<title>Admin Feedback</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-body{
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background:#000;
-    color:#FFD700;
+body{background:#000;color:#FFD700;font-family:Poppins}
+
+===================================== */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    padding-top:25px;
+    display:flex;
+    flex-direction:column;
 }
 
+.sidebar h2{
+    text-align:center;
+    color:#d4af37;
+    margin-bottom:25px;
+    font-weight:bold;
+}
+
+.sidebar a{
+    padding:14px 22px;
+    margin:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s ease;
+    display:flex;
+    align-items:center;
+}
+
+.sidebar a i{
+    margin-right:12px;
+}
+
+.sidebar a:hover{
+    background:rgba(212,175,55,0.15);
+    color:#ffd700;
+    transform:translateX(6px);
+}
+
+.sidebar a.active{
+    background:rgba(212,175,55,0.2);
+    border-right:4px solid #ffd700;
+    color:#ffd700;
+}
+
+.sidebar a:last-child{
+    margin-top:auto;
+    margin-bottom:20px;
+    background:#2a0000;
+}
+
+.sidebar a:last-child:hover{
+    background:#5a0000;
+}
 /* =========================================
    SIDEBAR CONTAINER
 ========================================= */
@@ -233,249 +292,72 @@ body{
         inset 0 0 12px rgba(255,215,0,0.4);
     }
 }
+/* MAIN */
+.main{margin-left:260px;padding:40px;}
 
-/* MAIN CONTENT */
-.main{
-    margin-left:250px;
-    padding:40px;
-    min-height:100vh;
-}
-
-/* CARD */
-.card{
-    background:#111;
-    border:2px solid #FFD700;
-    border-radius:15px;
-    box-shadow:0 8px 25px rgba(255,215,0,0.2);
-    padding:25px;
+.feedback-card{
+background:#111;
+border:1px solid #FFD700;
+border-radius:16px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(255,215,0,.2);
 }
 
-/* HEADER */
-.card h3{
-    color:#FFD700;
-    font-weight:bold;
-    margin-bottom:25px;
-}
-
-/* ALERT */
-.alert-success{
-    background:#333;
-    color:#FFD700;
-    border:1px solid #FFD700;
-}
-
-/* TABLE */
-.table th{
-    background:#111;
-    color:#FFD700;
-    font-weight:600;
-}
-.table td{
-    vertical-align:middle;
-    color:#FFD700;
-}
-.table tr:hover{
-    background:rgba(255,215,0,0.1);
-}
-
-.table{
-       --bs-table-bg: #111;
-}
-
-/* STATUS BADGE BIG */
-.status-approved{
-    display:inline-block;
-    font-size:15px;
-    font-weight:700;
-    padding:8px 18px;
-    border-radius:20px;
-    min-width:110px;
-    text-align:center;
-}
-
-/* custom colors */
-.status-ok{
-    background:#1faa59;
-    color:#fff;
-}
-
-.status-reject{
-    background:#ff4500;
-    color:#fff;
-}
-
-.status-pending{
-    background:#FFA500;
-    color:#000;
-}
-
-
-/* BADGES */
-.badge{
-    font-weight:bold;
-    border-radius:12px;
-    padding:5px 10px;
-}
-.bg-success{
-    background:#FFD700;
-    color:#000;
-}
-.bg-danger{
-    background:#FF4500;
-    color:#fff;
-}
-.bg-warning{
-    background:#FFA500;
-    color:#000;
-}
-
-/* ICON BUTTONS */
-.btn-success, .btn-danger, .btn-secondary{
-    width:30px;
-    height:30px;
-    padding:0;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    font-size:16px;
-    transition:0.3s;
-}
-.btn-success{
-    background:#222;
-    color:#FFD700;
-    border:1px solid #FFD700;
-}
-.btn-success:hover{
-    background:#e6c200;
-    transform:scale(1.1);
-}
-.btn-danger{
-    background:#222;
-    color:#FFD700;
-    border:1px solid #FFD700;
-}
-.btn-danger:hover{
-    background:#e03f00;
-    transform:scale(1.1);
-}
-.btn-secondary{
-    background:#222;
-    color:#FFD700;
-    border:1px solid #FFD700;
-}
-.btn-secondary:hover{
-    background:#FFD700;
-    color:#000;
-    transform:scale(1.1);
-}
-
-/* ACTION BUTTON ROW */
-.action-cell{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    justify-content:flex-start;
-}
-
-/* BIG ROUND BUTTONS */
-.action-cell .btn{
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-    padding:0;
-}
-
+.star{color:#FFD700;}
 </style>
 </head>
 
 <body>
 
-<!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
     <h2 style="font-size:25px;color:#F5A927"><i class="fa fa-gem"></i> SalonEase Admin</h2>
-    <a class="active" href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+    <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
     <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
     <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="admin-feedback.jsp" class="active"><i class="fa fa-comment-alt"></i> Feedback</a>
     <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
     <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
 
-
 <!-- MAIN -->
 <div class="main">
 
-<div class="card">
-<h3><i class="fa-solid fa-user-shield"></i> Manage & Verify Admins</h3>
+<h3>All Feedback</h3>
+<br>
 
-<% if(msg != null){ %>
-<div class="alert alert-success"><%= msg %></div>
+<% if(feedbackList.isEmpty()){ %>
+<div class="alert alert-warning">No feedback yet</div>
 <% } %>
 
-<table class="table table-bordered table-hover">
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Email</th>
-<th>Phone</th>
-<th>Status</th>
-<th width="130">Action</th>
-</tr>
+<% for(Feedback f : feedbackList){ %>
 
-<% for(Admin a: admins){ %>
-<tr>
-<td><%= a.getId() %></td>
-<td><%= a.getName() %></td>
-<td><%= a.getEmail() %></td>
-<td><%= a.getPhone() %></td>
+<div class="feedback-card">
 
-<td>
-<% if("Approved".equals(a.getStatus())){ %>
-<span class="status-approved status-ok">Approved</span>
+<h5>
+<i class="fa fa-user"></i>
+<%= f.getUser() %>
+</h5>
 
-<% } else if("Rejected".equals(a.getStatus())){ %>
-<span class="status-approved status-reject">Rejected</span>
+<p style="opacity:.8">
+<%= f.getMessage() %>
+</p>
 
-<% } else { %>
-<span class="status-approved status-pending">Pending</span>
+<div>
+<% for(int i=1;i<=5;i++){ %>
+<i class="fa <%= (i<=f.getRating()) ? "fa-star star" : "fa-star" %>"></i>
 <% } %>
-</td>
-
-
-<td class="action-cell">
-
-<a class="btn btn-success"
-href="AdminServlet?id=<%=a.getId()%>&st=Approved"
-onclick="return confirm('Approve this admin?')">
-<i class="fa-solid fa-check"></i>
-</a>
-
-<a class="btn btn-danger"
-href="AdminServlet?id=<%=a.getId()%>&st=Rejected"
-onclick="return confirm('Reject this admin?')">
-<i class="fa-solid fa-xmark"></i>
-</a>
-
-<a class="btn btn-secondary"
-href="AdminServlet?action=delete&id=<%=a.getId()%>"
-onclick="return confirm('Delete this admin?')">
-<i class="fa-solid fa-trash"></i>
-</a>
-
-</td>
-
-</tr>
-<% } %>
-
-</table>
 </div>
+
+<small style="opacity:.6">
+<%= f.getCreatedAt() %>
+</small>
+
+</div>
+
+<% } %>
 
 </div>
 </body>
