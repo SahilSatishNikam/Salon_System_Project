@@ -139,30 +139,30 @@ button:hover {
 
 <script>
 function loadAvailableSlots() {
-    var therapistId = $('#therapistSelect').val();
-    var date = $('#dateInput').val();
-    var timeSelect = $('#timeSelect');
+    const therapistId = document.getElementById("therapistSelect").value;
+    const date = document.getElementById("dateInput").value;
+    const timeSelect = document.getElementById("timeSelect");
 
-    timeSelect.html("<option value=''>Loading...</option>");
-
-    if(therapistId && date){
-        $.get('GetTherapistSlotsServlet', { therapistId: therapistId, date: date }, function(response){
-            var slots = JSON.parse(response);
-            var html = "";
-            if(slots.length > 0){
-                for(var i=0;i<slots.length;i++){
-                    html += "<option value='"+slots[i]+"'>"+slots[i]+"</option>";
-                }
-            } else {
-                html = "<option value=''>No slots available</option>";
-            }
-            timeSelect.html(html);
-        });
-    } else {
-        timeSelect.html("<option value=''>Select therapist and date</option>");
+    if (!therapistId || !date) {
+        timeSelect.innerHTML = "<option value=''>Select therapist and date</option>";
+        return;
     }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "GetAvailableSlotsServlet?therapistId=" + therapistId + "&date=" + date, true);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            timeSelect.innerHTML = xhr.responseText;
+        } else {
+            timeSelect.innerHTML = "<option value=''>Error loading slots</option>";
+        }
+    };
+
+    xhr.send();
 }
 </script>
+
 
 </head>
 <body>

@@ -1,18 +1,8 @@
 package controller;
 
-import dao.AppointmentDAO;
-import dao.ServiceDAO;
-import dao.TherapistDAO;
-import dao.SalonDAO;
-
-import model.Appointment;
-import model.Salon;
-import model.Service;
-import model.Therapist;
-import model.User;
-import model.EmailUtil;
-
-import jakarta.servlet.ServletException;
+import dao.*;
+import model.*;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -21,14 +11,13 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @WebServlet("/BookAppointmentServlet")
 public class BookAppointmentServlet extends HttpServlet {
 
-    // =========================
-    // GET — Load Booking Page
-    // =========================
+    // ==========================
+    // GET → Load Booking Page
+    // ==========================
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,7 +31,14 @@ public class BookAppointmentServlet extends HttpServlet {
         }
 
         try {
-            int salonId = Integer.parseInt(request.getParameter("salonId"));
+            String salonIdStr = request.getParameter("salonId");
+
+            if (salonIdStr == null || salonIdStr.isEmpty()) {
+                response.sendRedirect("search-salons.jsp");
+                return;
+            }
+
+            int salonId = Integer.parseInt(salonIdStr);
 
             SalonDAO salonDAO = new SalonDAO();
             ServiceDAO serviceDAO = new ServiceDAO();
@@ -52,8 +48,7 @@ public class BookAppointmentServlet extends HttpServlet {
             request.setAttribute("services", serviceDAO.getServicesBySalon(salonId));
             request.setAttribute("therapists", therapistDAO.getTherapistsBySalon(salonId));
 
-            request.getRequestDispatcher("book-appointment.jsp")
-                   .forward(request, response);
+            request.getRequestDispatcher("book-appointment.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,12 +56,12 @@ public class BookAppointmentServlet extends HttpServlet {
         }
     }
 
-    // =========================
-    // POST — Book Appointment
-    // =========================
+    // ==========================
+    // POST → Book Appointment
+    // ==========================
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
@@ -77,108 +72,42 @@ public class BookAppointmentServlet extends HttpServlet {
         }
 
         try {
-            // -------- Read Params --------
             int salonId = Integer.parseInt(request.getParameter("salonId"));
             int serviceId = Integer.parseInt(request.getParameter("serviceId"));
             int therapistId = Integer.parseInt(request.getParameter("therapistId"));
 
-            LocalDate localDate = LocalDate.parse(request.getParameter("date"));
-            LocalTime localTime = LocalTime.parse(request.getParameter("time"));
+            LocalDate date = LocalDate.parse(request.getParameter("date"));
+            LocalTime time = LocalTime.parse(request.getParameter("time"));
 
-            Date sqlDate = Date.valueOf(localDate);
-            Time sqlTime = Time.valueOf(localTime);
+            Date sqlDate = Date.valueOf(date);
+            Time sqlTime = Time.valueOf(time);
 
-            // -------- Load Required Data --------
-            ServiceDAO serviceDAO = new ServiceDAO();
-            TherapistDAO therapistDAO = new TherapistDAO();
-            SalonDAO salonDAO = new SalonDAO();
+            // ✅ Get service name (DB expects service_name, not service_id)
+            Service service = new ServiceDAO().getServiceById(serviceId);
 
-            Service service = serviceDAO.getServiceById(serviceId);
-            Therapist therapist = therapistDAO.getTherapistById(therapistId);
-            Salon salon = salonDAO.getSalonById(salonId);
-
-            if (service == null || therapist == null || salon == null) {
-                request.setAttribute("error", "Invalid booking data.");
-                doGet(request, response);
-                return;
-            }
-
-            // -------- Check Slot Availability --------
-            List<String> freeSlots =
-                    therapistDAO.getAvailableSlots(therapistId, sqlDate);
-
-            String requestedTime = localTime.toString(); // HH:mm
-
-            if (!freeSlots.contains(requestedTime)) {
-                request.setAttribute("error",
-                        "Selected therapist is not available at this time.");
-                doGet(request, response);
-                return;
-            }
-
-            // -------- Create Appointment --------
             Appointment appt = new Appointment();
             appt.setUserId(user.getId());
             appt.setSalonId(salonId);
             appt.setTherapistId(therapistId);
-            appt.setServiceName(service.getName());
+            appt.setServiceName(service.getName());     // ✅ FIXED
             appt.setAppointmentDate(sqlDate);
             appt.setAppointmentTime(sqlTime);
+            appt.setCustomerName(user.getName());      // ✅ FIXED
             appt.setStatus("Pending");
-            appt.setTherapistDecision("Pending");
+            appt.setTherapistDecision("PENDING");
+           
 
-            boolean success = new AppointmentDAO().bookAppointment(appt);
+            boolean booked = new AppointmentDAO().bookAppointment(appt);
 
-            if (!success) {
-                request.setAttribute("error", "Booking failed. Try again.");
-                doGet(request, response);
-                return;
+            if (booked) {
+                response.sendRedirect("user-dashboard.jsp?success=booked");
+            } else {
+                response.sendRedirect("user-dashboard.jsp?error=booking_failed");
             }
-
-            // -------- Send Emails (non-blocking) --------
-            try {
-
-                String customerMsg =
-                        "Hello " + user.getName() + ",\n\n" +
-                        "Your appointment request is submitted.\n\n" +
-                        "Salon: " + salon.getName() + "\n" +
-                        "Service: " + service.getName() + "\n" +
-                        "Therapist: " + therapist.getName() + "\n" +
-                        "Date: " + localDate + "\n" +
-                        "Time: " + localTime + "\n\n" +
-                        "Status: Pending approval";
-
-                EmailUtil.sendEmail(
-                        user.getEmail(),
-                        "Appointment Request Submitted",
-                        customerMsg
-                );
-
-                String therapistMsg =
-                        "New appointment request.\n\n" +
-                        "Customer: " + user.getName() + "\n" +
-                        "Service: " + service.getName() + "\n" +
-                        "Date: " + localDate + "\n" +
-                        "Time: " + localTime;
-
-                EmailUtil.sendEmail(
-                        therapist.getEmail(),
-                        "New Appointment Request",
-                        therapistMsg
-                );
-
-            } catch (Exception mailEx) {
-                mailEx.printStackTrace(); // don’t fail booking
-            }
-
-            // -------- Redirect Success --------
-            response.sendRedirect(
-                "user-dashboard.jsp?success=appointment_pending");
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Server error occurred.");
-            doGet(request, response);
+            response.sendRedirect("user-dashboard.jsp?error=server_error");
         }
     }
 }

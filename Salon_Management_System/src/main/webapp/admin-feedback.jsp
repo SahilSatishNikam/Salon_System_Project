@@ -1,26 +1,29 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="java.util.*, model.VisitedClient" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="model.Admin, model.Feedback, java.util.*" %>
 
 <%
-List<VisitedClient> clients = (List<VisitedClient>) request.getAttribute("visitedClients");
-if (clients == null) clients = new ArrayList<>();
+Admin admin = (Admin) session.getAttribute("admin");
+if(admin == null){
+    response.sendRedirect("login.jsp");
+    return;
+}
 
-SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy");
-SimpleDateFormat tf = new SimpleDateFormat("hh:mm a");
+List<Feedback> feedbackList =
+(List<Feedback>) request.getAttribute("feedbackList");
+if(feedbackList == null) feedbackList = new ArrayList<>();
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Visited Clients | SalonEase Admin</title>
+<title>Admin Feedback</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-body{background:#000;color:#e6d8a8;font-family:'Times New Roman',serif;display:flex;}
+body{background:#000;color:#FFD700;font-family:Poppins}
+
 ===================================== */
 .sidebar{
     width:260px;
@@ -289,44 +292,32 @@ body{background:#000;color:#e6d8a8;font-family:'Times New Roman',serif;display:f
         inset 0 0 12px rgba(255,215,0,0.4);
     }
 }
-.main{margin-left:260px;padding:40px;width:100%;}
-.header{font-size:28px;color:#ffd700;margin-bottom:25px;}
+/* MAIN */
+.main{margin-left:260px;padding:40px;}
 
-.table-container{
+.feedback-card{
 background:#111;
-border:1px solid #d4af37;
+border:1px solid #FFD700;
 border-radius:16px;
-padding:25px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(255,215,0,.2);
 }
 
-.table thead th{
-background:#000;
-color:#ffd700;
-border-bottom:1px solid #d4af37;
-}
-
-.badge-service{
-background:#ffd700;
-color:#000;
-padding:6px 14px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
-}
+.star{color:#FFD700;}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
     <h2 style="font-size:25px;color:#F5A927"><i class="fa fa-gem"></i> SalonEase Admin</h2>
     <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
     <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
-    <a href="visitedClients" class="active"><i class="fa fa-users"></i> Clients</a>
+    <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="admin-feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="admin-feedback.jsp" class="active"><i class="fa fa-comment-alt"></i> Feedback</a>
     <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
     <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
@@ -334,60 +325,40 @@ font-weight:bold;
 <!-- MAIN -->
 <div class="main">
 
-<div class="header">
-<i class="fa fa-users"></i> Visited Clients
+<h3>All Feedback</h3>
+<br>
+
+<% if(feedbackList.isEmpty()){ %>
+<div class="alert alert-warning">No feedback yet</div>
+<% } %>
+
+<% for(Feedback f : feedbackList){ %>
+
+<div class="feedback-card">
+
+<h5>
+<i class="fa fa-user"></i>
+<%= f.getUser() %>
+</h5>
+
+<p style="opacity:.8">
+<%= f.getMessage() %>
+</p>
+
+<div>
+<% for(int i=1;i<=5;i++){ %>
+<i class="fa <%= (i<=f.getRating()) ? "fa-star star" : "fa-star" %>"></i>
+<% } %>
 </div>
 
-<div class="table-container">
+<small style="opacity:.6">
+<%= f.getCreatedAt() %>
+</small>
 
-<table class="table table-hover">
-<thead>
-<tr>
-<th>#</th>
-<th>Client Name</th>
-<th>Phone</th>
-<th>Service</th>
-<th>Amount</th>
-<th>Date</th>
-<th>Time</th>
-<th>Therapist</th>
-<th>Salon</th>
-</tr>
-</thead>
-
-<tbody>
-
-<% if (!clients.isEmpty()) {
-    int i = 1;
-    for (VisitedClient c : clients) { %>
-
-<tr>
-<td><%= i++ %></td>
-<td><%= c.getClientName() %></td>
-<td><%= c.getClientPhone() %></td>
-<td><span class="badge-service"><%= c.getServiceName() %></span></td>
-<td>₹<%= c.getAmount() %></td>
-<td><%= c.getVisitDate()!=null ? df.format(c.getVisitDate()) : "" %></td>
-<td><%= c.getVisitTime()!=null ? tf.format(c.getVisitTime()) : "" %></td>
-<td><%= c.getTherapistName() %></td>
-<td><%= c.getSalonName() %></td>
-</tr>
-
-<% } } else { %>
-
-<tr>
-<td colspan="9" class="text-center text-warning">
-No visited clients found
-</td>
-</tr>
+</div>
 
 <% } %>
 
-</tbody>
-</table>
-
 </div>
-</div>
-
 </body>
 </html>

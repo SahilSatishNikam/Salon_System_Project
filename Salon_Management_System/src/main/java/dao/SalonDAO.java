@@ -190,5 +190,8 @@ public class SalonDAO {
         s.setCreated_at(rs.getString("created_at"));
         s.setStatus(rs.getString("status"));
         return s;
+ 
     }
+    
+   
 }
