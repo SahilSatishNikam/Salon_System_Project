@@ -452,6 +452,8 @@ body {
 
 .btn-group {
     margin-top:10px;
+    gap: 14px; 
+    
 }
 
 .btn-gold {
@@ -499,6 +501,13 @@ body {
     color: #ffd700; /* golden text */
     font-weight: bold;
     font-family: "Times New Roman", Times, serif; /* serif font added */
+}
+
+/* Book Now button rounded */
+.btn-warning{
+    border-radius: 30px !important;  /* fully rounded */
+    padding: 8px 20px;               /* better shape */
+    font-weight: 600;
 }
 
 
