@@ -1088,7 +1088,7 @@ font-size: 16px !important;
   <div class="stat">
      <h2 data-count="15">0</h2>
      <div class="s-line"></div>
-     <p>YEARS OF MASTERY</p>
+     <p>YEARS OF EXPERIENCE</p>
   </div>
 
   <div class="stat">
@@ -1115,7 +1115,7 @@ font-size: 16px !important;
 
 <!-- ===== HOW WE STARTED ===== -->
 
-<h2 class="title">How We Started</h2>
+<h2 class="title">Our Journey</h2>
 
 <div class="timeline">
 
@@ -1129,7 +1129,7 @@ font-size: 16px !important;
  <div class="text">
 
   <div class="year-row">
-   <span class="year">2022</span>
+   <span class="year">2024</span>
    <div class="y-line"></div>
 </div>
 
@@ -1161,7 +1161,7 @@ font-size: 16px !important;
  
 
  <div class="year-row">
-   <span class="year">2023</span>
+   <span class="year">2025</span>
    <div class="y-line"></div>
 </div>
 
@@ -1192,7 +1192,7 @@ font-size: 16px !important;
 
 
   <div class="year-row">
-   <span class="year">2024</span>
+   <span class="year">2026</span>
    <div class="y-line"></div>
 </div>
 
@@ -1425,7 +1425,7 @@ font-size: 16px !important;
         very knowledgeable.
        </p>
 
-       <h4>Arav Patil</h4>
+       <h4>Arav Kumar</h4>
        <small>facials</small>
 
      </div>
@@ -1475,7 +1475,7 @@ font-size: 16px !important;
        <!-- ===== ITEM 3 ===== -->
      <div class="u-card">
 
-       <img src="images/c6.jpeg" class="client">
+       <img src="images/c6.jpg" class="client">
 
        <div class="stars">
          ★★★★★
