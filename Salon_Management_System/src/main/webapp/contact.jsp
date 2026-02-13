@@ -146,7 +146,23 @@ body{
     background: linear-gradient(135deg, #f5e6b0, #d4af37);
     color: #000;
 }
-        
+.footer-bottom{
+    text-align:center;
+    padding:25px 0;
+    background:#050505;
+    font-size:14px;
+}
+
+
+.footer-bottom{
+    text-align:center;
+    padding:25px 0;
+    background:#050505;
+    color:#ffffff !important;   /* white text */
+    font-size:14px;
+}
+
+     
 </style>
 
 <!-- CONTACT SECTION -->
@@ -200,7 +216,13 @@ body{
         </div>
 
     </div>
+    
 
 </section>
+<div class="footer-bottom">
+    © 2026 GoldenGlow Salon Management System | Designed for Luxury <span>❤</span>
+</div>
 
-<%@ include file="footer.jsp" %>
+
+
+
