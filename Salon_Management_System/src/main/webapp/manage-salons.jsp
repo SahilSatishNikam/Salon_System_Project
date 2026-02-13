@@ -482,7 +482,7 @@ body{
     <a href="visitedClients"><i class="bi bi-people"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="bi bi-person-badge"></i> Therapists</a>
     <a href="AdminAppointmentServlet"><i class="bi bi-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="bi bi-chat-left-text"></i> Feedback</a>
+    <a href="AdminFeedbackServlet"><i class="bi bi-chat-left-text"></i> Feedback</a>
     <a href="reports.jsp"><i class="bi bi-bar-chart"></i> Reports</a>
     <a href="logout.jsp"><i class="bi bi-box-arrow-right"></i> Logout</a>
 </div>

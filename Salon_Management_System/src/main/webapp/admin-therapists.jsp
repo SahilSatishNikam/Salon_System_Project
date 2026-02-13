@@ -266,13 +266,15 @@ body{
     font-family:"Times New Roman", Times, serif;
 }
 
+
+
 .form-control::placeholder{
     color:#bbb;
 }
 
 .form-control:focus,
 .form-select:focus{
-    background:#222;
+    
     border-color:#FFD700;
     box-shadow:0 0 10px rgba(255,215,0,0.4);
 }

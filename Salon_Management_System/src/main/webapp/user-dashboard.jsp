@@ -466,7 +466,7 @@ body{
    BODY ROWS
 ================================ */
 .table-custom td{
-    color:#f3e7b5;
+    color:#000;
     border-top:1px solid rgba(212,175,55,.12);
     font-family:"Times New Roman", serif;
 }

@@ -86,7 +86,7 @@ body{
     <a href="dashboard.jsp">Dashboard</a>
     <a href="AdminTherapistServlet">Therapists</a>
     <a href="AdminAppointmentServlet">Appointments</a>
-    <a href="admin-feedback.jsp">Feedback</a>
+    <a href="AdminFeedbackServlet">Feedback</a>
     <a href="reports.jsp" class="active">Reports</a>
     <a href="logout.jsp">Logout</a>
 </div>
