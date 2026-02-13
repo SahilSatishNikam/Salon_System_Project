@@ -508,7 +508,7 @@ form button:hover{
 <div class="sidebar">
 <h2>Therapist Panel</h2>
 
-<a href="TherapistDashboardServlet" class="active">
+<a href="TherapistDashboardServlet" >
 <i class="fa fa-chart-line"></i> Dashboard
 </a>
 

@@ -460,7 +460,7 @@ body{
 <div class="sidebar">
 <h2>Therapist Panel</h2>
 
-<a href="TherapistDashboardServlet" class="active">
+<a href="TherapistDashboardServlet" >
 <i class="fa fa-chart-line"></i> Dashboard
 </a>
 
@@ -490,7 +490,11 @@ body{
 <!-- ===== MAIN ===== -->
 <div class="main">
 
-<div class="title">Manage Appointments</div>
+<div class="title">
+    <i class="fa fa-calendar-check"></i>
+    Manage Appointments
+</div>
+
 
 <table class="table table-hover">
 <thead>

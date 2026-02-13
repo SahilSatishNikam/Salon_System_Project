@@ -451,7 +451,8 @@ body{
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <h2>Therapist Panel</h2>
+    <h2 style="color:#FFD700;">Therapist Panel</h2>
+
 
     <a href="TherapistDashboardServlet">
         <i class="fa fa-chart-line"></i> Dashboard
@@ -460,6 +461,10 @@ body{
     <a href="therapistAvailability.jsp">
         <i class="fa fa-clock"></i> Availability
     </a>
+    
+    <a href="<%=request.getContextPath()%>/slots?therapistId=<%=t.getId()%>" >
+<i class="fa fa-calendar"></i> View Slots
+</a>
 
     <a class="active" href="therapist-services?salonId=<%=t.getSalonId()%>">
         <i class="fa fa-spa"></i> Services
