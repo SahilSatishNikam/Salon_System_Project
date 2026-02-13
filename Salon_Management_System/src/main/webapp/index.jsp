@@ -30,6 +30,134 @@ body{
     background:#0b0b0b;
     color:#e6d8a8;
 }
+/* ===== ICONIC TRANSFORMATION ===== */
+
+.transform-section{
+    background:#0b0b0b;
+    padding:90px 60px;
+    text-align:center;
+    font-family:"Times New Roman", serif;
+}
+
+.transform-sub{
+    color:#d4af37;
+    font-size:18px;
+    letter-spacing:3px;
+    margin-bottom:10px;
+}
+
+.transform-title{
+    font-size:38px;
+    color:#d4af37;
+    margin-bottom:60px;
+}
+
+/* grid */
+.transform-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+    gap:40px;
+}
+
+/* card */
+.transform-card{
+    background:#111;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid rgba(212,175,55,0.3);
+    box-shadow:0 0 25px rgba(212,175,55,0.15);
+    transition:.4s;
+    
+}
+
+.transform-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 45px rgba(212,175,55,0.6);
+}
+
+/* images side by side */
+.transform-images{
+    display:flex;
+    gap:15px;
+}
+
+.img-wrap{
+    position:relative;
+    flex:1;
+}
+
+.img-wrap img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+/* badges */
+.tag{
+    position:absolute;
+    top:10px;
+    left:10px;
+    padding:4px 10px;
+    font-size:11px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.before{
+    background:#444;
+    color:#fff;
+}
+
+.after{
+    background:#d4af37;
+    color:#000;
+}
+
+/* text */
+.transform-card h4{
+    color:#f5e6b0;
+    margin:15px 0 5px;
+}
+
+.transform-card p{
+    color:#ccc;
+    font-size:16px;
+}
+
+/* text */
+.iconic-card h4{
+    color:#f5e6b0;
+    margin:15px 0 5px;
+    font-size:17px;
+}
+
+.iconic-card p{
+    color:#ccc;
+    font-size:14px;
+    padding-bottom:20px;
+}
+
+/* BADGE */
+.badge{
+    position:absolute;
+    top:15px;
+    left:15px;
+    padding:4px 10px;
+    font-size:11px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.before{
+    background:#444;
+    color:white;
+}
+
+.after{
+    background:#ff4d6d;
+    color:white;
+}
 
 /* ===== LETTER BY LETTER ANIMATION ===== */
 /* ===== GOLD LETTER ANIMATION ===== */
@@ -157,63 +285,156 @@ gap:30px;
     max-width:850px;
 }
 
-/* ===== HOW IT WORKS ===== */
-.luxury-box{
-    background:rgba(255,255,255,0.05);
-    border:1px solid #d4af37;
-    padding:30px 15px;
-    border-radius:14px;
-    transition:0.4s;
+ /* ===== PREMIUM HOW IT WORKS ===== */
+
+.how-luxury{
+    background:#0b0b0b;
+    padding:15px 35px;;
+    text-align:center;
+    font-family:"Times New Roman", serif;
 }
 
-.luxury-box i{
-    font-size:28px;
+/* heading */
+.how-luxury h2{
+    font-size:38px;
     color:#d4af37;
     margin-bottom:10px;
 }
 
-.luxury-box:hover{
-    transform:translateY(-8px);
-    box-shadow:0 0 25px rgba(212,175,55,0.6);
+.how-luxury p{
+    color:#aaa;
+    max-width:600px;
+    margin:0 auto 80px;
+     font-size:20px;
 }
 
+/* line */
+.lux-line{
+    position:relative;
+    max-width:1100px;
+    margin:auto;
+  font-size:20px;
+}
+
+.lux-line::before{
+    content:'';
+    position:absolute;
+    top:35px;
+    left:0;
+    width:100%;
+    height:2px;
+    background:linear-gradient(to right,#000,#d4af37,#000);
+}
+
+/* steps */
+.lux-steps{
+    display:flex;
+    justify-content:space-between;
+    gap:40px;
+}
+
+/* step */
+.lux-step{
+    width:25%;
+    text-align:center;
+}
+
+/* icon circle */
+.lux-icon{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#111;
+    border:2px solid #d4af37;
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 0 25px rgba(212,175,55,.6);
+    transition:.4s;
+}
+
+/* icon */
+.lux-icon i{
+    color:#d4af37;
+    font-size:26px;
+}
+
+/* hover glow */
+.lux-step:hover .lux-icon{
+    transform:scale(1.2);
+    box-shadow:0 0 50px #d4af37;
+}
+
+/* text */
+.lux-step h4{
+    color:#d4af37;
+    margin-top:20px;
+    font-size:22px;
+}
+
+.lux-step p{
+    color:#aaa;
+    font-size:20px;
+    margin-top:10px;
+}
+
+/* responsive */
+@media(max-width:900px){
+    .lux-steps{
+        flex-direction:column;
+        gap:50px;
+    }
+    .lux-line::before{
+        display:none;
+    }
+}
 /* ===== SALON CARDS ===== */
 /* ===== FEATURED SALONS ===== */
 .featured-section{
-    padding:60px 80px;
+   background: #0b0b0b;   /* pure black */
+
+    padding:40px 60px;
+    text-align:center;
+    ackground:#0b0b0b;
 }
 
+/* ===== TITLE ===== */
 .featured-title{
-    font-size:32px;
+    font-family: "Times New Roman", Times, serif;
+    font-size:38px;
     color:#d4af37;
-    margin-bottom:40px;
-    border-bottom:2px solid #d4af37;
-    display:inline-block;
-    padding-bottom:10px;
+    margin-bottom:60px;
 }
 
+/* ===== GRID (Smaller Boxes) ===== */
 .featured-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns:repeat(3, 420px); /* smaller fixed width */
+    justify-content:center; /* center cards */
     gap:30px;
 }
 
+/* ===== CARD ===== */
 .salon-card{
-    background:#0e0e0e;
-    border-radius:18px;
+    background:#0a0a0a;
+    border-radius:16px;
     overflow:hidden;
-    box-shadow:0 0 25px rgba(212,175,55,0.15);
+    border:1px solid rgba(212,175,55,0.25);
+    box-shadow:0 0 20px rgba(212,175,55,0.08);
     transition:0.4s ease;
-    border:1px solid rgba(212,175,55,0.3);
 }
 
 .salon-card:hover{
     transform:translateY(-8px);
-    box-shadow:0 0 45px rgba(212,175,55,0.5);
+    box-shadow:0 0 40px rgba(212,175,55,0.35);
 }
 
+/* ===== IMAGE (Smaller) ===== */
 .salon-img{
-    height:200px;
+    height:240px;  /* reduced from 300px */
     overflow:hidden;
 }
 
@@ -225,35 +446,26 @@ gap:30px;
 }
 
 .salon-card:hover img{
-    transform:scale(1.08);
+    transform:scale(1.05);
 }
 
+/* ===== INFO ===== */
 .salon-info{
     padding:22px;
-    text-align:center;
+    
 }
 
 .salon-info h3{
-    color:#f5e6b0;
+    color:#d4af37;
+    font-family: "Times New Roman", Times, serif;
     font-size:20px;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
 .salon-info p{
-    font-size:14px;
     color:#ccc;
+    font-size:17px;
     line-height:1.6;
-}
-
-.salon-info a{
-    display:inline-block;
-    margin-top:15px;
-    padding:10px 25px;
-    border-radius:25px;
-    text-decoration:none;
-    color:#000;
-    font-weight:600;
-    background:linear-gradient(45deg,#d4af37,#f5e6b0);
 }
 
 /* ===== SERVICES ===== */
@@ -346,7 +558,7 @@ body{
     color:#e6d8a8;
 }
 
-/* ===== SECTION ===== */
+/* =====  SERVICES SECTION ===== */
 .services-section{
     padding:90px 0;
 }
@@ -362,7 +574,7 @@ body{
 /* ===== LEFT IMAGE ===== */
 .services-image{
     flex:1;
-    height:620px;
+    height:500px;
     position:relative;
     border-radius:6px;
     overflow:hidden;
@@ -390,8 +602,8 @@ body{
 }
 
 .services-content h2{
-    font-size:44px;
-    letter-spacing:3px;
+    font-size:38px;
+   font-family: "Times New Roman", Times, serif;
     color:#d4af37;
 }
 
@@ -443,14 +655,14 @@ body{
 
 /* TEXT */
 .service-box h4{
-    font-size:14px;
+    font-size:20px;
     margin:0 0 8px;
     letter-spacing:1px;
     color:#f5e6b0;
 }
 
 .service-box p{
-    font-size:14px;
+    font-size:18px;
     color:#e6d8a8;
     line-height:1.6;
     margin:0;
@@ -470,6 +682,23 @@ body{
 body{
     background:#0b0b0b;
 }
+.services{
+    width:100%;
+    display:flex;
+    justify-content:center;   /* horizontal center */
+    align-items:center;       /* vertical center */
+    background:rgba(0,0,0,0.7);
+    padding:15px 0;
+    margin-top:20px;
+}
+
+.service{
+    color:#fff;
+    font-weight:500;
+    text-align:center;
+    letter-spacing:1px;
+}
+
 
 /* ===== HERO SECTION ===== */
 .hero{
@@ -590,6 +819,7 @@ body{
     text-align: center;
     justify-content: center;
     align-items: center;
+    
 }
 
 .hero-buttons a{
@@ -640,7 +870,7 @@ body{
 }
 
 .hero-content h4{
-    font-size:14px;
+    font-size:20px;
     letter-spacing:4px;
     color:#d4af37;
     margin-bottom:18px;
@@ -667,7 +897,7 @@ body{
 	white-space: nowrap;      /* force single line */
     overflow: hidden;         /* hide overflow */
     text-overflow: ellipsis; 
-    font-size:14px;
+    font-size:20px;
     color:#ffffff;
     background:#00000094;
     line-height:1.8;
@@ -694,8 +924,9 @@ body{
 .btn-appointment{
     display:inline-block;
     padding:14px 40px;
-    font-size:16px;
-    font-weight:600;
+   font-size:26px;      /* increased text size */
+    font-weight:700; 
+
     text-decoration:none;
     color:#000;
     border-radius:30px;
@@ -815,6 +1046,7 @@ body{
     background:linear-gradient(180deg,#111,#000);
     box-shadow:0 0 45px rgba(212,175,55,.8);
 }
+  
     
 
 </style>
@@ -823,7 +1055,7 @@ body{
 <section class="hero">
 
     <!-- LEFT IMAGE -->
-    <div class="hero-img">
+    <div class="hero.jpg">
         <!-- replace image path -->
         
     </div>
@@ -838,8 +1070,8 @@ body{
         
 
         <div class="services">
-           <b>Haircut & Color <span>|</span>
-            Threading & Waxing <span>|</span>
+           <b>  Haircut & Color<span>|</span>
+            Threading & Waxing<span>|</span>
             Highlights & Balayage <span>|</span>
             Facials & Treatment <span>|</span>
             Upto & Makeup</b>
@@ -853,87 +1085,155 @@ body{
 </section>
 
     <!-- HOW IT WORKS -->
-   <section class="how-it-works">
+   <section class="how-luxury">
 
-    <h2 class="section-title">How It Works</h2>
+    <h2>How It Works</h2>
 
-    <div class="steps-container">
+    <p>
+        Experience seamless luxury from booking to glowing.
+        Our process is designed for your ultimate convenience.
+    </p>
 
-        <div class="step-card">
-           
-            <i class="fa fa-search"></i>
-            <h4>Search Salon</h4>
-            <p>Find premium salons near you.</p>
-        </div>
+    <div class="lux-line">
 
-        <div class="step-card">
-           
-            <i class="fa fa-spa"></i>
-            <h4>Choose Service</h4>
-            <p>Select the service you love.</p>
-        </div>
+        <div class="lux-steps">
 
-        <div class="step-card">
-            
-            <i class="fa fa-calendar-check"></i>
-            <h4>Book Appointment</h4>
-            <p>Book instantly at your convenience.</p>
-        </div>
+            <div class="lux-step">
+                <div class="lux-icon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <h4>Search Salon</h4>
+                <p>Find premium salons near you with curated services tailored to your needs.</p>
+            </div>
 
-        <div class="step-card">
-          
-            <i class="fa fa-gem"></i>
-            <h4>Enjoy Luxury</h4>
-            <p>Relax & glow with premium care.</p>
+            <div class="lux-step">
+                <div class="lux-icon">
+                    <i class="fa fa-spa"></i>
+                </div>
+                <h4>Choose Service</h4>
+                <p>Select the service you love from revitalizing facials to styling.</p>
+            </div>
+
+            <div class="lux-step">
+                <div class="lux-icon">
+                    <i class="fa fa-calendar-check"></i>
+                </div>
+                <h4>Book Appointment</h4>
+                <p>Secure your slot instantly with our real-time scheduling.</p>
+            </div>
+
+            <div class="lux-step">
+                <div class="lux-icon">
+                    <i class="fa fa-gem"></i>
+                </div>
+                <h4>Enjoy Luxury</h4>
+                <p>Relax & glow with premium care and world-class hospitality.</p>
+            </div>
+
         </div>
 
     </div>
+
 </section>
+
+<!--  TRANSFORMATION SECTION -->
+<section class="transform-section">
+
+    <p class="transform-sub">REAL RESULTS</p>
+    <h2 class="transform-title">Iconic Transformations</h2>
+
+    <div class="transform-grid">
+
+        <!-- HAIR -->
+        <div class="transform-card reveal">
+
+            <div class="transform-images">
+                <div class="img-wrap">
+                    <span class="tag before">BEFORE</span>
+                    <img src="images/Hair_Before.jpg">
+                </div>
+
+                <div class="img-wrap">
+                    <span class="tag after">AFTER</span>
+                    <img src="images/After1.jpg">
+                </div>
+            </div>
+
+            <h4>Signature Keratin Treatment</h4>
+<p>Professional smoothing treatment with deep nourishment & frizz elimination..</p>
+
+        </div>
+
+        <!-- SKIN -->
+        <div class="transform-card reveal">
+
+            <div class="transform-images">
+                <div class="img-wrap">
+                    <span class="tag before">BEFORE</span>
+                    <img src="images/Before.jpg">
+                </div>
+
+                <div class="img-wrap">
+                    <span class="tag after">AFTER</span>
+                    <img src="images/After.jpg">
+                </div>
+            </div>
+
+          <h4>Diamond Luxe Facial</h4>
+<p>Luxury diamond exfoliation for radiant glow.</p>
+
+
+        </div>
+
+    </div>
+
+</section>
+
 
     <!-- FEATURED SALONS -->
     <section class="featured-section">
-    <center><div class="featured-title">Featured Salons</div></center>
+
+    <h2 class="featured-title">Featured Salons</h2>
 
     <div class="featured-grid">
 
-        <!-- SALON 1 -->
+        <!-- Card 1 -->
         <div class="salon-card">
             <div class="salon-img">
-                <img src="images/salon1.jpg" alt="Golden Orchid Spa">
+                <img src="images/f1.jpg" alt="">
             </div>
             <div class="salon-info">
-                <h3>Golden Orchid Spa</h3>
-                <p>Premium spa experience with calming ambience and expert therapists.</p>
-               
+                <h3>Aura Beauty Studio</h3>
+                <p>Enhancing your natural beauty with professional touch</p>
             </div>
         </div>
 
-        <!-- SALON 2 -->
+        <!-- Card 2 -->
         <div class="salon-card">
             <div class="salon-img">
-                <img src="images/salon2.jpg" alt="Bangkok Bliss Salon">
+                <img src="images/f2.jpg" alt="">
             </div>
             <div class="salon-info">
-                <h3>Bangkok Bliss Salon</h3>
-                <p>Authentic Thai treatments with modern luxury touch.</p>
-               
+                <h3>Golden Glow Spa</h3>
+                <p>Luxury skincare and relaxation therapies.</p>
             </div>
         </div>
 
-        <!-- SALON 3 -->
+        <!-- Card 3 -->
         <div class="salon-card">
             <div class="salon-img">
-                <img src="images/salon3.jpeg" alt="Royal Thai Beauty">
+                <img src="images/f3.jpg" alt="">
             </div>
             <div class="salon-info">
-                <h3>Royal Thai Beauty</h3>
-                <p>Royal-grade beauty services with premium products.</p>
-                
+                <h3>Royal Beauty</h3>
+                <p>Premium beauty services with quality products.</p>
             </div>
         </div>
 
     </div>
+
 </section>
+
 
 
     <!-- POPULAR SERVICES -->
@@ -947,7 +1247,7 @@ body{
 
     <!-- RIGHT CONTENT -->
     <div class="services-content mt-1">
-        <h2>SERVICES</h2>
+        <h2>Services</h2>
         <p class="services-desc">
             Outlook Salon & Spa provides the best-in-class styling services
             with a premium luxury experience for men and women.
@@ -1025,11 +1325,12 @@ body{
     </div>
 
 </div>
+<%@ include file="footer.jsp" %>
 </section>
 
 
 
-<%@ include file="footer.jsp" %>
+
 
 
 

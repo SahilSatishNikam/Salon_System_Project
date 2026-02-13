@@ -4,87 +4,62 @@
 <%@ include file="header.jsp" %>
 
 <style>
+
 /* ===== GLOBAL ===== */
 body{
+    margin:0;
+    padding:0;
     background:#000;
     color:#e6d8a8;
     font-family:'Playfair Display', serif;
 }
 
-/* ===== HERO ===== */
-.contact-hero{
-    height:60vh;
+/* ===== SECTION WITH BACKGROUND IMAGE ===== */
+.section-dark{
     background:
-        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
-        url("images/thai-spa.jpg") center/cover no-repeat;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+        linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)),
+        url("images/philo.jpg") center/cover no-repeat;
+
+    padding:120px 15% 80px 15%;   /* top space for fixed navbar */
     text-align:center;
-    margin-top:90px;
 }
 
-.contact-hero h1{
-    font-size:52px;
+/* ===== TITLE ===== */
+.section-title{
+    font-size:48px;
     color:#d4af37;
-    letter-spacing:2px;
-    text-shadow:0 0 20px rgba(212,175,55,0.7);
+    margin-bottom:15px;
+    text-shadow:0 0 25px rgba(212,175,55,0.8);
 }
 
-.contact-hero p{
+.section-subtitle{
     font-size:18px;
     color:#f5e6b0;
+    margin-bottom:60px;
 }
 
-/* ===== SECTION ===== */
-.section-dark{
-    background:#0a0a0a;
-    padding:70px 15%;
-    text-align:center;
-}
-
-.section-title{
-    font-size:36px;
-    color:#d4af37;
-    border-bottom:2px solid #d4af37;
-    display:inline-block;
-    padding-bottom:8px;
-    margin-bottom:25px;
-}
-
-/* ===== CONTACT BOX ===== */
+/* ===== CONTACT GRID ===== */
 .contact-container{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:40px;
-    margin-top:40px;
+    gap:50px;
 }
 
+/* ===== CONTACT BOX ===== */
 .contact-box{
-    background:#111;
+    background:rgba(0,0,0,0.85);
     border:1px solid #d4af37;
     border-radius:18px;
     padding:35px;
-    box-shadow:inset 0 0 18px rgba(212,175,55,0.4);
+    box-shadow:0 0 30px rgba(212,175,55,0.3);
+    backdrop-filter:blur(6px);
+    transition:0.4s ease;
 }
 
-.map-box{
-    margin-top: 25px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(212,175,55,0.5);
-    box-shadow: inset 0 0 15px rgba(212,175,55,0.25);
+.contact-box:hover{
+    box-shadow:0 0 60px rgba(212,175,55,0.9);
+    transform:translateY(-8px);
 }
-
-.map-box iframe{
-    width: 100%;
-    height: 230px;
-    border: 0;
-    filter: grayscale(100%) contrast(1.1) brightness(0.85);
-     filter: none !important;
-    -webkit-filter: none !important;
-}
-
 
 /* ===== FORM ===== */
 .contact-box label{
@@ -97,18 +72,20 @@ body{
 .contact-box input,
 .contact-box textarea{
     width:100%;
-    background:#000;
-    border:1px solid #d4af37;
+    background:#111;
+    border:1px solid #333;
     color:#fff;
-    padding:10px;
+    padding:12px;
     border-radius:8px;
-    margin-bottom:15px;
+    margin-bottom:18px;
+    transition:0.3s;
 }
 
 .contact-box input:focus,
 .contact-box textarea:focus{
     outline:none;
-    box-shadow:0 0 12px rgba(212,175,55,0.7);
+    border-color:#FFD700;
+    box-shadow:0 0 18px rgba(212,175,55,0.8);
 }
 
 /* ===== BUTTON ===== */
@@ -119,15 +96,26 @@ body{
     padding:12px 34px;
     border-radius:30px;
     border:none;
-    box-shadow:0 0 18px rgba(212,175,55,0.8);
+    box-shadow:0 0 20px rgba(212,175,55,0.8);
+    transition:0.3s;
     cursor:pointer;
+}
+
+.btn-gold:hover{
+    background:linear-gradient(45deg,#f5e6b0,#d4af37);
+    box-shadow:0 0 40px rgba(212,175,55,1);
 }
 
 /* ===== INFO ===== */
 .contact-info p{
     font-size:16px;
-    margin-bottom:14px;
+    margin-bottom:16px;
     text-align:left;
+    transition:0.3s;
+}
+
+.contact-info p:hover{
+    transform:translateX(6px);
 }
 
 .contact-info span{
@@ -135,19 +123,34 @@ body{
     margin-right:8px;
 }
 
-  /* Footer */
-        footer {
-            text-align: center;
-            padding: 25px;
-            background: #050505;
-            color: #bfa63a;
-            font-size: 14px;
-        }
+/* ===== MAP ===== */
+.map-box{
+    margin-top:25px;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(212,175,55,0.6);
+    transition:0.4s;
+}
+
+.map-box:hover{
+    box-shadow:0 0 45px rgba(212,175,55,0.9);
+}
+
+.map-box iframe{
+    width:100%;
+    height:230px;
+    border:0;
+}
+
 </style>
 
 <!-- CONTACT SECTION -->
 <section class="section-dark">
+
     <h2 class="section-title">Get In Touch</h2>
+    <p class="section-subtitle">
+        Experience elegance, relaxation and luxury at GoldenGlow.
+    </p>
 
     <div class="contact-container">
 
@@ -155,13 +158,13 @@ body{
         <div class="contact-box">
             <form>
                 <label>Your Name</label>
-                <input type="text" required>
+                <input type="text" placeholder="Enter your full name" required>
 
                 <label>Email Address</label>
-                <input type="email" required>
+                <input type="email" placeholder="example@luxury.com" required>
 
                 <label>Your Message</label>
-                <textarea rows="4" required></textarea>
+                <textarea rows="4" placeholder="How can we assist you today?" required></textarea>
 
                 <center>
                     <button class="btn-gold">Send Message</button>
@@ -176,22 +179,23 @@ body{
             <p><span>✉️</span>support@goldenglow.com</p>
             <p><span>⏰</span>Mon – Sun : 10 AM – 9 PM</p>
 
-            <hr style="border-color:#d4af37">
+            <hr style="border-color:#d4af37; margin:20px 0;">
 
             <p>
                 Experience premium Thai-inspired salon and spa services
                 designed to relax, rejuvenate, and elevate your beauty.
             </p>
+
             <div class="map-box">
-   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.7872026152145!2d73.7835135!3d18.6286387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9ba18f3e239%3A0x3744fbd91a39a431!2sHabibs%20Hair%20and%20Beauty%20Salon%20Elpro%20Mall!5e0!3m2!1sen!2sin!4v1770203182681!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.7872026152145!2d73.7835135!3d18.6286387!2m3!1f0!2f0!3f0!3m2!1i1024!2f768!4f13.1!3m3!1m2!1s0x3bc2b9ba18f3e239%3A0x3744fbd91a39a431!2sHabibs%20Hair%20and%20Beauty%20Salon%20Elpro%20Mall!5e0!3m2!1sen!2sin!4v1770203182681!5m2!1sen!2sin"
+                    allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
         </div>
 
     </div>
+
 </section>
 
-<!-- Footer -->
-<footer>
-    © 2026 GoldenGlow Salon Management System | Designed for Luxury <span>❤</span>
-</footer>
-
+<%@ include file="footer.jsp" %>
