@@ -1,16 +1,16 @@
 package dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import model.VisitedClient;
-import util.DBConnection; // Your DB connection class
+import util.DBConnection;
 
 public class VisitedClientDAO {
 
-    // Fetch all visited clients
+    // ✅ Get all visit rows
     public List<VisitedClient> getAllVisitedClients() {
-        List<VisitedClient> clients = new ArrayList<>();
+        List<VisitedClient> list = new ArrayList<>();
+
         String sql = "SELECT * FROM visited_clients ORDER BY visit_date DESC";
 
         try (Connection con = DBConnection.getConnection();
@@ -19,6 +19,7 @@ public class VisitedClientDAO {
 
             while (rs.next()) {
                 VisitedClient vc = new VisitedClient();
+
                 vc.setId(rs.getInt("id"));
                 vc.setUserId(rs.getInt("user_id"));
                 vc.setClientName(rs.getString("client_name"));
@@ -34,13 +35,77 @@ public class VisitedClientDAO {
                 vc.setVisitTime(rs.getTime("visit_time"));
                 vc.setBookedBy(rs.getString("booked_by"));
 
-                clients.add(vc);
+                list.add(vc);
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return clients;
+        return list;
+    }
+
+    // ✅ Get distinct clients
+    public List<VisitedClient> getAllClients() {
+        List<VisitedClient> list = new ArrayList<>();
+
+        String sql = """
+            SELECT DISTINCT client_name, client_phone
+            FROM visited_clients
+            ORDER BY client_name
+        """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            int id = 1;
+
+            while (rs.next()) {
+                VisitedClient vc = new VisitedClient();
+                vc.setId(id++);
+                vc.setClientName(rs.getString("client_name"));
+                vc.setClientPhone(rs.getString("client_phone"));
+                list.add(vc);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // ✅ Visits by client name
+    public List<Map<String,Object>> getVisitsByClient(String clientName) {
+
+        List<Map<String,Object>> visits = new ArrayList<>();
+
+        String sql = """
+            SELECT visit_date, salon_name
+            FROM visited_clients
+            WHERE client_name=?
+            ORDER BY visit_date DESC
+        """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, clientName);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Map<String,Object> row = new HashMap<>();
+                row.put("date", rs.getDate("visit_date"));
+                row.put("salon", rs.getString("salon_name"));
+                visits.add(row);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return visits;
     }
 }

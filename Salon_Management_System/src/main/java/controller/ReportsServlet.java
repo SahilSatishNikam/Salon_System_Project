@@ -12,22 +12,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/ReportsServlet")
+@WebServlet("/reports")
 public class ReportsServlet extends HttpServlet {
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        SalonDAO salonDAO = new SalonDAO();
-        AppointmentDAO appointmentDAO = new AppointmentDAO();
-        TherapistDAO therapistDAO = new TherapistDAO();
-        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        ReportDAO dao = new ReportDAO();
 
-        // Example: Fetch report data
-        int totalSalons = salonDAO.getTotalSalons();
-        int totalAppointments = appointmentDAO.getTotalAppointments();
-        double totalRevenue = appointmentDAO.getTotalRevenue();
-        double avgFeedback = feedbackDAO.getAverageRating();
-        Map<String, Integer> appointmentsPerTherapist = therapistDAO.getAppointmentsCountPerTherapist();
+        int totalSalons = dao.getTotalSalons();
+        int totalAppointments = dao.getTotalAppointments();
+        double totalRevenue = dao.getTotalRevenue();
+        double avgFeedback = dao.getAverageFeedback();
+        Map<String,Integer> appointmentsPerTherapist = dao.getAppointmentsPerTherapist();
 
         request.setAttribute("totalSalons", totalSalons);
         request.setAttribute("totalAppointments", totalAppointments);

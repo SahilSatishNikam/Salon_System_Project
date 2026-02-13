@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,5 +136,36 @@ public class TherapistAvailabilityDAO {
         return list;
     }
 
+
+    public List<String> getAvailableSlots(int therapistId, Date date) throws Exception {
+        List<String> slots = new ArrayList<>();
+
+        String sql = "SELECT start_time, end_time, slot_duration FROM therapist_availability " +
+                     "WHERE therapist_id=? AND available_date=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, therapistId);
+            ps.setDate(2, date);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                LocalTime start = rs.getTime("start_time").toLocalTime();
+                LocalTime end = rs.getTime("end_time").toLocalTime();
+                int duration = rs.getInt("slot_duration");
+
+                // 🛑 skip invalid ranges
+                if (end.isBefore(start)) continue;
+
+                while (start.plusMinutes(duration).isBefore(end.plusSeconds(1))) {
+                    slots.add(start.toString()); // HH:mm
+                    start = start.plusMinutes(duration);
+                }
+            }
+        }
+        return slots;
+    }
 
 }

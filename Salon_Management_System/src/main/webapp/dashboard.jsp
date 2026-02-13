@@ -66,7 +66,66 @@ body{
     color:#e6d8a8;
     overflow-x:hidden;
 }
+/* =====================================
+   SIDEBAR
+===================================== */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background:linear-gradient(180deg,#0b0b0b,#111);
+    border-right:1px solid #1a1a1a;
+    padding-top:25px;
+    display:flex;
+    flex-direction:column;
+}
 
+.sidebar h2{
+    text-align:center;
+    color:#d4af37;
+    margin-bottom:25px;
+    font-weight:bold;
+}
+
+.sidebar a{
+    padding:14px 22px;
+    margin:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s ease;
+    display:flex;
+    align-items:center;
+}
+
+.sidebar a i{
+    margin-right:12px;
+}
+
+.sidebar a:hover{
+    background:rgba(212,175,55,0.15);
+    color:#ffd700;
+    transform:translateX(6px);
+}
+
+.sidebar a.active{
+    background:rgba(212,175,55,0.2);
+    border-right:4px solid #ffd700;
+    color:#ffd700;
+}
+
+.sidebar a:last-child{
+    margin-top:auto;
+    margin-bottom:20px;
+    background:#2a0000;
+}
+
+.sidebar a:last-child:hover{
+    background:#5a0000;
+}
 /* =========================================
    SIDEBAR CONTAINER
 ========================================= */
@@ -599,7 +658,7 @@ table tr:hover{
     <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
     <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="admin-feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
     <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
     <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
