@@ -78,30 +78,7 @@ public class ServiceDAO {
         }
     }
 
-    public Service getServiceById(int id) throws Exception {
-        String sql = "SELECT * FROM services WHERE id=?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Service s = new Service();
-                    s.setId(rs.getInt("id"));
-                    s.setName(rs.getString("name"));
-                    s.setDescription(rs.getString("description"));
-                    s.setPrice(rs.getDouble("price"));
-                    s.setDurationMinutes(rs.getInt("duration_minutes"));
-                    s.setSalonId(rs.getInt("salon_id"));
-                    s.setCreatedAt(rs.getTimestamp("created_at"));
-                    return s;
-                }
-            }
-        }
-        return null;
-    }
-
+    
     public boolean updateService(Service s) throws Exception {
         String sql = "UPDATE services SET name=?, description=?, price=?, duration_minutes=? WHERE id=?";
 
@@ -117,4 +94,30 @@ public class ServiceDAO {
             return ps.executeUpdate() > 0;
         }
     }
+    
+    public Service getServiceById(int id) throws Exception {
+        Service s = null;
+
+        String sql = "SELECT * FROM services WHERE id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                s = new Service();
+                s.setId(rs.getInt("id"));
+                s.setName(rs.getString("name"));
+                s.setDescription(rs.getString("description"));
+                s.setPrice(rs.getDouble("price"));
+                s.setDurationMinutes(rs.getInt("duration_minutes"));
+                s.setSalonId(rs.getInt("salon_id"));
+                s.setCreatedAt(rs.getTimestamp("created_at"));
+            }
+        }
+        return s;
+    }
+
 }

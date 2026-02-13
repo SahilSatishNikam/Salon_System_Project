@@ -86,5 +86,34 @@ public class FeedbackDAO {
         }
         return avg;
     }
+    
+    public List<Feedback> getAllFeedback() {
+
+        List<Feedback> list = new ArrayList<>();
+
+        try {
+            Connection con = DBConnection.getConnection();
+
+            String sql = "SELECT * FROM feedback ORDER BY created_at DESC";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Feedback f = new Feedback();
+                f.setId(rs.getInt("id"));
+                f.setUser(rs.getString("user"));
+                f.setMessage(rs.getString("message"));
+                f.setRating(rs.getInt("rating"));
+                f.setCreatedAt(rs.getTimestamp("created_at"));
+                list.add(f);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }
 

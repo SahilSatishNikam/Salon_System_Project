@@ -536,6 +536,118 @@ h4{
         max-width:300px;
     }
 }
+/* =====================================
+   EXTRA PREMIUM ANIMATIONS
+===================================== */
+
+/* 1️⃣ Animated Golden Heading Gradient */
+.main h2{
+    background:linear-gradient(90deg,#d4af37,#ffd700,#d4af37);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:goldFlow 4s linear infinite;
+}
+
+@keyframes goldFlow{
+    0%{background-position:0% center;}
+    100%{background-position:200% center;}
+}
+
+/* 2️⃣ Stagger Card Animation */
+.card-box:nth-child(1){ animation-delay:0.2s; }
+.card-box:nth-child(2){ animation-delay:0.4s; }
+.card-box:nth-child(3){ animation-delay:0.6s; }
+.card-box:nth-child(4){ animation-delay:0.8s; }
+
+.card-box{
+    opacity:0;
+    animation:fadeUp 0.8s ease forwards;
+}
+
+/* 3️⃣ Icon Floating Animation */
+.card-box i{
+    animation:iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px); }
+}
+
+/* 4️⃣ Sidebar Link Shine Sweep */
+.sidebar a::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-75%;
+    width:50%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,215,0,0.3),transparent);
+    transform:skewX(-25deg);
+}
+
+.sidebar a:hover::after{
+    animation:shineSweep 0.8s ease;
+}
+
+@keyframes shineSweep{
+    100%{ left:125%; }
+}
+
+/* 5️⃣ Table Smooth Reveal */
+.table-custom tbody tr{
+    opacity:0;
+    animation:tableFade 0.6s ease forwards;
+}
+
+.table-custom tbody tr:nth-child(1){ animation-delay:0.2s; }
+.table-custom tbody tr:nth-child(2){ animation-delay:0.4s; }
+.table-custom tbody tr:nth-child(3){ animation-delay:0.6s; }
+.table-custom tbody tr:nth-child(4){ animation-delay:0.8s; }
+.table-custom tbody tr:nth-child(5){ animation-delay:1s; }
+
+@keyframes tableFade{
+    from{
+        opacity:0;
+        transform:translateX(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+.table-custom td {
+    color: #000;
+}
+/* 6️⃣ Subtle Floating Golden Background Glow */
+body::before{
+    content:"";
+    position:fixed;
+    top:-200px;
+    right:-200px;
+    width:400px;
+    height:400px;
+    background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);
+    animation:glowMove 8s ease-in-out infinite alternate;
+    z-index:-1;
+}
+
+@keyframes glowMove{
+    from{ transform:translateY(0); }
+    to{ transform:translateY(60px); }
+}
+
+/* 7️⃣ Smooth Page Fade-In */
+body{
+    animation:pageFade 1s ease;
+}
+
+@keyframes pageFade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
 
 
 
