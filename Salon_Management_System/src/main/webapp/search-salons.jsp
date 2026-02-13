@@ -275,7 +275,7 @@ body {
                     <p><b>Location:</b> <%= s.getAddress() %></p>
                     <p><b>Phone:</b> <%= s.getPhone() %></p>
                     <div class="btn-group">
-                        <a href="BookAppointmentServlet?salonId=<%=s.getId()%>" class="btn-gold">Book Now</a>
+                        <a href="<%= request.getContextPath() %>/BookAppointmentServlet?salonId=<%= s.getId() %>" class="btn btn-warning"> Book Now</a>
                         <a href="salon-details.jsp?salonId=<%=s.getId()%>" class="btn-outline">Explore</a>
                     </div>
                 </div>

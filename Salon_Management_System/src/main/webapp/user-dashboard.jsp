@@ -521,6 +521,9 @@ h4{
     }
 }
 
+.table-custom td {
+    color: #000;
+}
 /* 6️⃣ Subtle Floating Golden Background Glow */
 body::before{
     content:"";

@@ -379,12 +379,12 @@ body{
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
     <h2 style="font-size:25px;color:#F5A927"><i class="fa fa-gem"></i> SalonEase Admin</h2>
-    <a class="active" href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+    <a href="dashboard.jsp"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
     <a href="manage-salons.jsp"><i class="fa fa-store"></i> Manage Salons</a>
     <a href="visitedClients"><i class="fa fa-users"></i> Clients</a>
-    <a href="AdminTherapistServlet"><i class="fa fa-user-tie"></i> Manage Therapists</a>
+    <a href="AdminTherapistServlet" class="active"><i class="fa fa-user-tie"></i> Manage Therapists</a>
     <a href="AdminAppointmentServlet"><i class="fa fa-calendar-check"></i> Appointments</a>
-    <a href="feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
+    <a href="admin-feedback.jsp"><i class="fa fa-comment-alt"></i> Feedback</a>
     <a href="reports.jsp"><i class="fa fa-chart-bar"></i> Reports</a>
     <a href="logout.jsp"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>

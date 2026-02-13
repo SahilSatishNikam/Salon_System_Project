@@ -10,31 +10,34 @@ import util.DBConnection;
 
 public class AppointmentDAO {
 
-    public boolean bookAppointment(Appointment appt) {
-        String sql = """
-            INSERT INTO appointments
-            (user_id, therapist_id, salon_id, service_name,
-             appointment_date, appointment_time, status, therapist_decision)
-            VALUES (?,?,?,?,?,?, 'BOOKED','PENDING')
-        """;
+	public boolean bookAppointment(Appointment appt) {
 
-        try(Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql)){
+	    String sql = """
+	        INSERT INTO appointments
+	        (user_id, therapist_id, salon_id, service_name,
+	         appointment_date, appointment_time, status, therapist_decision)
+	        VALUES (?,?,?,?,?,?,?,?)
+	    """;
 
-            ps.setInt(1, appt.getUserId());
-            ps.setInt(2, appt.getTherapistId());
-            ps.setInt(3, appt.getSalonId());
-            ps.setString(4, appt.getServiceName());
-            ps.setDate(5, appt.getAppointmentDate());
-            ps.setTime(6, appt.getAppointmentTime());
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
 
-            return ps.executeUpdate() > 0;
+	        ps.setInt(1, appt.getUserId());
+	        ps.setInt(2, appt.getTherapistId());
+	        ps.setInt(3, appt.getSalonId());
+	        ps.setString(4, appt.getServiceName());
+	        ps.setDate(5, appt.getAppointmentDate());
+	        ps.setTime(6, appt.getAppointmentTime());
+	        ps.setString(7, appt.getStatus());             // Pending
+	        ps.setString(8, appt.getTherapistDecision());  // Pending
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
+	        return ps.executeUpdate() > 0;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 
     public boolean updateStatus(int id, String status, String decision) {
         boolean success = false;
@@ -496,4 +499,25 @@ public class AppointmentDAO {
         return list;
     }
 
+    public boolean updateDecision(int id, String decision) {
+        String sql = "UPDATE appointments " +
+                     "SET therapist_decision=?, status=? " +
+                     "WHERE id=?";
+
+        String status = decision.equalsIgnoreCase("Approved") ? "Approved" : "Rejected";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, decision);
+            ps.setString(2, status);
+            ps.setInt(3, id);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
